@@ -995,104 +995,13 @@ legend("bottomright",
    lty  = c(2,3),
    lwd = c(4,4)
    )
-
-
 ```
 ]
 
 --
 .pull-right[
 ```{r, fig.align="left"}
-par(mfrow=c(2,2))
-## ----qqplots_beta_1_tn_s2------------------------------------------------
-plot(xlimb1, ylimb1,
-     type = "n",
-     # main = "(Intercept)",
-     xlab="Empirical",
-     ylab="Bootstrap"
-     )
-lines(qqb_1_pmb_s2, col="red", lwd=6, lty = 3)
-lines(qqb_1_gcb_s2, col="forestgreen", lwd=6, lty = 2)
-
-abline(a=0, b =1)
-```
-
-
-```{r, fig.align="left"}
-## ----qqplots_beta_2_tn_s2------------------------------------------------
-plot(xlimb2, ylimb2,
-     type = "n",
-     # main = "Treatment",
-     xlab="Empirical",
-     ylab="Bootstrap"
-     )
-# points(qqb_2_rebcmv1_s2,col="lightgray", pch = "x", cex =0.5)
-# points(qqb_2_rebepv1_s2,col="lightgray", pch = "x", cex =0.5)
-# points(qqb_2_rebcmv2_s2,col="gray", pch = "x", cex =0.5)
-# points(qqb_2_rebepv2_s2,col="gray", pch = "x", cex =0.5)
-
-# points(qqb_2_pmb_s2,col="red", pch = "+")
-# points(qqb_2_gcb_s2, col="forestgreen", pch = "o")
-
-lines(qqb_2_pmb_s2, col="red", lwd=6, lty = 3)
-lines(qqb_2_gcb_s2, col="forestgreen", lwd=6, lty = 2)
-
-abline(a=0, b =1)
-```
-
-
-```{r, fig.align="left"}
-## ----qqplots_beta_3_tn_s2------------------------------------------------
-plot(xlimb3, ylimb3,
-     type = "n",
-     # main = "Visit",
-     xlab="Empirical",
-     ylab="Bootstrap"
-     )
-# points(qqb_3_rebcmv1_s2,col="lightgray", pch = "x", cex =0.5)
-# points(qqb_3_rebepv1_s2,col="lightgray", pch = "x", cex =0.5)
-# points(qqb_3_rebcmv2_s2,col="gray", pch = "x", cex =0.5)
-# points(qqb_3_rebepv2_s2,col="gray", pch = "x", cex =0.5)
-
-# points(qqb_3_pmb_s2,col="red", pch = "+")
-# points(qqb_3_gcb_s2, col="forestgreen", pch = "o")
-
-lines(qqb_3_pmb_s2, col="red", lwd=6, lty = 3)
-lines(qqb_3_gcb_s2, col="forestgreen", lwd=6, lty = 2)
-
-abline(a=0, b =1)
-
-
-
-## ----qqplots_beta_4_tn_s2------------------------------------------------
-plot(xlimb4, ylimb4,
-     type = "n",
-     # main = "Treatment*Visit",
-     xlab="Empirical",
-     ylab="Bootstrap"
-     )
-# points(qqb_4_rebcmv1_s2,col="lightgray", pch = "x", cex =0.5)
-# points(qqb_4_rebepv1_s2,col="lightgray", pch = "x", cex =0.5)
-# points(qqb_4_rebcmv2_s2,col="gray", pch = "x", cex =0.5)
-# points(qqb_4_rebepv2_s2,col="gray", pch = "x", cex =0.5)
-
-# points(qqb_4_pmb_s2,col="red", pch = "+")
-# points(qqb_4_gcb_s2, col="forestgreen", pch = "o")
-
-lines(qqb_4_pmb_s2, col="red", lwd=6, lty = 3)
-lines(qqb_4_gcb_s2, col="forestgreen", lwd=6, lty = 2)
-
-abline(a=0, b =1)
-
-legend("bottomright",
-   legend = c("RWLB","PB"),
-   col = c("forestgreen", "red"),
-   # pch = c("o","+")
-   lty  = c(2,3),
-   lwd = c(4,4)
-   )
-
-
+par(mfrow = c(2,2))
 ## ----qqplots_beta_1_tn_s3------------------------------------------------
 plot(xlimb1, ylimb1,
      type = "n",
@@ -1100,14 +1009,6 @@ plot(xlimb1, ylimb1,
      xlab="Empirical",
      ylab="Bootstrap"
      )
-# points(qqb_1_rebcmv1_s3,col="lightgray", pch = "x", cex =0.5)
-# points(qqb_1_rebepv1_s3,col="lightgray", pch = "x", cex =0.5)
-# points(qqb_1_rebcmv2_s3,col="gray", pch = "x", cex =0.5)
-# points(qqb_1_rebepv2_s3,col="gray", pch = "x", cex =0.5)
-
-# points(qqb_1_pmb_s3,col="red", pch = "+")
-# points(qqb_1_gcb_s3, col="forestgreen", pch = "o")
-
 lines(qqb_1_pmb_s3, col="red", lwd=6, lty = 3)
 lines(qqb_1_gcb_s3, col="forestgreen", lwd=6, lty = 2)
 
@@ -1121,14 +1022,6 @@ plot(xlimb2, ylimb2,
      xlab="Empirical",
      ylab="Bootstrap"
      )
-# points(qqb_2_rebcmv1_s3,col="lightgray", pch = "x", cex =0.5)
-# points(qqb_2_rebepv1_s3,col="lightgray", pch = "x", cex =0.5)
-# points(qqb_2_rebcmv2_s3,col="gray", pch = "x", cex =0.5)
-# points(qqb_2_rebepv2_s3,col="gray", pch = "x", cex =0.5)
-
-# points(qqb_2_pmb_s3,col="red", pch = "+")
-# points(qqb_2_gcb_s3, col="forestgreen", pch = "o")
-
 lines(qqb_2_pmb_s3, col="red", lwd=6, lty = 3)
 lines(qqb_2_gcb_s3, col="forestgreen", lwd=6, lty = 2)
 
@@ -1141,19 +1034,10 @@ plot(xlimb3, ylimb3,
      xlab="Empirical",
      ylab="Bootstrap"
      )
-# points(qqb_3_rebcmv1_s3,col="lightgray", pch = "x", cex =0.5)
-# points(qqb_3_rebepv1_s3,col="lightgray", pch = "x", cex =0.5)
-# points(qqb_3_rebcmv2_s3,col="gray", pch = "x", cex =0.5)
-# points(qqb_3_rebepv2_s3,col="gray", pch = "x", cex =0.5)
-
-# points(qqb_3_pmb_s3,co="red", pch = "+")
-# points(qqb_3_gcb_s3, col="forestgreen", pch = "o")
-
 lines(qqb_3_pmb_s3, col="red", lwd=6, lty = 3)
 lines(qqb_3_gcb_s3, col="forestgreen", lwd=6, lty = 2)
 
 abline(a=0, b =1)
-
 
 
 ## ----qqplots_beta_4_tn_s3------------------------------------------------
@@ -1163,14 +1047,6 @@ plot(xlimb4, ylimb4,
      xlab="Empirical",
      ylab="Bootstrap"
      )
-# points(qqb_4_rebcmv1_s3,col="lightgray", pch = "x", cex =0.5)
-# points(qqb_4_rebepv1_s3,col="lightgray", pch = "x", cex =0.5)
-# points(qqb_4_rebcmv2_s3,col="gray", pch = "x", cex =0.5)
-# points(qqb_4_rebepv2_s3,col="gray", pch = "x", cex =0.5)
-
-# points(qqb_4_pmb_s3,col="red", pch = "+")
-# points(qqb_4_gcb_s3, col="forestgreen", pch = "o")
-
 lines(qqb_4_pmb_s3, col="red", lwd=6, lty = 3)
 lines(qqb_4_gcb_s3, col="forestgreen", lwd=6, lty = 2)
 
