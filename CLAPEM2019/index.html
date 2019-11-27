@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>Bootstrapping Clustered Data</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Daniel Flores-Agreda" />
+    <link href="libs/font-awesome-5.3.1/css/fontawesome-all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/monash.css" type="text/css" />
+    <link rel="stylesheet" href="css/monash-fonts.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Bootstrapping Clustered Data
+## via a Weighted Laplace Approximation
+### Daniel Flores-Agreda
+### School of Public Health and Preventive Medicine
+### 2/12/2019
+
+---
+
+# Outline
+
+1. **Clustered Data**
+
+2. **Bootstrapping** Clustered Data
+
+3. Bootstrapping Clustered Data via a **Weighted Laplace Approximation**
+
+4. (Some) Properties
+
+5. Discussion and Current Work
+
+---
+class: inverse, center, middle
+
+
+
+
+
+
+
+&lt;!-- Tell a story  --&gt;
+&lt;!-- This is the journey : Elevator pitch 30 seconds --&gt;
+&lt;!-- Signpost along the way, i.e. 
+&lt;!-- Say where are we going and where are we up to in the story --&gt;
+
+# Clustered Data
+
+---
+class: center, middle
+
+### Data that can be **grouped**, according to a **hierarchical** structure. 
+
+&lt;img src="./img/Charts-001.png" width="600"&gt;
+
+???
+
+A natural clustering factor in medical applications and longitudinal studies is the patient level. from which the different observations come. 
+--
+
+### _Highest_ level in the hierarchy: Independent **Clusters**
+
+???
+
+In this case, the patient, but in general it can be other things, such as hospitals in centre-patient studies. More levels of clustering can be considered.
+
+---
+class: center, middle
+
+### Modelling `\(\Rightarrow\)` **Mixed Models** (MM)
+
+.content-box-lightgrey[
+$$
+\text{Predictors} = \textbf{Fixed Effects} + \color{blue}{\textbf{Random Effects}} 
+$$
+]
+
+--
+
+### e.g. Generalized Linear Mixed Models (**GLMM**)
+
+.content-box-lightgrey[
+`$$\underbrace{\text{link function}}_{g}\underbrace{\left[\mathbb{E}\text{xpected}\left(\textbf{Outcomes}\right)\right]}_{\left[\mathbb{E}\left( \mathbf{Y}_{i} \ \vert \ \mathbf{X}_{i} , \mathbf{u}_{i} \right)\right]} = \underbrace{\textbf{Fixed Effects}}_{\mathbf{X}_{i}\mathbf{\beta}} + \underbrace{\color{blue}{\textbf{Random Effects}}}_{\color{blue}{\mathbf{Z}_{i}\mathbf{D}_{\sigma}\mathbf{u}_{i}}}$$`
+]
+
+???
+
+For parsimony, the effects of the different levels in this hierarchy are considered as random, this has the added advantage of modelling within-cluster correlations.
+
+Mixed models _link_ the expected outcome with a combination of Fixed Effects and Random effects. 
+
+This combination can be _linear_ yielding the class of generalized Linear Mixed Models. 
+
+---
+class: center, middle
+
+### Likelihood Inference `\(\Rightarrow\)` **(Numerical) Integration** 
+
+.content-box-lightgrey[
+`$$\color{red}{\mathcal{L}_i\left(\mathbf{\theta}\right)}
+= 
+\color{red}{f\left(\mathbf{y}_{i}\right)} = \color{blue}{\int_{\mathbb{R}^q}} f\left(\mathbf{y}_i, \color{blue}{\mathbf{u}_i}\right) \mathrm{d} \color{blue}{\mathbf{u}_{i}} =  \int_{\mathbb{R}^q} \color{blue}{\exp \left[-\ell \left(\mathbf{y}_{i}, \mathbf{u}_{i}\right)\right]} \ \mathrm{d}\mathbf{u}_{i}$$`
+]
+
+
+--
+
+### e.g. via the **Laplace Approximation** `\(\rightarrow \color{red}{\tilde{\mathcal{L}}\left(\mathbf{\theta}\right)}\)`.
+---
+class: inverse, center, middle
+
+# Bootstrapping Clustered Data
+
+---
+class: center, middle
+
+### _Classical_ Bootstrap **does not respect the clustering structure**
+
+&lt;img src="./img/Charts-002.png" width="600"&gt;
+
+---
+class: center, middle
+
+### _Cluster_ Bootstrap  **might be limited** by the **number of elements** at each level
+
+
+&lt;img src="./img/Charts-003.png" width="800"&gt;
+---
+class: center, middle
+
+### _Residual_ Bootstrap **struggles** with **random effects** and **link function**
+
+Random effect _Predictions_ are **shrunk** towards zero. 
+
+Easy to implement in Gaussian Linear MM. Hard, otherwise 
+
+---
+class: center, middle
+
+### _Parametric_ Bootstrap **relies on model assumptions**.
+
+---
+class: inverse, center, middle
+
+# Bootstrapping Clustered Data via a Weighted Laplace Approximation* 
+
+--
+
+(*yup! Our proposal!)
+
+---
+class: dark, center, middle
+
+
+
+## Random Weighted Laplace Bootstrap (RWLB)
+
+--
+
+### **Flexible** scheme relying on **externally generated _Random Weights_**
+
+
+
+---
+
+# RWLB Algorithm
+
+### 1. **Generate _Random Weights_**  `\({\color{red}{w_{i}^{*}}}\)`
+--
+
+### 2. **Apply** to `\(\mathcal{L}_{i}\)` 
+--
+
+### 3. **Evaluate via the _Laplace Approximation_** `\({\color{red}{\tilde{\mathcal{L}}_{i}^{*}}}\)`  
+--
+
+### 4. Optimize
+--
+...
+--
+
+### 5. Profit! 
+---
+
+# (Some) Details
+
+### 1. **Generate _Random Weights_**  `\({\color{red}{w_{i}^{*}}}\)`
+
+.content-box-lightgrey[
+`$$\mathbb{E}\left[{\color{red}{w^{*}_{i}}}\right] = \mathbb{V}ar\left[{\color{red}{w^{*}_{i}}}\right]=1 \qquad \text{e.g. } \mathcal{E}(1)$$`
+]
+
+--
+
+### 2. **Apply** to `\(\mathcal{L}_{i}\)`
+
+.content-box-lightgrey[
+`$$\mathcal{L}_i^{*} \left(\mathbf{\theta}\right) = \int_{\mathbb{R}^q} \exp \left[-{\color{red}{w_{i}^{*}}} \ell \left(\mathbf{y}_{i}, \mathbf{u}_{i}\right)\right] \ \mathrm{d}\mathbf{u}_{i}$$`
+]
+
+--
+
+### 3.(4. and 5.)  **Evaluate** : Package `TMB` (`C++` Templates and `R`)
+
+---
+class: inverse, center, middle
+
+# (Some) Properties
+
+---
+class: dark, center, middle
+
+# The Good <i class="fas  fa-thumbs-up "></i>
+
+![](https://media.giphy.com/media/RXXTZtYKTubiU/giphy.gif)
+
+---
+class: middle
+
+# <i class="fas  fa-thumbs-up "></i> Flexible
+
+--
+
+## Can be applied to **a wide variety of Mixed Models**
+
+--
+
+- Can deal with **Non-Gaussian Responses** and **Censored Data**
+  
+- Software **implementation is straightforward**
+
+---
+#<i class="fas  fa-thumbs-up "></i> Flexible
+
+.black[Example:] **Mixed Logit**
+
+.tothe-left[
+`template.cpp`: (Log) Joint Likelihood , i.e. `\(-\ell_{i}^{*}(\mathbf{y}_{i}, \mathbf{u}_{i})\)`
+
+```c
+...
+for(int j=0;j&lt;ngroups;j++){
+* res-= w[j]*dnorm(u[j], Type(0) ,sigma,1); 
+}
+
+for(int i=0;i&lt;nobs;i++){
+  j=group[i];
+* res-= w[j]*dbinom(y[i],Type(1),Type(1/(1+exp(-mu[i]-u[j]))),1);
+}
+...
+```
+]
+
+.tothe-right[
+
+`estimation.R`: Maximisation of `\(\mathcal{L}(\mathbf{\theta})\)`
+```r
+...
+# Compilation
+* compile("template.cpp")
+
+# Loading to the Environment
+dyn.load(dynlib("template")) 
+
+# AD Object creation
+obj &lt;- MakeADFun(data=data,
+                 parameters=parameters,
+                 random="u",
+                 DLL="template"
+                 )
+# Optimisation                  
+opt &lt;-nlminb(obj$par, obj$fn, obj$gr)
+...
+```
+]
+
+---
+class: middle
+
+# <i class="fas  fa-thumbs-up "></i> Correct
+
+--
+
+## **Good approximation** of the **Asymptotic Distribution**
+
+--
+
+- `\(\sqrt{n} \left(\widehat{\mathbf{\beta}}^{*} - \widehat{\beta}\right)\)` is <i class="fas  fa-check "></i>
+
+- `\(\sqrt{n} \left(\widehat{\mathbf{\sigma}}^{*} - \widehat{\sigma}\right)\)` is <i class="fas  fa-check-circle "></i> better than **Parametric Bootstrap**
+
+
+???
+
+To illustrate these points, let me show you a comparison of the Mean Bootstrap distribution vs. the 
+
+---
+# <i class="fas  fa-thumbs-up "></i> Correct
+.black[Example:] **Mixed Logit**  
+.pull-left[
+&lt;img src="index_files/figure-html/unnamed-chunk-4-1.png" style="display: block; margin: auto auto auto 0;" /&gt;
+]
+
+--
+.pull-right[
+&lt;img src="index_files/figure-html/unnamed-chunk-5-1.png" style="display: block; margin: auto auto auto 0;" /&gt;
+
+
+&lt;img src="index_files/figure-html/unnamed-chunk-6-1.png" style="display: block; margin: auto auto auto 0;" /&gt;
+
+
+&lt;img src="index_files/figure-html/unnamed-chunk-7-1.png" style="display: block; margin: auto auto auto 0;" /&gt;&lt;img src="index_files/figure-html/unnamed-chunk-7-2.png" style="display: block; margin: auto auto auto 0;" /&gt;&lt;img src="index_files/figure-html/unnamed-chunk-7-3.png" style="display: block; margin: auto auto auto 0;" /&gt;&lt;img src="index_files/figure-html/unnamed-chunk-7-4.png" style="display: block; margin: auto auto auto 0;" /&gt;&lt;img src="index_files/figure-html/unnamed-chunk-7-5.png" style="display: block; margin: auto auto auto 0;" /&gt;&lt;img src="index_files/figure-html/unnamed-chunk-7-6.png" style="display: block; margin: auto auto auto 0;" /&gt;
+]
+
+---
+# <i class="fas  fa-thumbs-up "></i> Correct
+
+
+
+![](index_files/figure-html/unnamed-chunk-9-1.png)&lt;!-- --&gt;![](index_files/figure-html/unnamed-chunk-9-2.png)&lt;!-- --&gt;
+
+---
+
+![](index_files/figure-html/unnamed-chunk-10-1.png)&lt;!-- --&gt;![](index_files/figure-html/unnamed-chunk-10-2.png)&lt;!-- --&gt;
+
+---
+
+![](index_files/figure-html/unnamed-chunk-11-1.png)&lt;!-- --&gt;![](index_files/figure-html/unnamed-chunk-11-2.png)&lt;!-- --&gt;
+
+
+---
+## 2. **Correct**
+
+### Comparison : RWLB vs Asymptotic - Simulated 
+
+---
+class: dark, center, middle
+
+# The 'meh' <i class="fas  fa-thumbs-down "></i>
+
+![](https://media.giphy.com/media/QC5jE83f3tBCg/giphy.gif)
+
+---
+# The 'meh' <i class="fas  fa-thumbs-down "></i>
+
+## **Variance Estimates** .
+
+- Depends on the relationship between **Marginal Variance** ($\mathbf{\Sigma}_{i}$) and **Random Effect Design** ($\mathbf{Z}_{i}$)
+
+## 1. (Could be) **Unstable**
+
+- Fails when facing **Bad Estimators**. 
+
+- Clusters can't be too small if the problem is complex. 
+
+
+
+---
+
+
+class: dark, center, middle
+
+## Linear Mixed Model
+---
+class: center, middle 
+
+### Approximating the Asymptotic Distribution
+
+---
+class: center, middle 
+
+### Percentile Confidence Intervals
+
+---
+class: dark, center, middle
+
+## Mixed Logit Model
+---
+class:  center, middle
+
+### Approximating the Asymptotic Distribution
+
+---
+class: dark, center, middle
+
+## Accelerated Failure Time Model
+
+---
+class: center, middle
+
+### Bias Correction in AFT
+---
+
+
+
+
+
+
+
+```
+## &lt;!-- html table generated in R 3.6.1 by xtable 1.8-4 package --&gt;
+## &lt;!-- Wed Nov 27 19:28:19 2019 --&gt;
+## &lt;table border=1&gt;
+## &lt;caption align="top"&gt; Parameter Estimates and Standard Errors for the Mixed Poisson Model. &lt;/caption&gt;
+##   \ &amp; \ &amp; \multicolumn{2}{c}{Bootstrap Averages} &amp;  &amp; \multicolumn{2}{c}{Bootstrap S.D.} \\
+##  \ &amp; Estimates &amp;  RWLB &amp; PB &amp; S.E. &amp;  RWLB &amp; PB  \\
+##  &lt;tr&gt; &lt;td align="right"&gt; $\beta_0$ &lt;/td&gt; &lt;td align="right"&gt; 0.8945 &lt;/td&gt; &lt;td align="right"&gt; 0.8925 &lt;/td&gt; &lt;td align="right"&gt; 0.8902 &lt;/td&gt; &lt;td align="right"&gt; 0.1786 &lt;/td&gt; &lt;td align="right"&gt; 0.1571 &lt;/td&gt; &lt;td align="right"&gt; 0.1787 &lt;/td&gt; &lt;/tr&gt;
+##   &lt;tr&gt; &lt;td align="right"&gt; $\beta_1$ &lt;/td&gt; &lt;td align="right"&gt; -0.2443 &lt;/td&gt; &lt;td align="right"&gt; -0.2471 &lt;/td&gt; &lt;td align="right"&gt; -0.2443 &lt;/td&gt; &lt;td align="right"&gt; 0.2544 &lt;/td&gt; &lt;td align="right"&gt; 0.2546 &lt;/td&gt; &lt;td align="right"&gt; 0.2514 &lt;/td&gt; &lt;/tr&gt;
+##   &lt;tr&gt; &lt;td align="right"&gt; $\beta_2$ &lt;/td&gt; &lt;td align="right"&gt; -0.0271 &lt;/td&gt; &lt;td align="right"&gt; -0.0275 &lt;/td&gt; &lt;td align="right"&gt; -0.0271 &lt;/td&gt; &lt;td align="right"&gt; 0.0099 &lt;/td&gt; &lt;td align="right"&gt; 0.0090 &lt;/td&gt; &lt;td align="right"&gt; 0.0099 &lt;/td&gt; &lt;/tr&gt;
+##   &lt;tr&gt; &lt;td align="right"&gt; $\beta_3$ &lt;/td&gt; &lt;td align="right"&gt; 0.0107 &lt;/td&gt; &lt;td align="right"&gt; 0.0112 &lt;/td&gt; &lt;td align="right"&gt; 0.0110 &lt;/td&gt; &lt;td align="right"&gt; 0.0139 &lt;/td&gt; &lt;td align="right"&gt; 0.0136 &lt;/td&gt; &lt;td align="right"&gt; 0.0135 &lt;/td&gt; &lt;/tr&gt;
+##    &lt;tr&gt; &lt;td align="right"&gt; $\sigma^{2}_{1}$ &lt;/td&gt; &lt;td align="right"&gt; 1.2707 &lt;/td&gt; &lt;td align="right"&gt; 1.2508 &lt;/td&gt; &lt;td align="right"&gt; 1.2231 &lt;/td&gt; &lt;td align="right"&gt; 0.2198 &lt;/td&gt; &lt;td align="right"&gt; 0.2987 &lt;/td&gt; &lt;td align="right"&gt; 0.2284 &lt;/td&gt; &lt;/tr&gt;
+##   &lt;tr&gt; &lt;td align="right"&gt; $\sigma^{2}_2$ &lt;/td&gt; &lt;td align="right"&gt; 0.0024 &lt;/td&gt; &lt;td align="right"&gt; 0.0023 &lt;/td&gt; &lt;td align="right"&gt; 0.0023 &lt;/td&gt; &lt;td align="right"&gt; 0.0006 &lt;/td&gt; &lt;td align="right"&gt; 0.0007 &lt;/td&gt; &lt;td align="right"&gt; 0.0005 &lt;/td&gt; &lt;/tr&gt;
+##   &lt;tr&gt; &lt;td align="right"&gt; $\rho$ &lt;/td&gt; &lt;td align="right"&gt; -0.3339 &lt;/td&gt; &lt;td align="right"&gt; -0.3262 &lt;/td&gt; &lt;td align="right"&gt; -0.3190 &lt;/td&gt; &lt;td align="right"&gt; 0.1312 &lt;/td&gt; &lt;td align="right"&gt; 0.1623 &lt;/td&gt; &lt;td align="right"&gt; 0.1486 &lt;/td&gt; &lt;/tr&gt;
+##    &lt;/table&gt;
+```
+
+
+
+
+
+```
+## % latex table generated in R 3.6.1 by xtable 1.8-4 package
+## % Wed Nov 27 19:28:19 2019
+## \begin{table}[ht]
+## \centering
+## \caption{Confidence intervals for the parameters of the Mixed Poisson Model.} 
+## \label{tab:ci_th}
+## \begin{tabular}{rrrrrrr}
+##   \hline
+##   \ &amp; \multicolumn{2}{c}{Asymptotic} &amp; \multicolumn{2}{c}{RWLB} &amp; \multicolumn{2}{c}{PB} \\
+##  \ &amp; Lower &amp;  Upper &amp; Lower &amp;  Upper &amp; Lower &amp;  Upper \\
+##  \hline
+## $\beta_0$ &amp; 0.5445 &amp; 1.2445 &amp; 0.5994 &amp; 1.1925 &amp; 0.5478 &amp; 1.2358 \\ 
+##   $\beta_1$ &amp; -0.7428 &amp; 0.2542 &amp; -0.7619 &amp; 0.2523 &amp; -0.7536 &amp; 0.2267 \\ 
+##   $\beta_2$ &amp; -0.0466 &amp; -0.0077 &amp; -0.0453 &amp; -0.0107 &amp; -0.0454 &amp; -0.0078 \\ 
+##   $\beta_3$ &amp; -0.0166 &amp; 0.0380 &amp; -0.0156 &amp; 0.0377 &amp; -0.0159 &amp; 0.0376 \\ 
+##    \hline
+## $\sigma^{2}_{1}$ &amp; 0.9362 &amp; 1.3183 &amp; 0.7992 &amp; 1.9715 &amp; 0.8255 &amp; 1.6939 \\ 
+##   $\sigma^{2}_{2}$ &amp; 0.0375 &amp; 0.0599 &amp; 0.0012 &amp; 0.0038 &amp; 0.0013 &amp; 0.0034 \\ 
+##   $\rho$ &amp; -0.5910 &amp; -0.0768 &amp; -0.6485 &amp; -0.0076 &amp; -0.5743 &amp; -0.0009 \\ 
+##    \hline
+## \end{tabular}
+## \end{table}
+```
+
+
+---
+class: center, middle
+
+### Simulation: Accelerated Failure Time Model 
+
+---
+# AFT Model with _Random Intercept_
+
+### Modelling Clustered **Durations**
+
+`$$\left\{\begin{array}{r c l}
+\log T_{ij}^{*} &amp; = &amp; \mathbf{x}_{ij}^{T}\mathbf{\beta} + \color{blue}{\sigma_{1} u_{1i}} +\sigma_{0}u_{0i}\\ T_{ij} &amp;=&amp; \left(1-\delta_{ij}\right)T_{ij}^{*} + \delta_{ij} C_{ij}
+\end{array}`
+\right.$$`
+
+Where: 
+
+- `\(T_{ij}^{*}\)` : The **latent duration**
+- `\(T_{ij}\)` : The **observed** duration
+- `\(C_{ij}\)` : The **censoring times**
+- `\(\delta_{ij}\)`: A right-censoring **indicator**
+
+---
+class: center, middle
+
+# Things
+
+
+![](index_files/figure-html/unnamed-chunk-17-1.png)&lt;!-- --&gt;
+
+---
+class: inverse, center, middle
+
+Discussions and Current Work
+---
+
+# Discussion
+
+---
+
+# Current Work
+
+---
+
+# References (and Associated Publications) 
+
+---
+class: center, middle
+
+Questions?
+
+---
+class: center, middle
+
+Remarks?
+
+---
+class: center, middle
+
+Questions?
+
+---
+class: center, middle
+
+# Thanks!
+
+Slides created via the R package [**xaringan**](https://github.com/yihui/xaringan).
+
+---
+
+class : inverse, center, middle
+
+# Appendix
+
+---
+class : dark , center, middle
+
+# `TMB` Templates
+
+---
+### Example: Mixed Logit
+
+.pull-left[
+`template.cpp`: (Log) Joint Likelihood , i.e. `\(-\ell_{i}^{*}(\mathbf{y}_{i}, \mathbf{u}_{i})\)`
+
+```c
+...
+for(int j=0;j&lt;ngroups;j++){
+  res-= w[j]*dnorm(u[j], Type(0) ,sigma,1);
+}
+
+for(int i=0;i&lt;nobs;i++){
+  j=group[i];
+  res-= w[j]*dbinom(y[i],Type(1),Type(1/(1+exp(-mu[i]-u[j]))),1);
+}
+...
+```
+]
+--
+
+.pull-right[
+`estimation.R`: Maximisation of `\(\mathcal{L}(\mathbf{\theta})\)`
+```r
+...
+# Compilation
+compile("template.cpp")
+
+# Loading to the Environment
+dyn.load(dynlib("template")) 
+
+# AD Object creation
+obj &lt;- MakeADFun(data=data,
+                 parameters=parameters,
+                 random="u",
+                 DLL="template"
+                 )
+# Optimisation                  
+opt &lt;-nlminb(obj$par, obj$fn, obj$gr)
+...
+```
+]
+
+---
+class : dark , center, middle
+
+# (Some) Theory
+
+---
+
+# (Some) Theory
+
+---
+# Comparison with GCB*
+ 
+**Generalised Cluster Bootstrap** for Gaussian LMM (Field, Pang, Welsh 2014)  
+
+`$$\widehat{\mathbf{\theta}}^{*} = \underset{\theta}{\mathrm{arg}} \left\{ \frac{1}{\sqrt{n}}\sum_{i=1}^{n} \color{red}{w_{i}^{*}} \Psi_{i}\left(\mathbf{\theta}\right) = \mathbf{0} \right\}$$`
+
+--
+.tothe-left[
+.content-box-lightgrey[
+.black[Theorem:] Under regularity conditions on `\(\Psi_i\left(\mathbf{\theta}\right)\)`, ensuring Asymptotic Normality i.e.
+
+`$$\sqrt{n}\left(\widehat{\mathbf{\theta}}-\mathbf{\theta}\right)
+\overset{\mathcal{D}}{\underset{n\rightarrow \infty}{\longrightarrow}}
+\mathcal{N}\left\{ \mathbf{0},\mathbf{M}^{-1}\mathbf{Q}\mathbf{M}^{-1}\right)$$`
+
+for fixed `\(n_i\)`, then:
+.content-box-fuchsia[
+.white[
+`$$\sqrt{n}\left(\widehat{\mathbf{\theta}}^{*}- \widehat{\mathbf{\theta}}\right)\overset{\mathcal{D}}{\underset{n\rightarrow\infty}{\longrightarrow}}\mathcal{N}\left(\mathbf{0},\widehat{\mathbf{M}}^{-1}\widehat{\mathbf{Q}}\widehat{\mathbf{M}}^{-1}\right)$$`]
+]
+]
+]
+--
+.tothe-right[
+
+`\(\widehat{\mathbf{M}}^{-1}\widehat{\mathbf{Q}}\widehat{\mathbf{M}}^{-1}\)` is the _Empirical_ **Sandwich Variance**
+
+![size=0.5](https://media.giphy.com/media/jOuA5oDxeIWJi/giphy.gif)
+]
+
+---
+
+Elements are **Expectations of products of `\(\Psi^{(k)}_i\left(\mathbf{\theta}_0\right)\)`** or its **Gradient**:
+
+`\(\forall k, l \in \{1, \dots d\}\)`, where `\(d = p + s\)`,  where `\(\mathbf{M} = \left( M_{kl}\right)_{k=1, l=1}^{p,s}\)`, `\(\mathbf{Q} = \left( Q_{kl}\right)_{k=1, l=1}^{p,s}\)`
+
+**Asymptotic Variance**
+
+`\begin{align}
+-\frac{1}{n}
+\sum_{i=1}^n 
+\mathbb{E} 
+\left\{ 
+{\color{blue}{\partial_{\theta_{l}}\Psi^{(k)}_i\left(\mathbf{\theta}_0\right)}}
+\right\}
+&amp;\underset{n\rightarrow \infty}{\longrightarrow}
+M_{kl}\\
+\frac{1}{\sqrt{n}}\sum_{i=1}^n 
+\mathbb{E} 
+\left\{ 
+{\color{blue}{\Psi^{(k)}_i\left(\mathbf{\theta}_0\right)
+\Psi^{(l)}_i\left(\mathbf{\theta}_0\right)}}
+\right\} 
+&amp;\underset{n\rightarrow \infty}{\longrightarrow}
+Q_{kl}
+\end{align}`
+
+--
+
+**GCB** version: 
+.content-box-fuchsia[
+
+`\begin{align}
+-\frac{1}{n}
+\sum_{i=1}^n 
+\mathbb{E}^{*}\left[\color{red}{w_{i}^{*}}\right]  
+\left\{ 
+\partial_{\theta_{l}}\Psi^{(k)}_i\left(\mathbf{\theta}_0\right)
+\right\}
+&amp;\underset{n\rightarrow \infty}{\longrightarrow}
+M_{kl}
+\end{align}`
+
+`\begin{align}
+\frac{1}{n}
+&amp;\sum_{i=1}^n 
+\mathbb{V}ar \left[ w_{i}^{*}\right]
+\Psi^{(k)}_i(\widehat{\mathbf{\theta}})
+\Psi^{(l)}_i(\widehat{\mathbf{\theta}}) \nonumber \\
+&amp;+ 
+\frac{1}{n}\sum_{i=1}^n\sum_{j\neq i}
+\mathbb{C}ov \left[ w_{i}^{*}, w_{j}^{*}\right]
+\left\{ 
+\Psi^{(k)}_i(\widehat{\mathbf{\theta}})
+\Psi^{(l)}_j(\widehat{\mathbf{\theta}})
+\right\}  
+\underset{n\rightarrow \infty}{\longrightarrow}
+Q_{kl}
+\end{align}`
+]
+
+
+---
+
+# GCB vs RWLB in _Random Effect_ LMM
+
+`$$\mathbf{y}_i = \mathbf{X}_{i}\mathbf{\beta} + \sum_{r=0}^{q} \sigma_r \mathbf{Z}_{ir}\mathbf{u}_{ir} \longrightarrow \begin{array}{l c l} \tilde{\Psi}^{\beta}_i\left(\mathbf{\theta}\right)
+  &amp;=&amp;\mathbf{X}_i^T \mathbf{\Sigma}_i^{-1} \left(\mathbf{y}_i - \mathbf{X}_i\mathbf{\beta}\right),
+  \\
+  \tilde{\Psi}^{\sigma^{2}_{r}}_i\left(\mathbf{\theta}\right)
+  &amp;=&amp;
+  -\frac{1}{2}
+  \left( \mathbf{y}_i-\mathbf{X}_i\mathbf{\beta}\right)^T
+  \mathbf{\Sigma}_i^{-1}\mathbf{Z}_{ir}\mathbf{Z}_{ir}^T\mathbf{\Sigma}_i^{-1}
+  \left(\mathbf{y}_i-\mathbf{X}_i\mathbf{\beta}\right)  + \frac{1}{2}
+  \mathrm{tr}\left( \mathbf{\Sigma}_{i}^{-1} \mathbf{Z}_{ir} \mathbf{Z}_{ir}^T\right). \end{array}$$`
+
+--
+
+.pull-left[
+**GCB**
+`\begin{align}
+  \tilde{\Psi}^{\beta}_i\left(\mathbf{\theta}\right)
+  &amp;=\color{red}{w_{i}^{*}}\mathbf{X}_i^T \mathbf{\Sigma}_i^{-1} \left(\mathbf{y}_i - \mathbf{X}_i\mathbf{\beta}\right),
+  \\
+  \tilde{\Psi}^{\sigma^{2}_{r}}_i\left(\mathbf{\theta}\right)
+  &amp;=
+  -\frac{\color{red}{w_{i}^{*}}}{2}
+  \left( \mathbf{y}_i-\mathbf{X}_i\mathbf{\beta}\right)^T
+  \mathbf{\Sigma}_i^{-1}\mathbf{Z}_{ir}\mathbf{Z}_{ir}^T\mathbf{\Sigma}_i^{-1}
+  \left(\mathbf{y}_i-\mathbf{X}_i\mathbf{\beta}\right)  \\
+  &amp;+ 
+  \frac{\color{red}{w_{i}^{*}}}{2}
+  \color{blue}{\mathrm{tr}\left( \mathbf{\Sigma}_{i}^{-1} \mathbf{Z}_{ir} \mathbf{Z}_{ir}^T\right).} 
+\end{align}`
+]
+.pull-right[
+**RWLB** (after tedious derivation)
+`\begin{align}
+  \tilde{\Psi}^{\beta}_i\left(\mathbf{\theta}\right)
+  &amp;=\color{red}{w_{i}^{*}}\mathbf{X}_i^T \mathbf{\Sigma}_i^{-1} \left(\mathbf{y}_i - \mathbf{X}_i\mathbf{\beta}\right),
+  \\
+  \tilde{\Psi}^{\sigma^{2}_{r}}_i\left(\mathbf{\theta}\right)
+  &amp;=
+  -\frac{\color{red}{w_{i}^{*}}}{2}
+  \left( \mathbf{y}_i-\mathbf{X}_i\mathbf{\beta}\right)^T
+  \mathbf{\Sigma}_i^{-1}\mathbf{Z}_{ir}\mathbf{Z}_{ir}^T\mathbf{\Sigma}_i^{-1}
+  \left(\mathbf{y}_i-\mathbf{X}_i\mathbf{\beta}\right)  \\
+  &amp;+ 
+  \color{blue}{\frac{1}{2}
+  \mathrm{tr}\left( \mathbf{\Sigma}_{i}^{-1} \mathbf{Z}_{ir} \mathbf{Z}_{ir}^T\right).} 
+\end{align}`
+]
+
+---
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"navigation": {
+"scroll": true
+}
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
