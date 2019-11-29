@@ -17,6 +17,18 @@ output:
       navigation:
         scroll: true # disable slide transitions by scrolling
 ---
+# Joint work with 
+
+
+Rory Wolfe
+
+Stephane Heritier
+
+Eva Cantoni
+
+
+
+---
 # Outline
 
 1. **Clustered Data**
@@ -686,9 +698,11 @@ xlimb4 <-range(qqb_4_pmb_s1$x,qqb_4_gcb_s1$x)
 # Clustered Data
 
 ---
-class: center, middle
+class: center
 
 ### Data that can be **grouped**, according to a **hierarchical** structure. 
+
+--
 
 <img src="./img/Charts-001.png" width="600">
 
@@ -704,7 +718,7 @@ A natural clustering factor in medical applications and longitudinal studies is 
 In this case, the patient, but in general it can be other things, such as hospitals in centre-patient studies. More levels of clustering can be considered.
 
 ---
-class: center, middle
+class: center
 
 ### Modelling $\Rightarrow$ **Mixed Models** (MM)
 
@@ -731,8 +745,9 @@ Mixed models _link_ the expected outcome with a combination of Fixed Effects and
 This combination can be _linear_ yielding the class of generalized Linear Mixed Models. 
 
 ---
+class: center
 
-# Simple(-ish) Examples: Random Intercepts
+### Modelling $\Rightarrow$ **Mixed Models** (MM)
 
 ### Longitudinal **Mixed Logit**
 
@@ -743,10 +758,16 @@ $$p_{ij} = \mathbb{E}[Y_{ij}|\mathbf{x}_{ij}, \color{blue}{u_i}] \qquad \quad\lo
 --
 
 ### **Accelerated Failure Time (AFT) Model**: Survival Analysis
-
+.tothe-left[
 .content-box-lightgrey[
 $$Y_{ij} = (1-\delta_{ij}) t_{ij} +  \delta_{ij} C_{ij} \qquad \quad \log t_{ij}= \mathbf{x}_{it}^T\mathbf{\beta} + \color{blue}{\sigma_1 u_i} + \phi\varepsilon_{it}$$
 ]
+
+- $t_{ij}$ : The **latent duration**
+- $C_{ij}$ : **Censoring times**
+- $\delta_{ij}$: **Right-censoring** indicator
+]
+
 
 ---
 class: center, middle
@@ -912,8 +933,18 @@ class: middle
 ---
 ### `r icon::fa("thumbs-up")` Flexible
 
-.black[Example:] **Non-Gaussian Responses** and **Censored Data**
+.black[Example:] **Mixed Logit**
 
+.content-box-ligthgrey[
+
+]
+
+
+.black[Example:] **AFT Model**
+
+.content-box-ligthgrey[
+
+]
 
 ---
 ### `r icon::fa("thumbs-up")` Flexible
@@ -985,9 +1016,14 @@ class: middle
 To illustrate these points, let me show you a comparison of the Mean Bootstrap distribution vs. the 
 
 ---
-### `r icon::fa("thumbs-up")` Correct
-.black[Example:] **Mixed Logit**  
+###  Simulated Mixed Logit with Random Intercept
+
+Q-Q Plots: $\sqrt{n} \left(\widehat{\mathbf{\beta}}^{*} - \widehat{\beta}\right)$ vs  $\sqrt{n} \left(\widehat{\mathbf{\beta}}^{*} - \widehat{\beta}\right)$
+
 .pull-left[
+**cluster size** ( $n_i$ ) = 7 
+
+
 ```{r, fig.align="center"}
 par(mfrow = c(2,2))
 ## ----qqplots_beta_1_tn_s1------------------------------------------------
@@ -1050,7 +1086,10 @@ legend("bottomright",
 ]
 
 --
+
 .pull-right[
+
+**cluster size** ($n_i$) = 21
 ```{r, fig.align="center"}
 par(mfrow = c(2,2))
 ## ----qqplots_beta_1_tn_s3------------------------------------------------
@@ -1333,7 +1372,6 @@ class: dark, center, middle
 class: center, middle
 
 ### Bias Correction in AFT
----
 
 ```{r}
 load("~/Dropbox/Paper/Reports/GSEMThesis/Ch2/[Data] MFDLD/epilepsy_est_var.RData")
@@ -1381,10 +1419,7 @@ atr$command <- c(
 
 ```
 
-
-
-
-```{r}
+```{r, eval = FALSE}
 library("xtable")
 print(av_se_th.tab, 
       add.to.row = atr,
@@ -1396,7 +1431,7 @@ print(av_se_th.tab,
       )
 ```
 
-```{r}
+```{r, eval = FALSE}
 alpha <-c(0.05)
 
 ci_th <- cbind(
@@ -1460,8 +1495,7 @@ atr$command <- c(
  )
 ```
 
-
-```{r}
+```{r, eval = FALSE}
 print(ci_th.tab, 
       add.to.row = atr,
       include.colnames=FALSE,
@@ -1482,17 +1516,7 @@ class: center, middle
 
 ### Modelling Clustered **Durations**
 
-$$\left\{\begin{array}{r c l}
-\log T_{ij}^{*} & = & \mathbf{x}_{ij}^{T}\mathbf{\beta} + \color{blue}{\sigma_{1} u_{1i}} +\sigma_{0}u_{0i}\\ T_{ij} &=& \left(1-\delta_{ij}\right)T_{ij}^{*} + \delta_{ij} C_{ij}
-\end{array}
-\right.$$
-
 Where: 
-
-- $T_{ij}^{*}$ : The **latent duration**
-- $T_{ij}$ : The **observed** duration
-- $C_{ij}$ : The **censoring times**
-- $\delta_{ij}$: A right-censoring **indicator**
 
 ---
 class: center, middle
@@ -1552,7 +1576,8 @@ th_dta %>%
 ---
 class: inverse, center, middle
 
-Discussions and Current Work
+# Discussion and Current Work
+
 ---
 
 # Discussion
@@ -1565,20 +1590,27 @@ Discussions and Current Work
 
 # References (and Associated Publications) 
 
----
-class: center, middle
+### F-A, Cantoni, **Bootstrapping generalized linear mixed models via a weighted Laplace approximation**, Under Review
 
-Questions?
 
----
-class: center, middle
+### F-A, Cantoni, **Bootstrap estimation of uncertainty in prediction for generalized linear mixed models**, Computational Statistics & Data Analysis, Volume 130, 2019, Pages 1-17 
 
-Remarks?
+ 
 
 ---
 class: center, middle
 
-Questions?
+# Questions?
+
+---
+class: center, middle
+
+# Remarks?
+ 
+---
+class: center, middle
+
+# I'll stick around!
 
 ---
 class: center, middle
@@ -1589,64 +1621,12 @@ Slides created via the R package [**xaringan**](https://github.com/yihui/xaringa
 
 ---
 
-class : inverse, center, middle
+class: inverse, center, middle
 
 # Appendix
 
 ---
-class : dark , center, middle
-
-# `TMB` Templates
-
----
-### Example: Mixed Logit
-
-.pull-left[
-`template.cpp`: (Log) Joint Likelihood , i.e. $-\ell_{i}^{*}(\mathbf{y}_{i}, \mathbf{u}_{i})$
-
-```c
-...
-for(int j=0;j<ngroups;j++){
-  res-= w[j]*dnorm(u[j], Type(0) ,sigma,1);
-}
-
-for(int i=0;i<nobs;i++){
-  j=group[i];
-  res-= w[j]*dbinom(y[i],Type(1),Type(1/(1+exp(-mu[i]-u[j]))),1);
-}
-...
-```
-]
---
-
-.pull-right[
-`estimation.R`: Maximisation of $\mathcal{L}(\mathbf{\theta})$
-```r
-...
-# Compilation
-compile("template.cpp")
-
-# Loading to the Environment
-dyn.load(dynlib("template")) 
-
-# AD Object creation
-obj <- MakeADFun(data=data,
-                 parameters=parameters,
-                 random="u",
-                 DLL="template"
-                 )
-# Optimisation                  
-opt <-nlminb(obj$par, obj$fn, obj$gr)
-...
-```
-]
-
----
-class : dark , center, middle
-
-# (Some) Theory
-
----
+class: dark , center, middle
 
 # (Some) Theory
 
@@ -1678,7 +1658,8 @@ $$\sqrt{n}\left(\widehat{\mathbf{\theta}}^{*}- \widehat{\mathbf{\theta}}\right)\
 
 $\widehat{\mathbf{M}}^{-1}\widehat{\mathbf{Q}}\widehat{\mathbf{M}}^{-1}$ is the _Empirical_ **Sandwich Variance**
 
-![size=0.5](https://media.giphy.com/media/jOuA5oDxeIWJi/giphy.gif)
+<img src="https://media.giphy.com/media/jOuA5oDxeIWJi/giphy.gif" style="width: 150px" />
+
 ]
 
 ---

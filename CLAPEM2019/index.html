@@ -20,6 +20,18 @@ class: center, middle, inverse, title-slide
 
 ---
 
+# Joint work with 
+
+
+Rory Wolfe
+
+Stephane Heritier
+
+Eva Cantoni
+
+
+
+---
 # Outline
 
 1. **Clustered Data**
@@ -49,9 +61,11 @@ class: inverse, center, middle
 # Clustered Data
 
 ---
-class: center, middle
+class: center
 
 ### Data that can be **grouped**, according to a **hierarchical** structure. 
+
+--
 
 &lt;img src="./img/Charts-001.png" width="600"&gt;
 
@@ -67,7 +81,7 @@ A natural clustering factor in medical applications and longitudinal studies is 
 In this case, the patient, but in general it can be other things, such as hospitals in centre-patient studies. More levels of clustering can be considered.
 
 ---
-class: center, middle
+class: center
 
 ### Modelling `\(\Rightarrow\)` **Mixed Models** (MM)
 
@@ -94,8 +108,9 @@ Mixed models _link_ the expected outcome with a combination of Fixed Effects and
 This combination can be _linear_ yielding the class of generalized Linear Mixed Models. 
 
 ---
+class: center
 
-# Simple(-ish) Examples: Random Intercepts
+### Modelling `\(\Rightarrow\)` **Mixed Models** (MM)
 
 ### Longitudinal **Mixed Logit**
 
@@ -106,10 +121,16 @@ This combination can be _linear_ yielding the class of generalized Linear Mixed 
 --
 
 ### **Accelerated Failure Time (AFT) Model**: Survival Analysis
-
+.tothe-left[
 .content-box-lightgrey[
 `$$Y_{ij} = (1-\delta_{ij}) t_{ij} +  \delta_{ij} C_{ij} \qquad \quad \log t_{ij}= \mathbf{x}_{it}^T\mathbf{\beta} + \color{blue}{\sigma_1 u_i} + \phi\varepsilon_{it}$$`
 ]
+
+- `\(t_{ij}\)` : The **latent duration**
+- `\(C_{ij}\)` : **Censoring times**
+- `\(\delta_{ij}\)`: **Right-censoring** indicator
+]
+
 
 ---
 class: center, middle
@@ -275,8 +296,18 @@ class: middle
 ---
 ### <i class="fas  fa-thumbs-up "></i> Flexible
 
-.black[Example:] **Non-Gaussian Responses** and **Censored Data**
+.black[Example:] **Mixed Logit**
 
+.content-box-ligthgrey[
+
+]
+
+
+.black[Example:] **AFT Model**
+
+.content-box-ligthgrey[
+
+]
 
 ---
 ### <i class="fas  fa-thumbs-up "></i> Flexible
@@ -348,14 +379,22 @@ class: middle
 To illustrate these points, let me show you a comparison of the Mean Bootstrap distribution vs. the 
 
 ---
-### <i class="fas  fa-thumbs-up "></i> Correct
-.black[Example:] **Mixed Logit**  
+###  Simulated Mixed Logit with Random Intercept
+
+Q-Q Plots: `\(\sqrt{n} \left(\widehat{\mathbf{\beta}}^{*} - \widehat{\beta}\right)\)` vs  `\(\sqrt{n} \left(\widehat{\mathbf{\beta}}^{*} - \widehat{\beta}\right)\)`
+
 .pull-left[
+**cluster size** ( `\(n_i\)` ) = 7 
+
+
 &lt;img src="index_files/figure-html/unnamed-chunk-4-1.png" style="display: block; margin: auto;" /&gt;
 ]
 
 --
+
 .pull-right[
+
+**cluster size** ($n_i$) = 21
 &lt;img src="index_files/figure-html/unnamed-chunk-5-1.png" style="display: block; margin: auto;" /&gt;
 ]
 
@@ -453,7 +492,6 @@ class: dark, center, middle
 class: center, middle
 
 ### Bias Correction in AFT
----
 
 
 
@@ -461,51 +499,7 @@ class: center, middle
 
 
 
-```
-## &lt;!-- html table generated in R 3.6.1 by xtable 1.8-4 package --&gt;
-## &lt;!-- Fri Nov 29 11:51:30 2019 --&gt;
-## &lt;table border=1&gt;
-## &lt;caption align="top"&gt; Parameter Estimates and Standard Errors for the Mixed Poisson Model. &lt;/caption&gt;
-##   \ &amp; \ &amp; \multicolumn{2}{c}{Bootstrap Averages} &amp;  &amp; \multicolumn{2}{c}{Bootstrap S.D.} \\
-##  \ &amp; Estimates &amp;  RWLB &amp; PB &amp; S.E. &amp;  RWLB &amp; PB  \\
-##  &lt;tr&gt; &lt;td align="right"&gt; $\beta_0$ &lt;/td&gt; &lt;td align="right"&gt; 0.8945 &lt;/td&gt; &lt;td align="right"&gt; 0.8925 &lt;/td&gt; &lt;td align="right"&gt; 0.8902 &lt;/td&gt; &lt;td align="right"&gt; 0.1786 &lt;/td&gt; &lt;td align="right"&gt; 0.1571 &lt;/td&gt; &lt;td align="right"&gt; 0.1787 &lt;/td&gt; &lt;/tr&gt;
-##   &lt;tr&gt; &lt;td align="right"&gt; $\beta_1$ &lt;/td&gt; &lt;td align="right"&gt; -0.2443 &lt;/td&gt; &lt;td align="right"&gt; -0.2471 &lt;/td&gt; &lt;td align="right"&gt; -0.2443 &lt;/td&gt; &lt;td align="right"&gt; 0.2544 &lt;/td&gt; &lt;td align="right"&gt; 0.2546 &lt;/td&gt; &lt;td align="right"&gt; 0.2514 &lt;/td&gt; &lt;/tr&gt;
-##   &lt;tr&gt; &lt;td align="right"&gt; $\beta_2$ &lt;/td&gt; &lt;td align="right"&gt; -0.0271 &lt;/td&gt; &lt;td align="right"&gt; -0.0275 &lt;/td&gt; &lt;td align="right"&gt; -0.0271 &lt;/td&gt; &lt;td align="right"&gt; 0.0099 &lt;/td&gt; &lt;td align="right"&gt; 0.0090 &lt;/td&gt; &lt;td align="right"&gt; 0.0099 &lt;/td&gt; &lt;/tr&gt;
-##   &lt;tr&gt; &lt;td align="right"&gt; $\beta_3$ &lt;/td&gt; &lt;td align="right"&gt; 0.0107 &lt;/td&gt; &lt;td align="right"&gt; 0.0112 &lt;/td&gt; &lt;td align="right"&gt; 0.0110 &lt;/td&gt; &lt;td align="right"&gt; 0.0139 &lt;/td&gt; &lt;td align="right"&gt; 0.0136 &lt;/td&gt; &lt;td align="right"&gt; 0.0135 &lt;/td&gt; &lt;/tr&gt;
-##    &lt;tr&gt; &lt;td align="right"&gt; $\sigma^{2}_{1}$ &lt;/td&gt; &lt;td align="right"&gt; 1.2707 &lt;/td&gt; &lt;td align="right"&gt; 1.2508 &lt;/td&gt; &lt;td align="right"&gt; 1.2231 &lt;/td&gt; &lt;td align="right"&gt; 0.2198 &lt;/td&gt; &lt;td align="right"&gt; 0.2987 &lt;/td&gt; &lt;td align="right"&gt; 0.2284 &lt;/td&gt; &lt;/tr&gt;
-##   &lt;tr&gt; &lt;td align="right"&gt; $\sigma^{2}_2$ &lt;/td&gt; &lt;td align="right"&gt; 0.0024 &lt;/td&gt; &lt;td align="right"&gt; 0.0023 &lt;/td&gt; &lt;td align="right"&gt; 0.0023 &lt;/td&gt; &lt;td align="right"&gt; 0.0006 &lt;/td&gt; &lt;td align="right"&gt; 0.0007 &lt;/td&gt; &lt;td align="right"&gt; 0.0005 &lt;/td&gt; &lt;/tr&gt;
-##   &lt;tr&gt; &lt;td align="right"&gt; $\rho$ &lt;/td&gt; &lt;td align="right"&gt; -0.3339 &lt;/td&gt; &lt;td align="right"&gt; -0.3262 &lt;/td&gt; &lt;td align="right"&gt; -0.3190 &lt;/td&gt; &lt;td align="right"&gt; 0.1312 &lt;/td&gt; &lt;td align="right"&gt; 0.1623 &lt;/td&gt; &lt;td align="right"&gt; 0.1486 &lt;/td&gt; &lt;/tr&gt;
-##    &lt;/table&gt;
-```
 
-
-
-
-
-```
-## % latex table generated in R 3.6.1 by xtable 1.8-4 package
-## % Fri Nov 29 11:51:30 2019
-## \begin{table}[ht]
-## \centering
-## \caption{Confidence intervals for the parameters of the Mixed Poisson Model.} 
-## \label{tab:ci_th}
-## \begin{tabular}{rrrrrrr}
-##   \hline
-##   \ &amp; \multicolumn{2}{c}{Asymptotic} &amp; \multicolumn{2}{c}{RWLB} &amp; \multicolumn{2}{c}{PB} \\
-##  \ &amp; Lower &amp;  Upper &amp; Lower &amp;  Upper &amp; Lower &amp;  Upper \\
-##  \hline
-## $\beta_0$ &amp; 0.5445 &amp; 1.2445 &amp; 0.5994 &amp; 1.1925 &amp; 0.5478 &amp; 1.2358 \\ 
-##   $\beta_1$ &amp; -0.7428 &amp; 0.2542 &amp; -0.7619 &amp; 0.2523 &amp; -0.7536 &amp; 0.2267 \\ 
-##   $\beta_2$ &amp; -0.0466 &amp; -0.0077 &amp; -0.0453 &amp; -0.0107 &amp; -0.0454 &amp; -0.0078 \\ 
-##   $\beta_3$ &amp; -0.0166 &amp; 0.0380 &amp; -0.0156 &amp; 0.0377 &amp; -0.0159 &amp; 0.0376 \\ 
-##    \hline
-## $\sigma^{2}_{1}$ &amp; 0.9362 &amp; 1.3183 &amp; 0.7992 &amp; 1.9715 &amp; 0.8255 &amp; 1.6939 \\ 
-##   $\sigma^{2}_{2}$ &amp; 0.0375 &amp; 0.0599 &amp; 0.0012 &amp; 0.0038 &amp; 0.0013 &amp; 0.0034 \\ 
-##   $\rho$ &amp; -0.5910 &amp; -0.0768 &amp; -0.6485 &amp; -0.0076 &amp; -0.5743 &amp; -0.0009 \\ 
-##    \hline
-## \end{tabular}
-## \end{table}
-```
 
 
 ---
@@ -518,17 +512,7 @@ class: center, middle
 
 ### Modelling Clustered **Durations**
 
-`$$\left\{\begin{array}{r c l}
-\log T_{ij}^{*} &amp; = &amp; \mathbf{x}_{ij}^{T}\mathbf{\beta} + \color{blue}{\sigma_{1} u_{1i}} +\sigma_{0}u_{0i}\\ T_{ij} &amp;=&amp; \left(1-\delta_{ij}\right)T_{ij}^{*} + \delta_{ij} C_{ij}
-\end{array}`
-\right.$$`
-
 Where: 
-
-- `\(T_{ij}^{*}\)` : The **latent duration**
-- `\(T_{ij}\)` : The **observed** duration
-- `\(C_{ij}\)` : The **censoring times**
-- `\(\delta_{ij}\)`: A right-censoring **indicator**
 
 ---
 class: center, middle
@@ -541,7 +525,8 @@ class: center, middle
 ---
 class: inverse, center, middle
 
-Discussions and Current Work
+# Discussion and Current Work
+
 ---
 
 # Discussion
@@ -554,20 +539,27 @@ Discussions and Current Work
 
 # References (and Associated Publications) 
 
----
-class: center, middle
+### F-A, Cantoni, **Bootstrapping generalized linear mixed models via a weighted Laplace approximation**, Under Review
 
-Questions?
 
----
-class: center, middle
+### F-A, Cantoni, **Bootstrap estimation of uncertainty in prediction for generalized linear mixed models**, Computational Statistics &amp; Data Analysis, Volume 130, 2019, Pages 1-17 
 
-Remarks?
+ 
 
 ---
 class: center, middle
 
-Questions?
+# Questions?
+
+---
+class: center, middle
+
+# Remarks?
+ 
+---
+class: center, middle
+
+# I'll stick around!
 
 ---
 class: center, middle
@@ -578,64 +570,12 @@ Slides created via the R package [**xaringan**](https://github.com/yihui/xaringa
 
 ---
 
-class : inverse, center, middle
+class: inverse, center, middle
 
 # Appendix
 
 ---
-class : dark , center, middle
-
-# `TMB` Templates
-
----
-### Example: Mixed Logit
-
-.pull-left[
-`template.cpp`: (Log) Joint Likelihood , i.e. `\(-\ell_{i}^{*}(\mathbf{y}_{i}, \mathbf{u}_{i})\)`
-
-```c
-...
-for(int j=0;j&lt;ngroups;j++){
-  res-= w[j]*dnorm(u[j], Type(0) ,sigma,1);
-}
-
-for(int i=0;i&lt;nobs;i++){
-  j=group[i];
-  res-= w[j]*dbinom(y[i],Type(1),Type(1/(1+exp(-mu[i]-u[j]))),1);
-}
-...
-```
-]
---
-
-.pull-right[
-`estimation.R`: Maximisation of `\(\mathcal{L}(\mathbf{\theta})\)`
-```r
-...
-# Compilation
-compile("template.cpp")
-
-# Loading to the Environment
-dyn.load(dynlib("template")) 
-
-# AD Object creation
-obj &lt;- MakeADFun(data=data,
-                 parameters=parameters,
-                 random="u",
-                 DLL="template"
-                 )
-# Optimisation                  
-opt &lt;-nlminb(obj$par, obj$fn, obj$gr)
-...
-```
-]
-
----
-class : dark , center, middle
-
-# (Some) Theory
-
----
+class: dark , center, middle
 
 # (Some) Theory
 
@@ -667,7 +607,8 @@ for fixed `\(n_i\)`, then:
 
 `\(\widehat{\mathbf{M}}^{-1}\widehat{\mathbf{Q}}\widehat{\mathbf{M}}^{-1}\)` is the _Empirical_ **Sandwich Variance**
 
-![size=0.5](https://media.giphy.com/media/jOuA5oDxeIWJi/giphy.gif)
+&lt;img src="https://media.giphy.com/media/jOuA5oDxeIWJi/giphy.gif" style="width: 150px" /&gt;
+
 ]
 
 ---
