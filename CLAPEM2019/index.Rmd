@@ -731,14 +731,34 @@ Mixed models _link_ the expected outcome with a combination of Fixed Effects and
 This combination can be _linear_ yielding the class of generalized Linear Mixed Models. 
 
 ---
-class: center, middle
 
-### Likelihood Inference $\Rightarrow$ **(Numerical) Integration** 
+# Simple(-ish) Examples: Random Intercepts
+
+### Longitudinal **Mixed Logit**
 
 .content-box-lightgrey[
-$$\color{red}{\mathcal{L}_i\left(\mathbf{\theta}\right)}
-= 
-\color{red}{f\left(\mathbf{y}_{i}\right)} = \color{blue}{\int_{\mathbb{R}^q}} f\left(\mathbf{y}_i, \color{blue}{\mathbf{u}_i}\right) \mathrm{d} \color{blue}{\mathbf{u}_{i}} =  \int_{\mathbb{R}^q} \color{blue}{\exp \left[-\ell \left(\mathbf{y}_{i}, \mathbf{u}_{i}\right)\right]} \ \mathrm{d}\mathbf{u}_{i}$$
+$$p_{ij} = \mathbb{E}[Y_{ij}|\mathbf{x}_{ij}, \color{blue}{u_i}] \qquad \quad\log\frac{p_{ij}}{{1-p_{ij}}} = \mathbf{x}_{ij}^T\mathbf{\beta} + \color{blue}{\sigma_1 u_i} \qquad \quad$$
+]
+
+--
+
+### **Accelerated Failure Time (AFT) Model**: Survival Analysis
+
+.content-box-lightgrey[
+$$Y_{ij} = (1-\delta_{ij}) t_{ij} +  \delta_{ij} C_{ij} \qquad \quad \log t_{ij}= \mathbf{x}_{it}^T\mathbf{\beta} + \color{blue}{\sigma_1 u_i} + \phi\varepsilon_{it}$$
+]
+
+---
+class: center, middle
+
+### Likelihood Inference $\Rightarrow$ **(Numerical) Integration** (of $\color{\blue}{\mathbf{u}_{i}}$ )
+
+.content-box-lightgrey[
+\begin{align}
+\color{red}{\mathcal{L}_i\left(\mathbf{\theta}\right)}&= \color{blue}{\int_{\mathbb{R}^q}} f\left(\mathbf{y}_i, \color{blue}{\mathbf{u}_i}\right) \mathrm{d} \color{blue}{\mathbf{u}_{i}}\\
+&= \int_{\mathbb{R}^q} f\left(\mathbf{y}_i \vert \color{blue}{\mathbf{u}_i}\right)f\left(\color{blue}{\mathbf{u}_i}\right) \mathrm{d} \color{blue}{\mathbf{u}_{i}} \\
+&=\int_{\mathbb{R}^q} \color{red}{\exp} \left[ \log f\left(\mathbf{y}_i \vert \color{blue}{\mathbf{u}_i}\right)  + \log  f\left(\color{blue}{\mathbf{u}_i}\right) \right] \ \mathrm{d}\mathbf{u}_{i}
+\end{align}
 ]
 
 
@@ -769,9 +789,30 @@ class: center, middle
 
 ### _Residual_ Bootstrap **struggles** with **random effects** and **link function**
 
-Random effect _Predictions_ are **shrunk** towards zero. 
+.pull-left[
+Easy(-ish) in **Gaussian LMM**
 
-Easy to implement in Gaussian Linear MM. Hard, otherwise 
+.content-box-lightgrey[
+$$\mathbf{x}_{ij}^T\widehat{\mathbf{\beta}} + \widehat{\sigma}_1\color{red}{\widehat{u}_{i}^{{\star}}} + \widehat{\phi}\color{red}{\widehat{\varepsilon}_{i}^{{\star}}} \rightarrow  y_{ij}^{\color{red}{\star}}$$
+]
+
+<img src="https://media.giphy.com/media/4JSAfzWfvMN36r1HG1/giphy.gif" style="width: 200px" />
+
+]
+
+--
+.pull-right[
+
+Not that clear **in other cases**
+
+.content-box-lightgrey[
+$$g^{-1}(\mathbf{x}_{ij}^T \widehat{\mathbf{\beta}} + \widehat{\sigma}_1\color{red}{\widehat{u}_{i}^{{\star}}}) 
+\rightarrow  y_{ij}^{\color{red}{\star}}$$
+]
+
+<img src="https://media.giphy.com/media/xf20D8HzvTQzu/giphy.gif" style="width: 200px" />
+
+]
 
 ---
 class: center, middle
@@ -864,12 +905,18 @@ class: middle
 
 --
 
-- Can deal with **Non-Gaussian Responses** and **Censored Data**
+### `r icon::fa("arrow-circle-right")` Can deal with **Non-Gaussian Responses** and **Censored Data**
   
-- Software **implementation is straightforward**
+### `r icon::fa("arrow-circle-right")` Software **implementation is straightforward**
 
 ---
-#`r icon::fa("thumbs-up")` Flexible
+### `r icon::fa("thumbs-up")` Flexible
+
+.black[Example:] **Non-Gaussian Responses** and **Censored Data**
+
+
+---
+### `r icon::fa("thumbs-up")` Flexible
 
 .black[Example:] **Mixed Logit**
 
@@ -924,20 +971,24 @@ class: middle
 
 --
 
-- $\sqrt{n} \left(\widehat{\mathbf{\beta}}^{*} - \widehat{\beta}\right)$ is `r icon::fa("check")`
+### `r icon::fa("arrow-circle-right")` $\sqrt{n} \left(\widehat{\mathbf{\beta}}^{*} - \widehat{\beta}\right)$ is `r icon::fa("check")`
 
-- $\sqrt{n} \left(\widehat{\mathbf{\sigma}}^{*} - \widehat{\sigma}\right)$ is `r icon::fa("check-circle")` better than **Parametric Bootstrap**
+--
 
+### `r icon::fa("arrow-circle-right")`  $\sqrt{n} \left(\widehat{\mathbf{\sigma}}^{*} - \widehat{\sigma}\right)$ is `r icon::fa("check-circle")` 
+
+- Better than **Parametric Bootstrap (PB)**.
+- Potential for **Bias Correction**
 
 ???
 
 To illustrate these points, let me show you a comparison of the Mean Bootstrap distribution vs. the 
 
 ---
-# `r icon::fa("thumbs-up")` Correct
+### `r icon::fa("thumbs-up")` Correct
 .black[Example:] **Mixed Logit**  
 .pull-left[
-```{r, fig.align="left"}
+```{r, fig.align="center"}
 par(mfrow = c(2,2))
 ## ----qqplots_beta_1_tn_s1------------------------------------------------
 plot(xlimb1, ylimb1,
@@ -1000,7 +1051,7 @@ legend("bottomright",
 
 --
 .pull-right[
-```{r, fig.align="left"}
+```{r, fig.align="center"}
 par(mfrow = c(2,2))
 ## ----qqplots_beta_1_tn_s3------------------------------------------------
 plot(xlimb1, ylimb1,
@@ -1062,7 +1113,7 @@ legend("bottomright",
 ]
 
 ---
-# `r icon::fa("thumbs-up")` Correct
+### `r icon::fa("thumbs-up")` Correct
 
 ```{r, include = FALSE}
 ## ----graph_s2_tn, include = TRUE-----------------------------------------
@@ -1071,57 +1122,47 @@ ylims2 <- range(qqs2_pmb_s2$y, qqs2_gcb_s2$y)
 # xlims2 <- ylims2
 xlims2 <- range(qqs2_pmb_s2$x, qqs2_gcb_s2$x)
 ```
-
-```{r}
+.pull-left[
+```{r, fig.align="center"}
 ## ----qqplots_sigma_tn_s1-------------------------------------------------
 par(mar = c(5, 5, 2, 2) + 0.1)
 plot(xlims2 , ylims2, type = "n",
      # main = "Random Intercept",
      xlab="Empirical",
      ylab="Bootstrap", pch = "o")
-# points(qqs2_rebcmv1_s1, col="lightgray", pch = "x", cex = 0.5)
-# points(qqs2_rebepv1_s1, col="lightgray", pch = "x", cex = 0.5)
-# points(qqs2_rebcmv2_s1, col="gray", pch = "x", cex = 0.5)
-# points(qqs2_rebepv2_s1, col="gray", pch = "x", cex = 0.5)
-
-# points(qqs2_pmb_s1, col="red", pch = "+")
-# points(qqs2_gcb_s1, col="forestgreen", pch = "o")
-
 lines(qqs2_pmb_s1, col="red", lty = 3, lwd=6)
 lines(qqs2_gcb_s1, col="forestgreen", lty = 2, lwd=6)
 abline(a=0, b =1)
+```
+]
 
-
+.pull-right[
+```{r, fig.align="center"}
 ## ----qqplots_sigma_tn_s4-------------------------------------------------
   par(mar = c(5, 5, 2, 2) + 0.1)
   plot(xlims2 , ylims2, type = "n",
        # main = "Random Intercept",
        xlab="Empirical",
        ylab="Bootstrap", pch = "o")
-  # points(qqs2_rebcmv1_s4, col="lightgray", pch = "x", cex = 0.5)
-  # points(qqs2_rebepv1_s4, col="lightgray", pch = "x", cex = 0.5)
-  # points(qqs2_rebcmv2_s4, col="gray", pch = "x", cex = 0.5)
-  # points(qqs2_rebepv2_s4, col="gray", pch = "x", cex = 0.5)
-
-  # points(qqs2_pmb_s4, col="red", pch = "+")
-  # points(qqs2_gcb_s4, col="forestgreen", pch = "o")
-
   lines(qqs2_pmb_s4, col="red", lty = 3, lwd=6)
   lines(qqs2_gcb_s4, col="forestgreen", lty = 2, lwd=6)
 
   abline(a=0, b =1)
       legend("bottomright",
-         legend = c("RWLB","PAB"),
+         legend = c("RWLB","PB"),
          col = c("forestgreen", "red"),
          # pch = c("o","+")
          lty = c(2,3),
          lwd = c(4,4)
          )
 ```
+]
 
 ---
 
-```{r}
+### `r icon::fa("thumbs-up")` Correct
+.pull-left[
+```{r, fig.align="center"}
 ## ----qqplots_sigma_tn_s2-------------------------------------------------
 par(mar = c(5, 5, 2, 2) + 0.1)
 plot(xlims2 , ylims2, type = "n",
@@ -1140,8 +1181,11 @@ lines(qqs2_pmb_s2, col="red", lty = 3, lwd=6)
 lines(qqs2_gcb_s2, col="forestgreen", lty = 2, lwd=6)
 
 abline(a=0, b =1)
-
-
+```
+]
+--
+.pull-right[
+```{r, fig.align="center"}
 ## ----qqplots_sigma_tn_s5-------------------------------------------------
   par(mar = c(5, 5, 2, 2) + 0.1)
   plot(xlims2 , ylims2, type = "n",
@@ -1162,17 +1206,19 @@ abline(a=0, b =1)
   abline(a=0, b =1)
   
       legend("bottomright",
-         legend = c("RWLB","PAB"),
+         legend = c("RWLB","PB"),
          col = c("forestgreen", "red"),
          # pch = c("o","+")
          lty = c(2,3),
          lwd = c(4,4)
          )
 ```
+]
 
 ---
-
-```{r}
+### `r icon::fa("thumbs-up")` Correct
+.pull-left[
+```{r, fig.align="center"}
 ## ----qqplots_sigma_tn_s3-------------------------------------------------
 par(mar = c(5, 5, 2, 2) + 0.1)
 plot(xlims2 , ylims2, type = "n",
@@ -1192,8 +1238,11 @@ lines(qqs2_pmb_s3, col="red", lty = 3, lwd=6)
 lines(qqs2_gcb_s3, col="forestgreen", lty = 2, lwd=6)
 
 abline(a=0, b =1)
-
-
+```
+]
+--
+.pull-right[
+```{r, fig.align="center"}
 ## ----qqplots_sigma_tn_s6-------------------------------------------------
   par(mar = c(5, 5, 2, 2) + 0.1)
   plot(xlims2 , ylims2, type = "n",
@@ -1214,15 +1263,14 @@ abline(a=0, b =1)
   abline(a=0, b =1)
   
   legend("bottomright",
-         legend = c("RWLB","PAB"),
+         legend = c("RWLB","PB"),
          col = c("forestgreen", "red"),
          # pch = c("o","+")
          lty = c(2,3),
          lwd = c(4,4)
          )
-  
 ```
-
+]
 
 ---
 ## 2. **Correct**

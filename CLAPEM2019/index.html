@@ -94,14 +94,34 @@ Mixed models _link_ the expected outcome with a combination of Fixed Effects and
 This combination can be _linear_ yielding the class of generalized Linear Mixed Models. 
 
 ---
-class: center, middle
 
-### Likelihood Inference `\(\Rightarrow\)` **(Numerical) Integration** 
+# Simple(-ish) Examples: Random Intercepts
+
+### Longitudinal **Mixed Logit**
 
 .content-box-lightgrey[
-`$$\color{red}{\mathcal{L}_i\left(\mathbf{\theta}\right)}
-= 
-\color{red}{f\left(\mathbf{y}_{i}\right)} = \color{blue}{\int_{\mathbb{R}^q}} f\left(\mathbf{y}_i, \color{blue}{\mathbf{u}_i}\right) \mathrm{d} \color{blue}{\mathbf{u}_{i}} =  \int_{\mathbb{R}^q} \color{blue}{\exp \left[-\ell \left(\mathbf{y}_{i}, \mathbf{u}_{i}\right)\right]} \ \mathrm{d}\mathbf{u}_{i}$$`
+`$$p_{ij} = \mathbb{E}[Y_{ij}|\mathbf{x}_{ij}, \color{blue}{u_i}] \qquad \quad\log\frac{p_{ij}}{{1-p_{ij}}} = \mathbf{x}_{ij}^T\mathbf{\beta} + \color{blue}{\sigma_1 u_i} \qquad \quad$$`
+]
+
+--
+
+### **Accelerated Failure Time (AFT) Model**: Survival Analysis
+
+.content-box-lightgrey[
+`$$Y_{ij} = (1-\delta_{ij}) t_{ij} +  \delta_{ij} C_{ij} \qquad \quad \log t_{ij}= \mathbf{x}_{it}^T\mathbf{\beta} + \color{blue}{\sigma_1 u_i} + \phi\varepsilon_{it}$$`
+]
+
+---
+class: center, middle
+
+### Likelihood Inference `\(\Rightarrow\)` **(Numerical) Integration** (of `\(\color{\blue}{\mathbf{u}_{i}}\)` )
+
+.content-box-lightgrey[
+`\begin{align}
+\color{red}{\mathcal{L}_i\left(\mathbf{\theta}\right)}&amp;= \color{blue}{\int_{\mathbb{R}^q}} f\left(\mathbf{y}_i, \color{blue}{\mathbf{u}_i}\right) \mathrm{d} \color{blue}{\mathbf{u}_{i}}\\
+&amp;= \int_{\mathbb{R}^q} f\left(\mathbf{y}_i \vert \color{blue}{\mathbf{u}_i}\right)f\left(\color{blue}{\mathbf{u}_i}\right) \mathrm{d} \color{blue}{\mathbf{u}_{i}} \\
+&amp;=\int_{\mathbb{R}^q} \color{red}{\exp} \left[ \log f\left(\mathbf{y}_i \vert \color{blue}{\mathbf{u}_i}\right)  + \log  f\left(\color{blue}{\mathbf{u}_i}\right) \right] \ \mathrm{d}\mathbf{u}_{i}
+\end{align}`
 ]
 
 
@@ -132,9 +152,30 @@ class: center, middle
 
 ### _Residual_ Bootstrap **struggles** with **random effects** and **link function**
 
-Random effect _Predictions_ are **shrunk** towards zero. 
+.pull-left[
+Easy(-ish) in **Gaussian LMM**
 
-Easy to implement in Gaussian Linear MM. Hard, otherwise 
+.content-box-lightgrey[
+`$$\mathbf{x}_{ij}^T\widehat{\mathbf{\beta}} + \widehat{\sigma}_1\color{red}{\widehat{u}_{i}^{{\star}}} + \widehat{\phi}\color{red}{\widehat{\varepsilon}_{i}^{{\star}}} \rightarrow  y_{ij}^{\color{red}{\star}}$$`
+]
+
+&lt;img src="https://media.giphy.com/media/4JSAfzWfvMN36r1HG1/giphy.gif" style="width: 200px" /&gt;
+
+]
+
+--
+.pull-right[
+
+Not that clear **in other cases**
+
+.content-box-lightgrey[
+`$$g^{-1}(\mathbf{x}_{ij}^T \widehat{\mathbf{\beta}} + \widehat{\sigma}_1\color{red}{\widehat{u}_{i}^{{\star}}}) 
+\rightarrow  y_{ij}^{\color{red}{\star}}$$`
+]
+
+&lt;img src="https://media.giphy.com/media/xf20D8HzvTQzu/giphy.gif" style="width: 200px" /&gt;
+
+]
 
 ---
 class: center, middle
@@ -227,12 +268,18 @@ class: middle
 
 --
 
-- Can deal with **Non-Gaussian Responses** and **Censored Data**
+### <i class="fas  fa-arrow-circle-right "></i> Can deal with **Non-Gaussian Responses** and **Censored Data**
   
-- Software **implementation is straightforward**
+### <i class="fas  fa-arrow-circle-right "></i> Software **implementation is straightforward**
 
 ---
-#<i class="fas  fa-thumbs-up "></i> Flexible
+### <i class="fas  fa-thumbs-up "></i> Flexible
+
+.black[Example:] **Non-Gaussian Responses** and **Censored Data**
+
+
+---
+### <i class="fas  fa-thumbs-up "></i> Flexible
 
 .black[Example:] **Mixed Logit**
 
@@ -287,42 +334,63 @@ class: middle
 
 --
 
-- `\(\sqrt{n} \left(\widehat{\mathbf{\beta}}^{*} - \widehat{\beta}\right)\)` is <i class="fas  fa-check "></i>
+### <i class="fas  fa-arrow-circle-right "></i> `\(\sqrt{n} \left(\widehat{\mathbf{\beta}}^{*} - \widehat{\beta}\right)\)` is <i class="fas  fa-check "></i>
 
-- `\(\sqrt{n} \left(\widehat{\mathbf{\sigma}}^{*} - \widehat{\sigma}\right)\)` is <i class="fas  fa-check-circle "></i> better than **Parametric Bootstrap**
+--
 
+### <i class="fas  fa-arrow-circle-right "></i>  `\(\sqrt{n} \left(\widehat{\mathbf{\sigma}}^{*} - \widehat{\sigma}\right)\)` is <i class="fas  fa-check-circle "></i> 
+
+- Better than **Parametric Bootstrap (PB)**.
+- Potential for **Bias Correction**
 
 ???
 
 To illustrate these points, let me show you a comparison of the Mean Bootstrap distribution vs. the 
 
 ---
-# <i class="fas  fa-thumbs-up "></i> Correct
+### <i class="fas  fa-thumbs-up "></i> Correct
 .black[Example:] **Mixed Logit**  
 .pull-left[
-&lt;img src="index_files/figure-html/unnamed-chunk-4-1.png" style="display: block; margin: auto auto auto 0;" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-4-1.png" style="display: block; margin: auto;" /&gt;
 ]
 
 --
 .pull-right[
-&lt;img src="index_files/figure-html/unnamed-chunk-5-1.png" style="display: block; margin: auto auto auto 0;" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-5-1.png" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
-# <i class="fas  fa-thumbs-up "></i> Correct
+### <i class="fas  fa-thumbs-up "></i> Correct
 
 
+.pull-left[
+&lt;img src="index_files/figure-html/unnamed-chunk-7-1.png" style="display: block; margin: auto;" /&gt;
+]
 
-![](index_files/figure-html/unnamed-chunk-7-1.png)&lt;!-- --&gt;![](index_files/figure-html/unnamed-chunk-7-2.png)&lt;!-- --&gt;
+.pull-right[
+&lt;img src="index_files/figure-html/unnamed-chunk-8-1.png" style="display: block; margin: auto;" /&gt;
+]
 
 ---
 
-![](index_files/figure-html/unnamed-chunk-8-1.png)&lt;!-- --&gt;![](index_files/figure-html/unnamed-chunk-8-2.png)&lt;!-- --&gt;
+### <i class="fas  fa-thumbs-up "></i> Correct
+.pull-left[
+&lt;img src="index_files/figure-html/unnamed-chunk-9-1.png" style="display: block; margin: auto;" /&gt;
+]
+--
+.pull-right[
+&lt;img src="index_files/figure-html/unnamed-chunk-10-1.png" style="display: block; margin: auto;" /&gt;
+]
 
 ---
-
-![](index_files/figure-html/unnamed-chunk-9-1.png)&lt;!-- --&gt;![](index_files/figure-html/unnamed-chunk-9-2.png)&lt;!-- --&gt;
-
+### <i class="fas  fa-thumbs-up "></i> Correct
+.pull-left[
+&lt;img src="index_files/figure-html/unnamed-chunk-11-1.png" style="display: block; margin: auto;" /&gt;
+]
+--
+.pull-right[
+&lt;img src="index_files/figure-html/unnamed-chunk-12-1.png" style="display: block; margin: auto;" /&gt;
+]
 
 ---
 ## 2. **Correct**
@@ -395,7 +463,7 @@ class: center, middle
 
 ```
 ## &lt;!-- html table generated in R 3.6.1 by xtable 1.8-4 package --&gt;
-## &lt;!-- Wed Nov 27 19:43:23 2019 --&gt;
+## &lt;!-- Fri Nov 29 11:51:30 2019 --&gt;
 ## &lt;table border=1&gt;
 ## &lt;caption align="top"&gt; Parameter Estimates and Standard Errors for the Mixed Poisson Model. &lt;/caption&gt;
 ##   \ &amp; \ &amp; \multicolumn{2}{c}{Bootstrap Averages} &amp;  &amp; \multicolumn{2}{c}{Bootstrap S.D.} \\
@@ -416,7 +484,7 @@ class: center, middle
 
 ```
 ## % latex table generated in R 3.6.1 by xtable 1.8-4 package
-## % Wed Nov 27 19:43:23 2019
+## % Fri Nov 29 11:51:30 2019
 ## \begin{table}[ht]
 ## \centering
 ## \caption{Confidence intervals for the parameters of the Mixed Poisson Model.} 
@@ -468,7 +536,7 @@ class: center, middle
 # Things
 
 
-![](index_files/figure-html/unnamed-chunk-15-1.png)&lt;!-- --&gt;
+![](index_files/figure-html/unnamed-chunk-18-1.png)&lt;!-- --&gt;
 
 ---
 class: inverse, center, middle
