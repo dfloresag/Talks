@@ -1641,12 +1641,14 @@ class: inverse, center, middle
 
 # References (and Associated Publications) 
 
-### F-A, Cantoni, **Bootstrapping generalized linear mixed models via a weighted Laplace approximation**, Under Review
+- F-A, Cantoni (2020),  **Bootstrapping generalized linear mixed models via a weighted Laplace approximation**, 
 
+    -   _Under Review_
 
-### F-A, Cantoni, **Bootstrap estimation of uncertainty in prediction for generalized linear mixed models**, Computational Statistics & Data Analysis, Volume 130, 2019, Pages 1-17 
+-  F-A, Cantoni (2019), **Bootstrap estimation of uncertainty in prediction for generalized linear mixed models**, 
 
- 
+    - _Computational Statistics & Data Analysis_, Volume 130, 2019, Pages 1-17 
+
 
 ---
 class: center, middle
