@@ -17,27 +17,48 @@ output:
       navigation:
         scroll: true # disable slide transitions by scrolling
 ---
-# Joint work with 
+class: center, middle
 
+# Joint Work
 
-Rory Wolfe
+---
+class: center, middle
 
-<img src="https://research.monash.edu/files-asset/248351697/profile+photo" width="200">
+# _(Co)-Starring:_
 
+---
+class: center
 
+# _(Co)-Starring:_
+.column[
 
-Stephane Heritier
+### Eva Cantoni
 
-<img src="https://research.monash.edu/files-asset/248358259/Stephane_Roland_Heritier.jpg" width="200">
+<img src="https://www.unige.ch/gsem/files/cache/89437c652682ce133175f82b3238bb0a_f3835.jpg" width="350">
 
+<img src="./img/gsem_en.png" width="150">
 
-Eva Cantoni
+]
 
-<img src="https://www.unige.ch/gsem/files/cache/89437c652682ce133175f82b3238bb0a_f3835.jpg" width="200">
+.column[
 
+### Stephane Heritier
 
+<img src="https://research.monash.edu/files-asset/248358259/Stephane_Roland_Heritier.jpg" width="150">
 
+<img src="./img/monash-stacked-black-cmyk.png" width="150">
 
+]
+
+.column[
+
+### Rory Wolfe
+
+<img src="https://research.monash.edu/files-asset/248351697/profile+photo" width="150">
+
+<img src="./img/monash-stacked-black-cmyk.png" width="150">
+
+]
 
 ---
 # Outline
@@ -745,19 +766,25 @@ $$\text{Predictors} = \underbrace{\textbf{Fixed Effects}}_{\mathbf{X}_{i}\mathbf
 ]
 
 --
-
-- Generalized Linear Mixed Models (**GLMM**)
+.pull-left[
+Generalized Linear Mixed Models (**GLMM**)
 
 .content-box-lightgrey[
 $$\underbrace{\text{link function}}_{g}\underbrace{\left[\mathbb{E}\text{xpected}\left(\textbf{Outcomes}\right)\right]}_{\left[\mathbb{E}\left( \mathbf{Y}_{i} \ \vert \ \mathbf{X}_{i} , \mathbf{u}_{i} \right)\right]} = \mathbf{X}_{i}\mathbf{\beta} + \color{blue}{\mathbf{Z}_{i}\mathbf{D}_{\sigma}\mathbf{u}_{i}}$$
 ]
 
---
+]
 
-- Accelerated Failure Time Models (**AFT**) : Time-to-event data
+--
+.pull-right[
+
+Accelerated Failure Time Models (**AFT**)
 
 .content-box-lightgrey[
+
 $$\text{log}\underbrace{\left(\textbf{Duration}\right)}_{ \mathbf{T}_{i} } = \mathbf{X}_{i}\mathbf{\beta}+\color{blue}{\mathbf{Z}_{i}\mathbf{D}_{\sigma}\mathbf{u}_{i}}+\color{purple}{\phi\mathbf{\varepsilon}_i}$$
+]
+
 _Observed_ Durations can be _Censored_
 
 ]
@@ -780,7 +807,7 @@ class: center
 Longitudinal **Mixed Logit**: 
 
 .content-box-lightgrey[
-$$\log\frac{p_{ij}}{{1-p_{ij}}} = \mathbf{x}_{ij}^T\mathbf{\beta} + \color{blue}{\sigma_1 u_i} \qquad \quad$$
+$$\log\frac{p_{ij}}{{1-p_{ij}}} = \mathbf{x}_{ij}^T\mathbf{\beta} + \color{blue}{\sigma_{1} u_{i}}$$
 ]
 where: $p_{ij} = \mathbb{E}[Y_{ij}|\mathbf{x}_{ij}, \color{blue}{u_i}]$
 ]
@@ -918,7 +945,7 @@ class: dark, center, middle
 ### 1. **Generate _Random Weights_**  ${\color{red}{w_{i}^{*}}}$
 --
 
-### 2. **Apply** to $\mathcal{L}_{i}$ 
+### 2. **Apply** to $\ell_{i}$ 
 --
 
 ### 3. **Evaluate via the _Laplace Approximation_** ${\color{red}{\tilde{\mathcal{L}}_{i}^{*}}}$  
@@ -942,7 +969,7 @@ $$\mathbb{E}\left[{\color{red}{w^{*}_{i}}}\right] = \mathbb{V}ar\left[{\color{re
 
 --
 
-### 2. **Apply** to $\mathcal{L}_{i}$
+### 2. **Apply** to $\ell_{i}$
 
 .content-box-lightgrey[
 $$\mathcal{L}_i^{*} \left(\mathbf{\theta}\right) = \int_{\mathbb{R}^q} \exp \left[-{\color{red}{w_{i}^{*}}} \ell \left(\mathbf{y}_{i}, \mathbf{u}_{i}\right)\right] \ \mathrm{d}\mathbf{u}_{i}$$
@@ -1057,22 +1084,46 @@ class: middle
 
 ### `r icon::fa("arrow-circle-right")`  $\sqrt{n} \left(\widehat{\mathbf{\sigma}}^{*} - \widehat{\sigma}\right)$ is `r icon::fa("check-circle")` 
 
-- Better than **Parametric Bootstrap (PB)**.
-- Potential for **Bias Correction**
+
+---
+
+# Simulated **Mixed Logit**
+
+--
+
+- **Parameters**
+
+    - 4 Fixed Effects ( $\beta_k$ ) 
+    - 1 Random intercept ( $\sigma_1$ )
+
+- **Number of Simulations**: 1000
+
+- **Studied methods**: .green[RWLB] vs .red[Parametric Bootstrap (PB)]
+
+- **Cluster sizes ( $n_i$ )**:
+
+- **Number of clusters ( $n$ )**:
+
+--
+
+### .black[Q-Q plots]: **Pooled Bootstrap** replicates vs. **Empirical** Distribution 
+
+.content-box-lightgrey[
+$$\sqrt{n}\left(\widehat{\beta}_{k}^{*}-\widehat{\beta}_{k}\right) \ \  \text{vs.} \ \ \sqrt{n}\left(\widehat{\beta}_{k} - \beta_{k}\right)
+\qquad \sqrt{n} \left(\widehat{\sigma}_1^{*} - \widehat{\sigma}_{1}\right) \ \ \text{vs.} \ \ \sqrt{n} \left(\widehat{\sigma}_{1} - \sigma_1\right)$$
+]
 
 ???
 
 To illustrate these points, let me show you a comparison of the Mean Bootstrap distribution vs. the 
 
 ---
-###  Simulated Mixed Logit with Random Intercept
+class: center
 
-Q-Q Plots: $\sqrt{n} \left(\widehat{\mathbf{\beta}}^{*} - \widehat{\beta}\right)$ vs  $\sqrt{n} \left(\widehat{\mathbf{\beta}}^{*} - \widehat{\beta}\right)$
+###  Fixed Effect Parameters $\beta_k$
 
 .pull-left[
 **cluster size** ( $n_i$ ) = 7 
-
-
 ```{r, fig.align="center"}
 par(mfrow = c(2,2))
 ## ----qqplots_beta_1_tn_s1------------------------------------------------
@@ -1080,7 +1131,8 @@ plot(xlimb1, ylimb1,
      type = "n",
      # main = "(Intercept)",
      xlab="Empirical",
-     ylab="Bootstrap"
+     ylab="Bootstrap",
+     main = expression(beta[1])
      )
 lines(qqb_1_pmb_s1, col="red", lwd=6, lty = 3)
 lines(qqb_1_gcb_s1, col="forestgreen", lwd=6, lty = 2)
@@ -1092,7 +1144,8 @@ plot(xlimb2, ylimb2,
      type = "n",
      # main = "Treatment",
      xlab="Empirical",
-     ylab="Bootstrap"
+     ylab="Bootstrap",
+     main = expression(beta[2])
      )
 lines(qqb_2_pmb_s1, col="red", lwd=6, lty = 3)
 lines(qqb_2_gcb_s1, col="forestgreen", lwd=6, lty = 2)
@@ -1105,7 +1158,8 @@ plot(xlimb3, ylimb3,
      type = "n",
      # main = "Visit",
      xlab="Empirical",
-     ylab="Bootstrap"
+     ylab="Bootstrap",
+     main = expression(beta[3])
      )
 lines(qqb_3_pmb_s1, col="red", lwd=6, lty = 3)
 lines(qqb_3_gcb_s1, col="forestgreen", lwd=6, lty = 2)
@@ -1117,7 +1171,8 @@ plot(xlimb4, ylimb4,
      type = "n",
      # main = "Treatment*Visit",
      xlab="Empirical",
-     ylab="Bootstrap"
+     ylab="Bootstrap",
+     main = expression(beta[4])
      )
 lines(qqb_4_pmb_s1, col="red", lwd=6, lty = 3)
 lines(qqb_4_gcb_s1, col="forestgreen", lwd=6, lty = 2)
@@ -1137,16 +1192,17 @@ legend("bottomright",
 --
 
 .pull-right[
-
-**cluster size** ($n_i$) = 21
+**cluster size** ( $n_i$ ) = 21
 ```{r, fig.align="center"}
-par(mfrow = c(2,2))
 ## ----qqplots_beta_1_tn_s3------------------------------------------------
+
+par(mfrow = c(2,2))
 plot(xlimb1, ylimb1,
      type = "n",
      # main = "(Intercept)",
      xlab="Empirical",
-     ylab="Bootstrap"
+     ylab="Bootstrap",
+     main = expression(beta[1])
      )
 lines(qqb_1_pmb_s3, col="red", lwd=6, lty = 3)
 lines(qqb_1_gcb_s3, col="forestgreen", lwd=6, lty = 2)
@@ -1159,7 +1215,8 @@ plot(xlimb2, ylimb2,
      type = "n",
      # main = "Treatment",
      xlab="Empirical",
-     ylab="Bootstrap"
+     ylab="Bootstrap",
+     main = expression(beta[2])
      )
 lines(qqb_2_pmb_s3, col="red", lwd=6, lty = 3)
 lines(qqb_2_gcb_s3, col="forestgreen", lwd=6, lty = 2)
@@ -1171,7 +1228,8 @@ plot(xlimb3, ylimb3,
      type = "n",
      # main = "Visit",
      xlab="Empirical",
-     ylab="Bootstrap"
+     ylab="Bootstrap",
+     main = expression(beta[3])
      )
 lines(qqb_3_pmb_s3, col="red", lwd=6, lty = 3)
 lines(qqb_3_gcb_s3, col="forestgreen", lwd=6, lty = 2)
@@ -1184,7 +1242,8 @@ plot(xlimb4, ylimb4,
      type = "n",
      # main = "Treatment*Visit",
      xlab="Empirical",
-     ylab="Bootstrap"
+     ylab="Bootstrap",
+     main = expression(beta[4])
      )
 lines(qqb_4_pmb_s3, col="red", lwd=6, lty = 3)
 lines(qqb_4_gcb_s3, col="forestgreen", lwd=6, lty = 2)
@@ -1201,7 +1260,9 @@ legend("bottomright",
 ]
 
 ---
-### `r icon::fa("thumbs-up")` Correct
+class: center
+
+### Random Effect Variance $\sigma_1^{2}$
 
 ```{r, include = FALSE}
 ## ----graph_s2_tn, include = TRUE-----------------------------------------
@@ -1210,6 +1271,7 @@ ylims2 <- range(qqs2_pmb_s2$y, qqs2_gcb_s2$y)
 # xlims2 <- ylims2
 xlims2 <- range(qqs2_pmb_s2$x, qqs2_gcb_s2$x)
 ```
+
 .pull-left[
 ```{r, fig.align="center"}
 ## ----qqplots_sigma_tn_s1-------------------------------------------------
@@ -1217,7 +1279,7 @@ par(mar = c(5, 5, 2, 2) + 0.1)
 plot(xlims2 , ylims2, type = "n",
      # main = "Random Intercept",
      xlab="Empirical",
-     ylab="Bootstrap", pch = "o")
+     ylab="Bootstrap")
 lines(qqs2_pmb_s1, col="red", lty = 3, lwd=6)
 lines(qqs2_gcb_s1, col="forestgreen", lty = 2, lwd=6)
 abline(a=0, b =1)
@@ -1231,7 +1293,7 @@ abline(a=0, b =1)
   plot(xlims2 , ylims2, type = "n",
        # main = "Random Intercept",
        xlab="Empirical",
-       ylab="Bootstrap", pch = "o")
+       ylab="Bootstrap")
   lines(qqs2_pmb_s4, col="red", lty = 3, lwd=6)
   lines(qqs2_gcb_s4, col="forestgreen", lty = 2, lwd=6)
 
@@ -1247,8 +1309,10 @@ abline(a=0, b =1)
 ]
 
 ---
+class: center
 
-### `r icon::fa("thumbs-up")` Correct
+### Random Effect Variance $\sigma_{1}^{2}$
+
 .pull-left[
 ```{r, fig.align="center"}
 ## ----qqplots_sigma_tn_s2-------------------------------------------------
@@ -1256,14 +1320,7 @@ par(mar = c(5, 5, 2, 2) + 0.1)
 plot(xlims2 , ylims2, type = "n",
      # main = "Random Intercept",
      xlab="Empirical",
-     ylab="Bootstrap", pch = "o")
-# points(qqs2_rebcmv1_s2, col="lightgray", pch = "x", cex = 0.5)
-# points(qqs2_rebepv1_s2, col="lightgray", pch = "x", cex = 0.5)
-# points(qqs2_rebcmv2_s2, col="gray", pch = "x", cex = 0.5)
-# points(qqs2_rebepv2_s2, col="gray", pch = "x", cex = 0.5)
-
-# points(qqs2_pmb_s2, col="red", pch = "+")
-# points(qqs2_gcb_s2, col="forestgreen", pch = "o")
+     ylab="Bootstrap")
 
 lines(qqs2_pmb_s2, col="red", lty = 3, lwd=6)
 lines(qqs2_gcb_s2, col="forestgreen", lty = 2, lwd=6)
@@ -1271,23 +1328,14 @@ lines(qqs2_gcb_s2, col="forestgreen", lty = 2, lwd=6)
 abline(a=0, b =1)
 ```
 ]
---
+
 .pull-right[
 ```{r, fig.align="center"}
 ## ----qqplots_sigma_tn_s5-------------------------------------------------
   par(mar = c(5, 5, 2, 2) + 0.1)
   plot(xlims2 , ylims2, type = "n",
-       # main = "Random Intercept",
        xlab="Empirical",
-       ylab="Bootstrap", pch = "o")
-  # points(qqs2_rebcmv1_s5, col="lightgray", pch = "x", cex = 0.5)
-  # points(qqs2_rebepv1_s5, col="lightgray", pch = "x", cex = 0.5)
-  # points(qqs2_rebcmv2_s5, col="gray", pch = "x", cex = 0.5)
-  # points(qqs2_rebepv2_s5, col="gray", pch = "x", cex = 0.5)
-  
-  # points(qqs2_pmb_s5, col="red", pch = "+")
-  # points(qqs2_gcb_s5, col="forestgreen", pch = "o")
-  
+       ylab="Bootstrap")
   lines(qqs2_pmb_s5, col="red", lty = 3, lwd=6)
   lines(qqs2_gcb_s5, col="forestgreen", lty = 2, lwd=6)
   
@@ -1304,7 +1352,10 @@ abline(a=0, b =1)
 ]
 
 ---
-### `r icon::fa("thumbs-up")` Correct
+class: center
+
+### Random Effect Variance $\sigma_{1}^{2}$
+
 .pull-left[
 ```{r, fig.align="center"}
 ## ----qqplots_sigma_tn_s3-------------------------------------------------
@@ -1313,22 +1364,13 @@ plot(xlims2 , ylims2, type = "n",
      # main = "Random Intercept",
      xlab="Empirical",
      ylab="Bootstrap", pch = "o")
-
-# points(qqs2_rebcmv1_s3, col="lightgray", pch = "x", cex = 0.5)
-# points(qqs2_rebepv1_s3, col="lightgray", pch = "x", cex = 0.5)
-# points(qqs2_rebcmv2_s3, col="gray", pch = "x", cex = 0.5)
-# points(qqs2_rebepv2_s3, col="gray", pch = "x", cex = 0.5)
-
-# points(qqs2_pmb_s3, col="red", pch = "+")
-# points(qqs2_gcb_s3, col="forestgreen", pch = "o")
-
 lines(qqs2_pmb_s3, col="red", lty = 3, lwd=6)
 lines(qqs2_gcb_s3, col="forestgreen", lty = 2, lwd=6)
 
 abline(a=0, b =1)
 ```
 ]
---
+
 .pull-right[
 ```{r, fig.align="center"}
 ## ----qqplots_sigma_tn_s6-------------------------------------------------
@@ -1337,14 +1379,6 @@ abline(a=0, b =1)
        # main = "Random Intercept",
        xlab="Empirical",
        ylab="Bootstrap", pch = "o")
-  # points(qqs2_rebcmv1_s6, col="lightgray", pch = "x", cex = 0.5)
-  # points(qqs2_rebepv1_s6, col="lightgray", pch = "x", cex = 0.5)
-  # points(qqs2_rebcmv2_s6, col="gray", pch = "x", cex = 0.5)
-  # points(qqs2_rebepv2_s6, col="gray", pch = "x", cex = 0.5)
-  
-  # points(qqs2_pmb_s6, col="red", pch = "+")
-  # points(qqs2_gcb_s6, col="forestgreen", pch = "o")
-  
   lines(qqs2_pmb_s6, col="red", lty = 3, lwd=6)
   lines(qqs2_gcb_s6, col="forestgreen", lty = 2, lwd=6)
   
@@ -1361,8 +1395,38 @@ abline(a=0, b =1)
 ]
 
 ---
+# Simulated **AFT**
+
+--
+
+- **Parameters**
+    - 4 Fixed Effects ( $\beta_k$ ) 
+    - 1 Random intercept ( $\sigma_1$ )
+
+- **Number of Simulations**: 1000
+
+- **Studied methods**: .green[RWLB] vs .pink[Asymptotic Approximation] 
+
+- **Cluster sizes ( $n_i$ )**:
+
+- **Number of clusters ( $n$ )**:
+
+- **Degree of censoring**: 
+
+- **Signal-to-noise Ratio** $\sigma_1/phi = 1/0.5 = 2$
+
+###  .black[Box-Plots]: Small-sample Bias Correction of $\sigma_1$
+
+.content-box-lightgrey[
+$$\widehat{\sigma}_1^{\text{BC}} = \widehat{\sigma}_1^{\text{ML}} - \frac{1}{B}\sum_{b=1}^B\left[ \color{forestgreen}{\widehat{\sigma}^{\text{RWLB}}_{1}} -  \widehat{\sigma}_1^{\text{ML}}\right]$$
+]
+
+
+---
+class: center
 
 ```{r, include =  FALSE}
+library(tidyr)
 bs  <- c(1, 1, -0.5, 1)
 
 ## Sigma ####
@@ -1402,9 +1466,11 @@ th_dta %>%
          cns_fac = factor(cns, labels = c("cens==0", "cens==23"))) -> th_dta
 ```
 
-```{r, eval = TRUE}
+.pull-left[
+```{r, eval = TRUE, fig.align="center"}
+library(dplyr)
 th_dta %>% 
-  filter(parameter == "b.1", n_i>2, mth %in% c("lpml", "rb-lpml")) %>%
+  filter(parameter == "s.1", n_i>2, s_1==1 , mth %in% c("lpml", "rb-lpml")) %>%
   ggplot() +
   geom_boxplot(mapping = aes(x = factor(n_i), y = value, fill = mth))+
   facet_grid(s_1_fac~cns_fac+n_g_fac, scales = "free_y", labeller = label_parsed)+
@@ -1412,7 +1478,11 @@ th_dta %>%
   ylab(label = expression(beta[1]))+
   geom_hline(aes(yintercept = bs[1]), lty= 2, col="blue")
 ```
+]
 
+.pull-right[
+
+]
 
 ---
 class: dark, center, middle
@@ -1439,39 +1509,6 @@ class: dark, center, middle
 - **Signal**-( $\color{blue}{\mathbf{\sigma}_1}$ )-to-_noise_ ( $\color{purple}{\mathbf{\phi}}$ ) ratio is **weak** 
 
 ---
-
-
-class: dark, center, middle
-
-## Linear Mixed Model
----
-class: center, middle 
-
-### Approximating the Asymptotic Distribution
-
----
-class: center, middle 
-
-### Percentile Confidence Intervals
-
----
-class: dark, center, middle
-
-## Mixed Logit Model
----
-class:  center, middle
-
-### Approximating the Asymptotic Distribution
-
----
-class: dark, center, middle
-
-## Accelerated Failure Time Model
-
----
-class: center, middle
-
-### Bias Correction in AFT
 
 ```{r}
 load("~/Dropbox/Paper/Reports/GSEMThesis/Ch2/[Data] MFDLD/epilepsy_est_var.RData")

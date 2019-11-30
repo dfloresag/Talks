@@ -20,27 +20,48 @@ class: center, middle, inverse, title-slide
 
 ---
 
-# Joint work with 
+class: center, middle
 
+# Joint Work
 
-Rory Wolfe
+---
+class: center, middle
 
-&lt;img src="https://research.monash.edu/files-asset/248351697/profile+photo" width="200"&gt;
+# _(Co)-Starring:_
 
+---
+class: center
 
+# _(Co)-Starring:_
+.column[
 
-Stephane Heritier
+### Eva Cantoni
 
-&lt;img src="https://research.monash.edu/files-asset/248358259/Stephane_Roland_Heritier.jpg" width="200"&gt;
+&lt;img src="https://www.unige.ch/gsem/files/cache/89437c652682ce133175f82b3238bb0a_f3835.jpg" width="350"&gt;
 
+&lt;img src="./img/gsem_en.png" width="150"&gt;
 
-Eva Cantoni
+]
 
-&lt;img src="https://www.unige.ch/gsem/files/cache/89437c652682ce133175f82b3238bb0a_f3835.jpg" width="200"&gt;
+.column[
 
+### Stephane Heritier
 
+&lt;img src="https://research.monash.edu/files-asset/248358259/Stephane_Roland_Heritier.jpg" width="150"&gt;
 
+&lt;img src="./img/monash-stacked-black-cmyk.png" width="150"&gt;
 
+]
+
+.column[
+
+### Rory Wolfe
+
+&lt;img src="https://research.monash.edu/files-asset/248351697/profile+photo" width="150"&gt;
+
+&lt;img src="./img/monash-stacked-black-cmyk.png" width="150"&gt;
+
+]
 
 ---
 # Outline
@@ -108,19 +129,25 @@ class: center
 ]
 
 --
-
-- Generalized Linear Mixed Models (**GLMM**)
+.pull-left[
+Generalized Linear Mixed Models (**GLMM**)
 
 .content-box-lightgrey[
 `$$\underbrace{\text{link function}}_{g}\underbrace{\left[\mathbb{E}\text{xpected}\left(\textbf{Outcomes}\right)\right]}_{\left[\mathbb{E}\left( \mathbf{Y}_{i} \ \vert \ \mathbf{X}_{i} , \mathbf{u}_{i} \right)\right]} = \mathbf{X}_{i}\mathbf{\beta} + \color{blue}{\mathbf{Z}_{i}\mathbf{D}_{\sigma}\mathbf{u}_{i}}$$`
 ]
 
---
+]
 
-- Accelerated Failure Time Models (**AFT**) : Time-to-event data
+--
+.pull-right[
+
+Accelerated Failure Time Models (**AFT**)
 
 .content-box-lightgrey[
+
 `$$\text{log}\underbrace{\left(\textbf{Duration}\right)}_{ \mathbf{T}_{i} } = \mathbf{X}_{i}\mathbf{\beta}+\color{blue}{\mathbf{Z}_{i}\mathbf{D}_{\sigma}\mathbf{u}_{i}}+\color{purple}{\phi\mathbf{\varepsilon}_i}$$`
+]
+
 _Observed_ Durations can be _Censored_
 
 ]
@@ -143,7 +170,7 @@ class: center
 Longitudinal **Mixed Logit**: 
 
 .content-box-lightgrey[
-`$$\log\frac{p_{ij}}{{1-p_{ij}}} = \mathbf{x}_{ij}^T\mathbf{\beta} + \color{blue}{\sigma_1 u_i} \qquad \quad$$`
+`$$\log\frac{p_{ij}}{{1-p_{ij}}} = \mathbf{x}_{ij}^T\mathbf{\beta} + \color{blue}{\sigma_{1} u_{i}}$$`
 ]
 where: `\(p_{ij} = \mathbb{E}[Y_{ij}|\mathbf{x}_{ij}, \color{blue}{u_i}]\)`
 ]
@@ -281,7 +308,7 @@ class: dark, center, middle
 ### 1. **Generate _Random Weights_**  `\({\color{red}{w_{i}^{*}}}\)`
 --
 
-### 2. **Apply** to `\(\mathcal{L}_{i}\)` 
+### 2. **Apply** to `\(\ell_{i}\)` 
 --
 
 ### 3. **Evaluate via the _Laplace Approximation_** `\({\color{red}{\tilde{\mathcal{L}}_{i}^{*}}}\)`  
@@ -305,7 +332,7 @@ class: dark, center, middle
 
 --
 
-### 2. **Apply** to `\(\mathcal{L}_{i}\)`
+### 2. **Apply** to `\(\ell_{i}\)`
 
 .content-box-lightgrey[
 `$$\mathcal{L}_i^{*} \left(\mathbf{\theta}\right) = \int_{\mathbb{R}^q} \exp \left[-{\color{red}{w_{i}^{*}}} \ell \left(\mathbf{y}_{i}, \mathbf{u}_{i}\right)\right] \ \mathrm{d}\mathbf{u}_{i}$$`
@@ -420,35 +447,61 @@ class: middle
 
 ### <i class="fas  fa-arrow-circle-right "></i>  `\(\sqrt{n} \left(\widehat{\mathbf{\sigma}}^{*} - \widehat{\sigma}\right)\)` is <i class="fas  fa-check-circle "></i> 
 
-- Better than **Parametric Bootstrap (PB)**.
-- Potential for **Bias Correction**
+
+---
+
+# Simulated **Mixed Logit**
+
+--
+
+- **Parameters**
+
+    - 4 Fixed Effects ( `\(\beta_k\)` ) 
+    - 1 Random intercept ( `\(\sigma_1\)` )
+
+- **Number of Simulations**: 1000
+
+- **Studied methods**: .green[RWLB] vs .red[Parametric Bootstrap (PB)]
+
+- **Cluster sizes ( `\(n_i\)` )**:
+
+- **Number of clusters ( `\(n\)` )**:
+
+--
+
+### .black[Q-Q plots]: **Pooled Bootstrap** replicates vs. **Empirical** Distribution 
+
+.content-box-lightgrey[
+`$$\sqrt{n}\left(\widehat{\beta}_{k}^{*}-\widehat{\beta}_{k}\right) \ \  \text{vs.} \ \ \sqrt{n}\left(\widehat{\beta}_{k} - \beta_{k}\right)
+\qquad \sqrt{n} \left(\widehat{\sigma}_1^{*} - \widehat{\sigma}_{1}\right) \ \ \text{vs.} \ \ \sqrt{n} \left(\widehat{\sigma}_{1} - \sigma_1\right)$$`
+]
 
 ???
 
 To illustrate these points, let me show you a comparison of the Mean Bootstrap distribution vs. the 
 
 ---
-###  Simulated Mixed Logit with Random Intercept
+class: center
 
-Q-Q Plots: `\(\sqrt{n} \left(\widehat{\mathbf{\beta}}^{*} - \widehat{\beta}\right)\)` vs  `\(\sqrt{n} \left(\widehat{\mathbf{\beta}}^{*} - \widehat{\beta}\right)\)`
+###  Fixed Effect Parameters `\(\beta_k\)`
 
 .pull-left[
 **cluster size** ( `\(n_i\)` ) = 7 
-
-
 &lt;img src="index_files/figure-html/unnamed-chunk-4-1.png" style="display: block; margin: auto;" /&gt;
 ]
 
 --
 
 .pull-right[
-
-**cluster size** ($n_i$) = 21
+**cluster size** ( `\(n_i\)` ) = 21
 &lt;img src="index_files/figure-html/unnamed-chunk-5-1.png" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
-### <i class="fas  fa-thumbs-up "></i> Correct
+class: center
+
+### Random Effect Variance `\(\sigma_1^{2}\)`
+
 
 
 .pull-left[
@@ -460,32 +513,71 @@ Q-Q Plots: `\(\sqrt{n} \left(\widehat{\mathbf{\beta}}^{*} - \widehat{\beta}\righ
 ]
 
 ---
+class: center
 
-### <i class="fas  fa-thumbs-up "></i> Correct
+### Random Effect Variance `\(\sigma_{1}^{2}\)`
+
 .pull-left[
 &lt;img src="index_files/figure-html/unnamed-chunk-9-1.png" style="display: block; margin: auto;" /&gt;
 ]
---
+
 .pull-right[
 &lt;img src="index_files/figure-html/unnamed-chunk-10-1.png" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
-### <i class="fas  fa-thumbs-up "></i> Correct
+class: center
+
+### Random Effect Variance `\(\sigma_{1}^{2}\)`
+
 .pull-left[
 &lt;img src="index_files/figure-html/unnamed-chunk-11-1.png" style="display: block; margin: auto;" /&gt;
 ]
---
+
 .pull-right[
 &lt;img src="index_files/figure-html/unnamed-chunk-12-1.png" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
+# Simulated **AFT**
+
+--
+
+- **Parameters**
+    - 4 Fixed Effects ( `\(\beta_k\)` ) 
+    - 1 Random intercept ( `\(\sigma_1\)` )
+
+- **Number of Simulations**: 1000
+
+- **Studied methods**: .green[RWLB] vs .pink[Asymptotic Approximation] 
+
+- **Cluster sizes ( `\(n_i\)` )**:
+
+- **Number of clusters ( `\(n\)` )**:
+
+- **Degree of censoring**: 
+
+- **Signal-to-noise Ratio** `\(\sigma_1/phi = 1/0.5 = 2\)`
+
+###  .black[Box-Plots]: Small-sample Bias Correction of `\(\sigma_1\)`
+
+.content-box-lightgrey[
+`$$\widehat{\sigma}_1^{\text{BC}} = \widehat{\sigma}_1^{\text{ML}} - \frac{1}{B}\sum_{b=1}^B\left[ \color{forestgreen}{\widehat{\sigma}^{\text{RWLB}}_{1}} -  \widehat{\sigma}_1^{\text{ML}}\right]$$`
+]
+
+
+---
+class: center
 
 
 
-![](index_files/figure-html/unnamed-chunk-14-1.png)&lt;!-- --&gt;
+.pull-left[
+&lt;img src="index_files/figure-html/unnamed-chunk-14-1.png" style="display: block; margin: auto;" /&gt;
+]
 
+.pull-right[
+
+]
 
 ---
 class: dark, center, middle
@@ -512,39 +604,6 @@ class: dark, center, middle
 - **Signal**-( `\(\color{blue}{\mathbf{\sigma}_1}\)` )-to-_noise_ ( `\(\color{purple}{\mathbf{\phi}}\)` ) ratio is **weak** 
 
 ---
-
-
-class: dark, center, middle
-
-## Linear Mixed Model
----
-class: center, middle 
-
-### Approximating the Asymptotic Distribution
-
----
-class: center, middle 
-
-### Percentile Confidence Intervals
-
----
-class: dark, center, middle
-
-## Mixed Logit Model
----
-class:  center, middle
-
-### Approximating the Asymptotic Distribution
-
----
-class: dark, center, middle
-
-## Accelerated Failure Time Model
-
----
-class: center, middle
-
-### Bias Correction in AFT
 
 
 
