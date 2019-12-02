@@ -815,6 +815,15 @@ class: center, middle
 ### Likelihood Inference $\Rightarrow$ **(Numerical) Integration** (of $\color{\blue}{\mathbf{u}_{i}}$ )
 
 .content-box-lightgrey[
+$$\color{red}{\mathcal{L}_i\left(\mathbf{\theta}\right)} = \color{red}{f\left(\mathbf{y}_{i}\right)}$$
+]
+
+---
+class: center, middle
+
+### Likelihood Inference $\Rightarrow$ **(Numerical) Integration** (of $\color{\blue}{\mathbf{u}_{i}}$ )
+
+.content-box-lightgrey[
 $$\color{red}{\mathcal{L}_i\left(\mathbf{\theta}\right)} = \color{blue}{\int_{\mathbb{R}^q}} f\left(\mathbf{y}_i, \color{blue}{\mathbf{u}_i}\right) \mathrm{d} \color{blue}{\mathbf{u}_{i}}$$
 ]
 
