@@ -1111,7 +1111,7 @@ class: dark, middle, center
 
 - **Parameters** :  .black[4 Fixed Effects] ( $\beta_k$ ) and .black[1 Random intercept] ( $\sigma_1$ )
 
-- **Number of Simulations**: 1000
+- **Number of Simulations**: 1000 with $B=1000$ **Bootstrap Replicates** 
 
 - **Studied methods**: .green[RWLB] vs .red[Parametric Bootstrap (PB)]
 
@@ -1758,8 +1758,6 @@ National Health and Medical Research Council (NHMRC) of Australia (APP 1128222)
 
 Travel Grant accorded by ViCBiostats and Monash University, Melbourne. 
 
-]
-
 ---
 
 class: inverse, center, middle
@@ -1921,6 +1919,18 @@ $$\mathbf{y}_i = \mathbf{X}_{i}\mathbf{\beta} + \sum_{r=0}^{q} \sigma_r \mathbf{
 \end{align}
 ]
 ]
+---
+class: dark, middle, center
+
+# Simulations 
+
+--
+
+# 3. (Gaussian) Linear Mixed Model
+
+### Random Intercept and Slope
+
+---
 
 ```{r, include = FALSE}
 ## ----source_LMM_4_100, echo = FALSE, include = FALSE, results = 'hide'----
@@ -2179,7 +2189,6 @@ ylim_s2_3 <- range(qq.rs.rebv1_p11$y, qq.rs.rebv2_p11$y, qq.rs.pmb_p11$y , qq.rs
 xlim_s2_3 <- range(qq.rs.rebv1_p11$x, qq.rs.rebv2_p11$x, qq.rs.pmb_p11$x , qq.rs.gcb_p11$x)
 ```
 
----
 class: center
 .pull-left[
 ```{r}
