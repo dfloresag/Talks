@@ -2182,7 +2182,6 @@ ylim_s2_3 <- range(qq.rs.rebv1_p11$y, qq.rs.rebv2_p11$y, qq.rs.pmb_p11$y , qq.rs
 xlim_s2_3 <- range(qq.rs.rebv1_p11$x, qq.rs.rebv2_p11$x, qq.rs.pmb_p11$x , qq.rs.gcb_p11$x)
 ```
 
-
 .pull-left[
 ```{r}
 ## ----qqplots_sigma_LMM_1_p11,echo = FALSE,  messages = FALSE-------------
