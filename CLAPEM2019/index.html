@@ -679,11 +679,13 @@ class: center
 
 - **In LMM**, this is _easy-ish_ to figure out.
   
-    - Relationship governed by `\(\text{tr}(\mathbf{\Sigma}_{i}^{-1}\mathbf{Z}_{i}\mathbf{Z}_{i}^{T})\)`
+    - Relationship **governed by** `\(\text{tr}(\mathbf{\Sigma}_{i}^{-1}\mathbf{Z}_{i}\mathbf{Z}_{i}^{T})\)`
 
-    - "Fuller" designs, e.g. *Random Intercept* `\(\mathbf{Z}_{ir} = \mathbb{1}_{n_{i}}\)` and *Slope* `\(\mathbf{Z}_{ir} = \mathbf{x}^(k)_{i}\)` seem less affected. 
+    - **"Fuller" designs**, e.g. *Random Intercept*  `\(\mathbf{Z}_{ir} = \mathbb{1}_{n_{i}}\)` and *Slope*  `\(\mathbf{Z}_{ir} = \mathbf{x}^(k)_{i}\)` seem less affected. 
     
-    - "Sparse"" designs e.g. the *Random Error* `\(\varepsilon\)` with `\(\mathbf{Z}_{i0} = \mathbf{I}_{n_{i}}\)` seem to be most divergent. 
+    - **"Sparser"" designs** e.g. the *Random Error* `\(\varepsilon\)` with `\(\mathbf{Z}_{i0} = \mathbf{I}_{n_{i}}\)` seem to be **most divergent**.
+    
+    - Possible **fix**
     
 ---
 class: inverse, center, middle
@@ -694,17 +696,39 @@ class: inverse, center, middle
 
 # Discussion
 
+### RWLB has a lot of potential as a bootstrapping method.
+
+--
+
+- <i class="fas  fa-thumbs-up "></i> **Flexible** to be applied in many fields.
+
+- <i class="fas  fa-thumbs-up "></i> **Correct** to provide good inference.
+
+--
+
+### RWLB has a few drawbacks that need exploration.
+
+- <i class="fas  fa-thumbs-down "></i> settings where it appears to fail
+
+- <i class="fas  fa-thumbs-down "></i> improvements to its variabilitys
+
 ---
 
 # Current Work
 
-### Data applications 
+### 1. Data applications 
 
+- Time-to-failure studies on patients submitting to dyalisis under two different treatments.
 
+--
 
-### Further software implementation of estimation methods in AFT
+### 2. Further software implementation of estimation methods in AFT
 
-- Package allowing for 
+--
+
+- Package allowing for flexible estimation of AFT models for Clustered Data (different distributions for durations and Random effects)
+
+- Bootstrapping via RWLB is intended as a feature. 
 
 
 ---
@@ -718,7 +742,7 @@ class: inverse, center, middle
 -  F-A, Cantoni (2019), **Bootstrap estimation of uncertainty in prediction for generalized linear mixed models**, 
 
     - _Computational Statistics &amp; Data Analysis_, Volume 130, 2019, Pages 1-17 
-    - <i class="ai  ai-doi "></i> 10.1016/j.csda.2018.08.006
+    - <i class="ai  ai-doi "></i> [10.1016/j.csda.2018.08.006](10.1016/j.csda.2018.08.006)
 
 
 ---
@@ -741,7 +765,14 @@ class: center, middle
 
 # Thanks!
 
-Slides created via the R package [**xaringan**](https://github.com/yihui/xaringan).
+Slides created via the `R` package [**xaringan**](https://github.com/yihui/xaringan).
+
+Research funded by the
+National Health and Medical Research Council (NHMRC) of Australia (APP 1128222)
+
+Travel Grant accorded by ViCBiostats and Monash University, Melbourne. 
+
+]
 
 ---
 
@@ -905,7 +936,6 @@ Q_{kl}
 ]
 ]
 
----
 
   
 
