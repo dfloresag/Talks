@@ -1690,9 +1690,9 @@ class: inverse, center, middle
 
 ### RWLB has a few drawbacks that need exploration.
 
-- `r icon::fa("thumbs-down")` settings where it appears to fail
+- `r icon::fa("thumbs-down")` **settings** where it appears to fail
 
-- `r icon::fa("thumbs-down")` improvements to its variabilitys
+- `r icon::fa("thumbs-down")` **improvements** to its variability
 
 ---
 
@@ -1706,12 +1706,16 @@ class: inverse, center, middle
 
 ### 2. Further software implementation of estimation methods in AFT
 
---
 
-- Package allowing for flexible estimation of AFT models for Clustered Data (different distributions for durations and Random effects)
+- `R Package` allowing for flexible estimation of AFT models for Clustered Data (different distributions for durations and Random effects)
 
 - Bootstrapping via RWLB is intended as a feature. 
 
+--
+
+### 3. Improvements
+
+- REML-like-based estimation method and its effects on variance and bias. 
 
 ---
 
