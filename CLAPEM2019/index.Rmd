@@ -60,7 +60,11 @@ class: center
 
 ]
 
+
+
 ---
+
+
 # Outline
 
 1. **Clustered Data**
@@ -815,7 +819,7 @@ class: center, middle
 ### Likelihood Inference $\Rightarrow$ **(Numerical) Integration** (of $\color{\blue}{\mathbf{u}_{i}}$ )
 
 .content-box-lightgrey[
-$$\color{red}{\mathcal{L}_i\left(\mathbf{\theta}\right)} = \color{red}{f\left(\mathbf{y}_{i}\right)}$$
+$$\color{red}{\mathcal{L}_i\left(\mathbf{\theta}\right)} = \color{red}{f\left(\mathbf{y}_{i}\right)}$$
 ]
 
 ---
@@ -883,6 +887,8 @@ class: center, middle
 class: center, middle
 
 ### _Residual_ Bootstrap **struggles** with **random effects** and **link function**
+
+--
 
 .pull-left[
 Easy(-ish) in **Gaussian LMM**
@@ -2032,84 +2038,6 @@ qq.ri.pmb_p12 <- qqplot(s2.tmb.df[,1], s2.pmb.df[,,1], plot.it = FALSE)
 qq.rs.pmb_p12 <- qqplot(s2.tmb.df[,2], s2.pmb.df[,,2], plot.it = FALSE)
 qq.re.pmb_p12 <- qqplot(s2.tmb.df[,3], s2.pmb.df[,,3], plot.it = FALSE)
 
-# alpha       <- c(0.10,0.05,0.01)
-# for (a in alpha){
-#   qs.bs.gcb   <- apply(bs.gcb.df, MARGIN = c(1,3), FUN = quantile,  probs = c(a/2, 1-a/2))
-#   qs.bs.pmb   <- apply(bs.pmb.df, MARGIN = c(1,3), FUN = quantile,  probs = c(a/2, 1-a/2))
-#   qs.bs.rebv1 <- apply(bs.rebv1.df, MARGIN = c(1,3), FUN = quantile,  probs = c(a/2, 1-a/2))
-#   qs.bs.rebv2 <- apply(bs.rebv2.df, MARGIN = c(1,3), FUN = quantile,  probs = c(a/2, 1-a/2))
-#   
-#   qs.s2.gcb   <- apply(s2.gcb.df, MARGIN = c(1,3), FUN = quantile,  probs = c(a/2, 1-a/2))
-#   qs.s2.pmb   <- apply(s2.pmb.df, MARGIN = c(1,3), FUN = quantile,  probs = c(a/2, 1-a/2))
-#   qs.s2.rebv1 <- apply(s2.rebv1.df, MARGIN = c(1,3), FUN = quantile,  probs = c(a/2, 1-a/2))
-#   qs.s2.rebv2 <- apply(s2.rebv2.df, MARGIN = c(1,3), FUN = quantile,  probs = c(a/2, 1-a/2))
-# 
-#   
-#   lb.bs.gcb  <-   (betas.tmb.df) + 1/sqrt(ng)*qs.bs.gcb[1,,] 
-#   lb.bs.pmb  <-   (betas.tmb.df) + 1/sqrt(ng)*qs.bs.pmb[1,,] 
-#   lb.bs.rebv1  <- (betas.tmb.df) + 1/sqrt(ng)*qs.bs.rebv1[1,,] 
-#   lb.bs.rebv2  <- (betas.tmb.df) + 1/sqrt(ng)*qs.bs.rebv2[1,,] 
-#   lb.s2.gcb  <-   (sigma.tmb.df)^2 + 1/sqrt(ng)*qs.s2.gcb[1,,] 
-#   lb.s2.pmb  <-   (sigma.tmb.df)^2 + 1/sqrt(ng)*qs.s2.pmb[1,,] 
-#   lb.s2.rebv1  <- (sigma.tmb.df)^2 + 1/sqrt(ng)*qs.s2.rebv1[1,,] 
-#   lb.s2.rebv2  <- (sigma.tmb.df)^2 + 1/sqrt(ng)*qs.s2.rebv2[1,,] 
-#   
-#   ub.bs.gcb  <-   (betas.tmb.df) + 1/sqrt(ng)*qs.bs.gcb[2,,]
-#   ub.bs.pmb  <-   (betas.tmb.df) + 1/sqrt(ng)*qs.bs.pmb[2,,]
-#   ub.bs.rebv1  <- (betas.tmb.df) + 1/sqrt(ng)*qs.bs.rebv1[2,,]
-#   ub.bs.rebv2  <- (betas.tmb.df) + 1/sqrt(ng)*qs.bs.rebv2[2,,]
-#   ub.s2.gcb  <-   (sigma.tmb.df)^2 + 1/sqrt(ng)*qs.s2.gcb[2,,]
-#   ub.s2.pmb  <-   (sigma.tmb.df)^2 + 1/sqrt(ng)*qs.s2.pmb[2,,]
-#   ub.s2.rebv1  <- (sigma.tmb.df)^2 + 1/sqrt(ng)*qs.s2.rebv1[2,,]
-#   ub.s2.rebv2  <- (sigma.tmb.df)^2 + 1/sqrt(ng)*qs.s2.rebv2[2,,]
-#     
-#   crs <- 
-#   rbind(
-#     c(
-#       mean(1*((betas[1])>=lb.bs.gcb[,1] & (betas[1])<=ub.bs.gcb[,1])),
-#       mean(1*((betas[1])>=lb.bs.pmb[,1] & (betas[1])<=ub.bs.pmb[,1])),
-#       mean(1*((betas[1])>=lb.bs.rebv1[,1] & (betas[1])<=ub.bs.rebv1[,1])),
-#       mean(1*((betas[1])>=lb.bs.rebv2[,1] & (betas[1])<=ub.bs.rebv2[,1]))
-#     ),
-#     c(
-#       mean(1*((betas[2])>=lb.bs.gcb[,2] & (betas[2])<=ub.bs.gcb[,2])),
-#       mean(1*((betas[2])>=lb.bs.pmb[,2] & (betas[2])<=ub.bs.pmb[,2])),
-#       mean(1*((betas[2])>=lb.bs.rebv1[,2] & (betas[2])<=ub.bs.rebv1[,2])),
-#       mean(1*((betas[2])>=lb.bs.rebv2[,2] & (betas[2])<=ub.bs.rebv2[,2]))
-#     ),
-#     c(
-#       mean(1*((betas[3])>=lb.bs.gcb[,3] & (betas[3])<=ub.bs.gcb[,3])),
-#       mean(1*((betas[3])>=lb.bs.pmb[,3] & (betas[3])<=ub.bs.pmb[,3])),
-#       mean(1*((betas[3])>=lb.bs.rebv1[,3] & (betas[3])<=ub.bs.rebv1[,3])),
-#       mean(1*((betas[3])>=lb.bs.rebv2[,3] & (betas[3])<=ub.bs.rebv2[,3]))
-#     ),
-#     c(
-#       mean(1*((betas[4])>=lb.bs.gcb[,4] & (betas[4])<=ub.bs.gcb[,4])),
-#       mean(1*((betas[4])>=lb.bs.pmb[,4] & (betas[4])<=ub.bs.pmb[,4])),
-#       mean(1*((betas[4])>=lb.bs.rebv1[,4] & (betas[4])<=ub.bs.rebv1[,4])),
-#       mean(1*((betas[4])>=lb.bs.rebv2[,4] & (betas[4])<=ub.bs.rebv2[,4]))
-#       ),
-#     c(
-#       mean(1*((sigma[1])^2>=lb.s2.gcb[,1] & (sigma[1])^2<=ub.s2.gcb[,1])),
-#       mean(1*((sigma[1])^2>=lb.s2.pmb[,1] & (sigma[1])^2<=ub.s2.pmb[,1])),
-#       mean(1*((sigma[1])^2>=lb.s2.rebv1[,1] & (sigma[1])^2<=ub.s2.rebv1[,1])),
-#       mean(1*((sigma[1])^2>=lb.s2.rebv2[,1] & (sigma[1])^2<=ub.s2.rebv2[,1]))
-#     ),
-#     c(
-#       mean(1*((sigma[2])^2>=lb.s2.gcb[,2] & (sigma[2])^2<=ub.s2.gcb[,2])),
-#       mean(1*((sigma[2])^2>=lb.s2.pmb[,2] & (sigma[2])^2<=ub.s2.pmb[,2])),
-#       mean(1*((sigma[2])^2>=lb.s2.rebv1[,2] & (sigma[2])^2<=ub.s2.rebv1[,2])),
-#       mean(1*((sigma[2])^2>=lb.s2.rebv2[,2] & (sigma[2])^2<=ub.s2.rebv2[,2]))
-#     ),
-#     c(
-#       mean(1*((sigma[3])^2>=lb.s2.gcb[,3] & (sigma[3])^2<=ub.s2.gcb[,3])),
-#       mean(1*((sigma[3])^2>=lb.s2.pmb[,3] & (sigma[3])^2<=ub.s2.pmb[,3])),
-#       mean(1*((sigma[3])^2>=lb.s2.rebv1[,3] & (sigma[3])^2<=ub.s2.rebv1[,3])),
-#       mean(1*((sigma[3])^2>=lb.s2.rebv2[,3] & (sigma[3])^2<=ub.s2.rebv2[,3]))
-#       )
-#     )
-#   assign(paste("tab_parcr_gs_p12", a, sep = "_"), crs) 
-# }
 
 ## ----source_LMM_12_100, echo = FALSE, include = FALSE, results = 'hide'----
 load("~/Dropbox/Paper/Codes/LMM/LMM_TwoWay/[Baobab]/[Ch2]/p-chunks/pregcb_gs_ri_rs_p1_ni_12_ng_100_B_1000_M_1000.RData")
@@ -2150,84 +2078,6 @@ qq.ri.pmb_p21   <- qqplot(s2.tmb.df[,1], s2.pmb.df[,,1], plot.it = FALSE)
 qq.rs.pmb_p21   <- qqplot(s2.tmb.df[,2], s2.pmb.df[,,2], plot.it = FALSE)
 qq.re.pmb_p21   <- qqplot(s2.tmb.df[,3], s2.pmb.df[,,3], plot.it = FALSE)
 
-# alpha       <- c(0.10,0.05,0.01)
-# for (a in alpha){
-#   qs.bs.gcb     <- apply(bs.gcb.df, MARGIN = c(1,3), FUN = quantile,  probs = c(a/2, 1-a/2))
-#   qs.bs.pmb     <- apply(bs.pmb.df, MARGIN = c(1,3), FUN = quantile,  probs = c(a/2, 1-a/2))
-#   qs.bs.rebv1   <- apply(bs.rebv1.df, MARGIN = c(1,3), FUN = quantile,  probs = c(a/2, 1-a/2))
-#   qs.bs.rebv2   <- apply(bs.rebv2.df, MARGIN = c(1,3), FUN = quantile,  probs = c(a/2, 1-a/2))
-#   
-#   qs.s2.gcb     <- apply(s2.gcb.df, MARGIN = c(1,3), FUN = quantile,  probs = c(a/2, 1-a/2))
-#   qs.s2.pmb     <- apply(s2.pmb.df, MARGIN = c(1,3), FUN = quantile,  probs = c(a/2, 1-a/2))
-#   qs.s2.rebv1   <- apply(s2.rebv1.df, MARGIN = c(1,3), FUN = quantile,  probs = c(a/2, 1-a/2))
-#   qs.s2.rebv2   <- apply(s2.rebv2.df, MARGIN = c(1,3), FUN = quantile,  probs = c(a/2, 1-a/2))
-# 
-#   
-#   lb.bs.gcb     <- (betas.tmb.df) + 1/sqrt(ng)*qs.bs.gcb[1,,] 
-#   lb.bs.pmb     <- (betas.tmb.df) + 1/sqrt(ng)*qs.bs.pmb[1,,] 
-#   lb.bs.rebv1   <- (betas.tmb.df) + 1/sqrt(ng)*qs.bs.rebv1[1,,] 
-#   lb.bs.rebv2   <- (betas.tmb.df) + 1/sqrt(ng)*qs.bs.rebv2[1,,] 
-#   lb.s2.gcb     <- (sigma.tmb.df)^2 + 1/sqrt(ng)*qs.s2.gcb[1,,] 
-#   lb.s2.pmb     <- (sigma.tmb.df)^2 + 1/sqrt(ng)*qs.s2.pmb[1,,] 
-#   lb.s2.rebv1   <- (sigma.tmb.df)^2 + 1/sqrt(ng)*qs.s2.rebv1[1,,] 
-#   lb.s2.rebv2   <- (sigma.tmb.df)^2 + 1/sqrt(ng)*qs.s2.rebv2[1,,] 
-#   
-#   ub.bs.gcb     <- (betas.tmb.df) + 1/sqrt(ng)*qs.bs.gcb[2,,]
-#   ub.bs.pmb     <- (betas.tmb.df) + 1/sqrt(ng)*qs.bs.pmb[2,,]
-#   ub.bs.rebv1   <- (betas.tmb.df) + 1/sqrt(ng)*qs.bs.rebv1[2,,]
-#   ub.bs.rebv2   <- (betas.tmb.df) + 1/sqrt(ng)*qs.bs.rebv2[2,,]
-#   ub.s2.gcb     <- (sigma.tmb.df)^2 + 1/sqrt(ng)*qs.s2.gcb[2,,]
-#   ub.s2.pmb     <- (sigma.tmb.df)^2 + 1/sqrt(ng)*qs.s2.pmb[2,,]
-#   ub.s2.rebv1   <- (sigma.tmb.df)^2 + 1/sqrt(ng)*qs.s2.rebv1[2,,]
-#   ub.s2.rebv2   <- (sigma.tmb.df)^2 + 1/sqrt(ng)*qs.s2.rebv2[2,,]
-#     
-#   crs <- 
-#   rbind(
-#     c(
-#       mean(1*((betas[1])>=lb.bs.gcb[,1] & (betas[1])<=ub.bs.gcb[,1])),
-#       mean(1*((betas[1])>=lb.bs.pmb[,1] & (betas[1])<=ub.bs.pmb[,1])),
-#       mean(1*((betas[1])>=lb.bs.rebv1[,1] & (betas[1])<=ub.bs.rebv1[,1])),
-#       mean(1*((betas[1])>=lb.bs.rebv2[,1] & (betas[1])<=ub.bs.rebv2[,1]))
-#     ),
-#     c(
-#       mean(1*((betas[2])>=lb.bs.gcb[,2] & (betas[2])<=ub.bs.gcb[,2])),
-#       mean(1*((betas[2])>=lb.bs.pmb[,2] & (betas[2])<=ub.bs.pmb[,2])),
-#       mean(1*((betas[2])>=lb.bs.rebv1[,2] & (betas[2])<=ub.bs.rebv1[,2])),
-#       mean(1*((betas[2])>=lb.bs.rebv2[,2] & (betas[2])<=ub.bs.rebv2[,2]))
-#     ),
-#     c(
-#       mean(1*((betas[3])>=lb.bs.gcb[,3] & (betas[3])<=ub.bs.gcb[,3])),
-#       mean(1*((betas[3])>=lb.bs.pmb[,3] & (betas[3])<=ub.bs.pmb[,3])),
-#       mean(1*((betas[3])>=lb.bs.rebv1[,3] & (betas[3])<=ub.bs.rebv1[,3])),
-#       mean(1*((betas[3])>=lb.bs.rebv2[,3] & (betas[3])<=ub.bs.rebv2[,3]))
-#     ),
-#     c(
-#       mean(1*((betas[4])>=lb.bs.gcb[,4] & (betas[4])<=ub.bs.gcb[,4])),
-#       mean(1*((betas[4])>=lb.bs.pmb[,4] & (betas[4])<=ub.bs.pmb[,4])),
-#       mean(1*((betas[4])>=lb.bs.rebv1[,4] & (betas[4])<=ub.bs.rebv1[,4])),
-#       mean(1*((betas[4])>=lb.bs.rebv2[,4] & (betas[4])<=ub.bs.rebv2[,4]))
-#       ),
-#     c(
-#       mean(1*((sigma[1])^2>=lb.s2.gcb[,1] & (sigma[1])^2<=ub.s2.gcb[,1])),
-#       mean(1*((sigma[1])^2>=lb.s2.pmb[,1] & (sigma[1])^2<=ub.s2.pmb[,1])),
-#       mean(1*((sigma[1])^2>=lb.s2.rebv1[,1] & (sigma[1])^2<=ub.s2.rebv1[,1])),
-#       mean(1*((sigma[1])^2>=lb.s2.rebv2[,1] & (sigma[1])^2<=ub.s2.rebv2[,1]))
-#     ),
-#     c(
-#       mean(1*((sigma[2])^2>=lb.s2.gcb[,2] & (sigma[2])^2<=ub.s2.gcb[,2])),
-#       mean(1*((sigma[2])^2>=lb.s2.pmb[,2] & (sigma[2])^2<=ub.s2.pmb[,2])),
-#       mean(1*((sigma[2])^2>=lb.s2.rebv1[,2] & (sigma[2])^2<=ub.s2.rebv1[,2])),
-#       mean(1*((sigma[2])^2>=lb.s2.rebv2[,2] & (sigma[2])^2<=ub.s2.rebv2[,2]))
-#     ),
-#     c(
-#       mean(1*((sigma[3])^2>=lb.s2.gcb[,3] & (sigma[3])^2<=ub.s2.gcb[,3])),
-#       mean(1*((sigma[3])^2>=lb.s2.pmb[,3] & (sigma[3])^2<=ub.s2.pmb[,3])),
-#       mean(1*((sigma[3])^2>=lb.s2.rebv1[,3] & (sigma[3])^2<=ub.s2.rebv1[,3])),
-#       mean(1*((sigma[3])^2>=lb.s2.rebv2[,3] & (sigma[3])^2<=ub.s2.rebv2[,3]))
-#       )
-#     )
-#   assign(paste("tab_parcr_gs_p21", a, sep = "_"), crs) 
-# }
 
 ## ----source_LMM_12_250, echo = FALSE, include = FALSE, results = 'hide'----
 load("~/Dropbox/Paper/Codes/LMM/LMM_TwoWay/[Baobab]/[Ch2]/p-chunks/pregcb_gs_ri_rs_p1_ni_12_ng_250_B_1000_M_1000.RData")
@@ -2297,13 +2147,9 @@ class: center
     # ,
     # main = expression(sigma[1]^2)
     )
-  # points(qq.ri.rebv1_p11, pch="x", col = "lightgray")
-  # points(qq.ri.rebv2_p11, pch="x", col="blue")
-  # points(qq.ri.pmb_p11, pch="+", col="red")
-  # points(qq.ri.gcb_p11, pch="o", col="forestgreen")
   
-  lines(qq.ri.rebv1_p11, lty = 5, lwd=6, col = "lightgray")
-  lines(qq.ri.rebv2_p11, lty = 4, lwd=6, col="blue")
+  # lines(qq.ri.rebv1_p11, lty = 5, lwd=6, col = "lightgray")
+  # lines(qq.ri.rebv2_p11, lty = 4, lwd=6, col="blue")
   lines(qq.ri.pmb_p11,   lty = 3, lwd=6, col="red")
   lines(qq.ri.gcb_p11,   lty = 2, lwd=6, col="forestgreen")
   
@@ -2323,20 +2169,18 @@ class: center
     # ,
     # main = expression(sigma[1]^2)
     )
-  # points(qq.ri.rebv1_p12, pch="x", col = "lightgray")
-  # points(qq.ri.rebv2_p12, pch="x", col="blue")
-  # points(qq.ri.pmb_p12, pch="+", col="red")
-  # points(qq.ri.gcb_p12, pch="o", col="forestgreen")
   
-  lines(qq.ri.rebv1_p12, lty = 5, lwd=6, col = "lightgray")
-  lines(qq.ri.rebv2_p12, lty = 4, lwd=6, col="blue")
+  # lines(qq.ri.rebv1_p12, lty = 5, lwd=6, col = "lightgray")
+  # lines(qq.ri.rebv2_p12, lty = 4, lwd=6, col="blue")
   lines(qq.ri.pmb_p12,   lty = 3, lwd=6, col="red")
   lines(qq.ri.gcb_p12,   lty = 2, lwd=6, col="forestgreen")
   
   abline(a=0,b=1)
   
   legend("bottomright",
-   legend = c("RWLB","PB", "REB.V1", "REB.V2"), 
+   legend = c("RWLB","PB"
+              # , "REB.V1", "REB.V2"
+              ), 
    col    = c("forestgreen", "red","lightgrey", "blue"),
    # pch    = c("o","+", "x", "x"), 
    lty = c(2,3,4,5),
@@ -2357,13 +2201,9 @@ class: center
     # ,
     # main = expression(sigma[1]^2)
     )
-  # points(qq.ri.rebv1_p21, pch="x", col = "lightgray")
-  # points(qq.ri.rebv2_p21, pch="x", col="blue")
-  # points(qq.ri.pmb_p21, pch="+", col="red")
-  # points(qq.ri.gcb_p21, pch="o", col="forestgreen")
-  
-  lines(qq.ri.rebv1_p21, lty = 5, lwd=6, col = "lightgray")
-  lines(qq.ri.rebv2_p21, lty = 4, lwd=6, col="blue")
+
+  # lines(qq.ri.rebv1_p21, lty = 5, lwd=6, col = "lightgray")
+  # lines(qq.ri.rebv2_p21, lty = 4, lwd=6, col="blue")
   lines(qq.ri.pmb_p21,   lty = 3, lwd=6, col="red")
   lines(qq.ri.gcb_p21,   lty = 2, lwd=6, col="forestgreen")
   
@@ -2383,20 +2223,18 @@ class: center
     # ,
     # main = expression(sigma[1]^2)
     )
-  # points(qq.ri.rebv1_p22, pch="x", col = "lightgray")
-  # points(qq.ri.rebv2_p22, pch="x", col="blue")
-  # points(qq.ri.pmb_p22, pch="+", col="red")
-  # points(qq.ri.gcb_p22, pch="o", col="forestgreen")
-  
-  lines(qq.ri.rebv1_p22, lty = 5, lwd=6, col="lightgray")
-  lines(qq.ri.rebv2_p22, lty = 4, lwd=6, col="blue")
+
+  # lines(qq.ri.rebv1_p22, lty = 5, lwd=6, col="lightgray")
+  # lines(qq.ri.rebv2_p22, lty = 4, lwd=6, col="blue")
   lines(qq.ri.pmb_p22,   lty = 3, lwd=6, col="red")
   lines(qq.ri.gcb_p22,   lty = 2, lwd=6, col="forestgreen")
   
   abline(a=0,b=1)
   legend(
     "bottomright",
-    legend = c("RWLB","PB", "REB.V1", "REB.V2"), 
+    legend = c("RWLB","PB"
+               # , "REB.V1", "REB.V2"
+               ), 
     col    = c("forestgreen", "red","lightgrey", "blue"),
     # pch    = c("o","+", "x", "x"), 
     lty = c(2,3,4,5),
@@ -2421,13 +2259,9 @@ class: center
     # ,
     # main = expression(sigma[2]^2)
     )
-  # points(qq.rs.rebv1_p11, pch="x", col = "lightgray")
-  # points(qq.rs.rebv2_p11, pch="x", col="blue")
-  # points(qq.rs.pmb_p11, pch="+", col="red")
-  # points(qq.rs.gcb_p11, pch="o", col="forestgreen")
   
-  lines(qq.rs.rebv1_p11, lty = 5, lwd=6,col = "lightgray")
-  lines(qq.rs.rebv2_p11, lty = 4, lwd=6,col="blue")
+  # lines(qq.rs.rebv1_p11, lty = 5, lwd=6,col = "lightgray")
+  # lines(qq.rs.rebv2_p11, lty = 4, lwd=6,col="blue")
   lines(qq.rs.pmb_p11, lty = 3,lwd=6, col="red")
   lines(qq.rs.gcb_p11, lty = 2, lwd=6,col="forestgreen")
   
@@ -2453,15 +2287,17 @@ class: center
   # points(qq.rs.pmb_p12, pch="+", col="red")
   # points(qq.rs.gcb_p12, pch="o", col="forestgreen")
   
-  lines(qq.rs.rebv1_p12, lty = 5, lwd=6,col = "lightgray")
-  lines(qq.rs.rebv2_p12, lty = 4, lwd=6,col="blue")
+  # lines(qq.rs.rebv1_p12, lty = 5, lwd=6,col = "lightgray")
+  # lines(qq.rs.rebv2_p12, lty = 4, lwd=6,col="blue")
   lines(qq.rs.pmb_p12, lty = 3,lwd=6, col="red")
   lines(qq.rs.gcb_p12, lty = 2, lwd=6,col="forestgreen")
   
   abline(a=0,b=1)
   
   legend("bottomright",
-   legend = c("RWLB","PB", "REB.V1", "REB.V2"), 
+   legend = c("RWLB","PB"
+              # , "REB.V1", "REB.V2"
+              ), 
    col    = c("forestgreen", "red", "lightgrey","blue"),
    # pch    = c("o","+", "x", "x"), 
    lty = c(2,3,4,5),
@@ -2489,8 +2325,8 @@ class: center
   # points(qq.rs.pmb_p21, pch="+", col="red")
   # points(qq.rs.gcb_p21, pch="o", col="forestgreen")
   
-  lines(qq.rs.rebv1_p21, lty = 5, lwd=6,col = "lightgray")
-  lines(qq.rs.rebv2_p21, lty = 4, lwd=6,col="blue")
+  # lines(qq.rs.rebv1_p21, lty = 5, lwd=6,col = "lightgray")
+  # lines(qq.rs.rebv2_p21, lty = 4, lwd=6,col="blue")
   lines(qq.rs.pmb_p21, lty = 3,lwd=6, col="red")
   lines(qq.rs.gcb_p21, lty = 2, lwd=6,col="forestgreen")
   
@@ -2511,20 +2347,18 @@ class: center
     # ,
     # main = expression(sigma[1]^2)
     )
-  # points(qq.rs.rebv1_p22, pch="x", col = "lightgray")
-  # points(qq.rs.rebv2_p22, pch="x", col="blue")
-  # points(qq.rs.pmb_p22, pch="+", col="red")
-  # points(qq.rs.gcb_p22, pch="o", col="forestgreen")
   
-  lines(qq.rs.rebv1_p22, lty = 5, lwd=6,col = "lightgray")
-  lines(qq.rs.rebv2_p22, lty = 4, lwd=6,col="blue")
+  # lines(qq.rs.rebv1_p22, lty = 5, lwd=6,col = "lightgray")
+  # lines(qq.rs.rebv2_p22, lty = 4, lwd=6,col="blue")
   lines(qq.rs.pmb_p22, lty = 3,lwd=6, col="red")
   lines(qq.rs.gcb_p22, lty = 2, lwd=6,col="forestgreen")
   
   abline(a=0,b=1)
   
   legend("bottomright",
-   legend = c("RWLB","PB", "REB.V1", "REB.V2"), 
+   legend = c("RWLB","PB"
+              # , "REB.V1", "REB.V2"
+              ), 
    col    = c("forestgreen", "red", "lightgrey","blue"),
    # pch    = c("o","+", "x", "x"), 
    lty = c(2,3,4,5),
@@ -2567,8 +2401,8 @@ xlim_phi_2 <- range(qq.re.rebv1_p21$x, qq.re.rebv2_p21$x, qq.re.pmb_p21$x , qq.r
   # points(qq.re.pmb_p11, pch="+"  , col ="red")
   # points(qq.re.gcb_p11, pch="o"  , col ="forestgreen")
   
-  lines(qq.re.rebv1_p11, lty=5, lwd=6, col= "lightgray")
-  lines(qq.re.rebv2_p11, lty=4, lwd=6, col="blue")
+  # lines(qq.re.rebv1_p11, lty=5, lwd=6, col= "lightgray")
+  # lines(qq.re.rebv2_p11, lty=4, lwd=6, col="blue")
   lines(qq.re.pmb_p11,   lty=3, lwd=6, col="red")
   lines(qq.re.gcb_p11,   lty=2, lwd=6, col="forestgreen")
   
@@ -2600,8 +2434,8 @@ xlim_phi_2 <- range(qq.re.rebv1_p21$x, qq.re.rebv2_p21$x, qq.re.pmb_p21$x , qq.r
   # points(qq.re.pmb_p12, pch="+"  , col ="red")
   # points(qq.re.gcb_p12, pch="o"  , col ="forestgreen")
   
-  lines(qq.re.rebv1_p12, lty=5, lwd=6, col= "lightgray")
-  lines(qq.re.rebv2_p12, lty=4, lwd=6, col="blue")
+  # lines(qq.re.rebv1_p12, lty=5, lwd=6, col= "lightgray")
+  # lines(qq.re.rebv2_p12, lty=4, lwd=6, col="blue")
   lines(qq.re.pmb_p12,   lty=3, lwd=6, col="red")
   lines(qq.re.gcb_p12,   lty=2, lwd=6, col="forestgreen")
   
@@ -2615,7 +2449,9 @@ xlim_phi_2 <- range(qq.re.rebv1_p21$x, qq.re.rebv2_p21$x, qq.re.pmb_p21$x , qq.r
   #  lwd = rep(3,4))
   
   legend("bottomright",
-   legend = c("RWLB","PB", "REB.V1", "REB.V2"), 
+   legend = c("RWLB","PB"
+              # , "REB.V1", "REB.V2"
+              ), 
    col    = c("forestgreen", "red", "lightgrey","blue"),
    # pch    = c("o","+", "x", "x"), 
    lty = c(2,3,4,5),
@@ -2639,13 +2475,8 @@ class: center
     # main = expression(phi)
     )
 
-  # points(qq.re.rebv1_p21, pch="x", col = "lightgray")
-  # points(qq.re.rebv2_p21, pch="x", col ="blue")
-  # points(qq.re.pmb_p21, pch="+"  , col ="red")
-  # points(qq.re.gcb_p21, pch="o"  , col ="forestgreen")
-  
-  lines(qq.re.rebv1_p21, lty=5, lwd=6, col= "lightgray")
-  lines(qq.re.rebv2_p21, lty=4, lwd=6, col="blue")
+  # lines(qq.re.rebv1_p21, lty=5, lwd=6, col= "lightgray")
+  # lines(qq.re.rebv2_p21, lty=4, lwd=6, col="blue")
   lines(qq.re.pmb_p21,   lty=3, lwd=6, col="red")
   lines(qq.re.gcb_p21,   lty=2, lwd=6, col="forestgreen")
   
@@ -2675,20 +2506,18 @@ class: center
     # main = expression(phi)
     )
 
-  # points(qq.re.rebv1_p22, pch="x", col = "lightgray")
-  # points(qq.re.rebv2_p22, pch="x", col ="blue")
-  # points(qq.re.pmb_p22, pch="+"  , col ="red")
-  # points(qq.re.gcb_p22, pch="o"  , col ="forestgreen")
-  
-  lines(qq.re.rebv1_p22, lty=5, lwd=6, col= "lightgray")
-  lines(qq.re.rebv2_p22, lty=4, lwd=6, col="blue")
+
+  # lines(qq.re.rebv1_p22, lty=5, lwd=6, col= "lightgray")
+  # lines(qq.re.rebv2_p22, lty=4, lwd=6, col="blue")
   lines(qq.re.pmb_p22,   lty=3, lwd=6, col="red")
   lines(qq.re.gcb_p22,   lty=2, lwd=6, col="forestgreen")
   
   abline(a=0,b=1)
   
   legend("bottomright",
-   legend = c("RWLB","PB", "REB.V1", "REB.V2"), 
+   legend = c("RWLB","PB"
+              # , "REB.V1", "REB.V2"
+              ), 
    col    = c("forestgreen", "red", "lightgrey","blue"),
    # pch    = c("o","+", "x", "x"), 
    lty = c(2,3,4,5),
