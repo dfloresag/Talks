@@ -897,7 +897,6 @@ Easy(-ish) in **Gaussian LMM**
 $$\mathbf{x}_{ij}^T\widehat{\mathbf{\beta}} + \widehat{\sigma}_1\color{red}{\widehat{u}_{i}^{{\star}}} + \widehat{\phi}\color{red}{\widehat{\varepsilon}_{i}^{{\star}}} \longrightarrow  y_{ij}^{\color{red}{\star}}$$
 ]
 
-<img src="https://media.giphy.com/media/4JSAfzWfvMN36r1HG1/giphy.gif" style="width: 200px" />
 
 ]
 
@@ -913,14 +912,14 @@ g(\mathbb{E}[y_{ij}^{\color{red}{\star}}])
 y_{ij}^{\color{red}{\star}}$$
 ]
 
-<img src="https://media.giphy.com/media/xf20D8HzvTQzu/giphy.gif" style="width: 200px" />
 
 ]
 
 ---
 class: center, middle
 
-background-image: url(./img/meme-lisapresenting.png)
+
+# _Parametric_ Bootstrap seems the only **feasible** and **readily available** scheme.
 
 ???
 
@@ -1009,7 +1008,6 @@ class: dark, center, middle
 
 # The Good `r icon::fa("thumbs-up")`
 
-![](https://media.giphy.com/media/RXXTZtYKTubiU/giphy.gif)
 
 ---
 class: middle
@@ -1564,8 +1562,6 @@ class: dark, center, middle
 
 # The 'meh' `r icon::fa("thumbs-down")`
 
-![](https://media.giphy.com/media/QC5jE83f3tBCg/giphy.gif)
-
 ---
 # Some Caveats
 
@@ -1796,8 +1792,6 @@ $$\sqrt{n}\left(\widehat{\mathbf{\theta}}^{*}- \widehat{\mathbf{\theta}}\right)\
 
 $\widehat{\mathbf{M}}^{-1}\widehat{\mathbf{Q}}\widehat{\mathbf{M}}^{-1}$ is the _Empirical_ **Sandwich Variance**
 
-<img src="https://media.giphy.com/media/jOuA5oDxeIWJi/giphy.gif" style="width: 150px" />
-
 ]
 
 ---
@@ -1930,7 +1924,7 @@ class: dark, middle, center
 ### Random Intercept and Slope
 
 ---
-
+class: center
 ```{r, include = FALSE}
 ## ----source_LMM_4_100, echo = FALSE, include = FALSE, results = 'hide'----
 load("~/Dropbox/Paper/Codes/LMM/LMM_TwoWay/[Baobab]/[Ch2]/p-chunks/pregcb_gs_ri_rs_p1_ni_4_ng_100_B_1000_M_1000.RData")
@@ -2188,7 +2182,7 @@ ylim_s2_3 <- range(qq.rs.rebv1_p11$y, qq.rs.rebv2_p11$y, qq.rs.pmb_p11$y , qq.rs
 xlim_s2_3 <- range(qq.rs.rebv1_p11$x, qq.rs.rebv2_p11$x, qq.rs.pmb_p11$x , qq.rs.gcb_p11$x)
 ```
 
-class: center
+
 .pull-left[
 ```{r}
 ## ----qqplots_sigma_LMM_1_p11,echo = FALSE,  messages = FALSE-------------
