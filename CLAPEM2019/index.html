@@ -98,18 +98,16 @@ class: center
 
 ### Data that can be **grouped**, according to a **hierarchical** structure. 
 
---
-
 &lt;img src="./img/Charts-001.png" width="600"&gt;
-
-???
-
-A natural clustering factor in medical applications and longitudinal studies is the patient level. from which the different observations come. 
---
 
 ### _Highest_ level in the hierarchy: Independent **Clusters** ( `\(i\)` )
 
 ???
+
+
+
+A natural clustering factor in medical applications and longitudinal studies is the patient level. from which the different observations come. 
+
 
 In this case, the patient, but in general it can be other things, such as hospitals in centre-patient studies. More levels of clustering can be considered.
 ---
@@ -118,7 +116,7 @@ class: center
 ### Modelling `\(\Rightarrow\)` **Mixed Models** (MM)
 
 .content-box-lightgrey[
-`$$\text{Predictors} = \textbf{Fixed Effects} + \color{blue}{\textbf{Random Effects}}$$`
+`$$\text{Mixed Effects} = \textbf{Fixed Effects} + \color{blue}{\textbf{Random Effects}}$$`
 ]
 
 ---
@@ -127,7 +125,7 @@ class: center
 ### Modelling `\(\Rightarrow\)` **Mixed Models** (MM)
 
 .content-box-lightgrey[
-`$$\text{Predictors} = \underbrace{\textbf{Fixed Effects}}_{\mathbf{X}_{i}\mathbf{\beta}} + \underbrace{\color{blue}{\textbf{Random Effects}}}_{\color{blue}{\mathbf{Z}_{i}\mathbf{D}_{\sigma}\mathbf{u}_{i}}}$$`
+`$$\text{Mixed Effects} = \underbrace{\textbf{Fixed Effects}}_{\mathbf{X}_{i}\mathbf{\beta}} + \underbrace{\color{blue}{\textbf{Random Effects}}}_{\color{blue}{\mathbf{Z}_{i}\mathbf{D}_{\sigma}\mathbf{u}_{i}}}$$`
 ]
 
 --
@@ -496,7 +494,7 @@ class: center
 ### Random Effect Variance `\(\sigma_1^{2}\)`
 
 
-**Cluster size** `\(n_{i} = 14\)`
+**Cluster size** `\(n_{i} = 7\)`
 .pull-left[
 **Number of Clusters:** `\(n = 300\)`
 &lt;img src="index_files/figure-html/unnamed-chunk-7-1.png" style="display: block; margin: auto;" /&gt;
@@ -526,7 +524,7 @@ class: center
 class: center
 
 ### Random Effect Variance `\(\sigma_{1}^{2}\)`
-**Cluster size** `\(n_{i} = 14\)`
+**Cluster size** `\(n_{i} = 21\)`
 
 
 .pull-left[
@@ -561,6 +559,8 @@ class: dark, middle, center
 - **Degree of censoring**:  0% and 23%
 
 - **Signal-to-noise Ratio** `\(\displaystyle \frac{\sigma_{1}}{\phi} = 1/0.5 = 2\)`
+
+--
 
 ###  .black[Box-Plots]: Small-sample Bias Correction of `\(\widehat{\sigma_1}\)`
 
@@ -641,42 +641,25 @@ class: center
 
 
 ---
+class: center
+
+### Simulated AFT - `\(\widehat{\sigma}_1\)` : **s-t-n = 0.4, `\(n_{i}=2\)`**
+
+&lt;img src="index_files/figure-html/unnamed-chunk-21-1.png" style="display: block; margin: auto;" /&gt;
+
+---
 # Some Caveats
 
-###  **Variance** of `\(\mathbf{\sigma}\)`
-
-- Differs slightly from the asymptotic.
+### <i class="fas  fa-thumbs-down "></i> **Variance** of some `\(\widehat{\mathbf{\sigma}}^{*}\)` differs slightly from the asymptotic.
 
 - Divergence Depends on the relationship between:  
     
-    - **Marginal Variance** of the Observations ( `\(\mathbf{\Sigma}_{i}\)` ) and 
+    - **Marginal Variance** of the Observations ( `\(\mathbb{V}ar(\mathbf{Y}_i) = \mathbf{\Sigma}_{i}\)` ) and 
     - **Random Effect Design** ( `\(\mathbf{Z}_{i}\)` )
 
+- In LMM, this is _easy-ish_ to figure out (give or take tedious derivations).
 
 
-
-
-
-
-
-
-
----
-class: center, middle
-
-### Simulation: Accelerated Failure Time Model 
-
----
-# AFT Model with _Random Intercept_
-
-### Modelling Clustered **Durations**
-
-Where: 
-
----
-class: center, middle
-
-# Things
 
 
 ---

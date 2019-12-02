@@ -734,18 +734,16 @@ class: center
 
 ### Data that can be **grouped**, according to a **hierarchical** structure. 
 
---
-
 <img src="./img/Charts-001.png" width="600">
-
-???
-
-A natural clustering factor in medical applications and longitudinal studies is the patient level. from which the different observations come. 
---
 
 ### _Highest_ level in the hierarchy: Independent **Clusters** ( $i$ )
 
 ???
+
+
+
+A natural clustering factor in medical applications and longitudinal studies is the patient level. from which the different observations come. 
+
 
 In this case, the patient, but in general it can be other things, such as hospitals in centre-patient studies. More levels of clustering can be considered.
 ---
@@ -754,7 +752,7 @@ class: center
 ### Modelling $\Rightarrow$ **Mixed Models** (MM)
 
 .content-box-lightgrey[
-$$\text{Predictors} = \textbf{Fixed Effects} + \color{blue}{\textbf{Random Effects}}$$
+$$\text{Mixed Effects} = \textbf{Fixed Effects} + \color{blue}{\textbf{Random Effects}}$$
 ]
 
 ---
@@ -763,7 +761,7 @@ class: center
 ### Modelling $\Rightarrow$ **Mixed Models** (MM)
 
 .content-box-lightgrey[
-$$\text{Predictors} = \underbrace{\textbf{Fixed Effects}}_{\mathbf{X}_{i}\mathbf{\beta}} + \underbrace{\color{blue}{\textbf{Random Effects}}}_{\color{blue}{\mathbf{Z}_{i}\mathbf{D}_{\sigma}\mathbf{u}_{i}}}$$
+$$\text{Mixed Effects} = \underbrace{\textbf{Fixed Effects}}_{\mathbf{X}_{i}\mathbf{\beta}} + \underbrace{\color{blue}{\textbf{Random Effects}}}_{\color{blue}{\mathbf{Z}_{i}\mathbf{D}_{\sigma}\mathbf{u}_{i}}}$$
 ]
 
 --
@@ -1263,7 +1261,7 @@ ylims2 <- range(qqs2_pmb_s2$y, qqs2_gcb_s2$y)
 # xlims2 <- ylims2
 xlims2 <- range(qqs2_pmb_s2$x, qqs2_gcb_s2$x)
 ```
-**Cluster size** $n_{i} = 14$
+**Cluster size** $n_{i} = 7$
 .pull-left[
 **Number of Clusters:** $n = 300$
 ```{r, fig.align="center" , fig.dim = c(5,5)}
@@ -1351,7 +1349,7 @@ abline(a=0, b =1)
 class: center
 
 ### Random Effect Variance $\sigma_{1}^{2}$
-**Cluster size** $n_{i} = 14$
+**Cluster size** $n_{i} = 21$
 
 
 .pull-left[
@@ -1416,6 +1414,8 @@ class: dark, middle, center
 - **Degree of censoring**:  0% and 23%
 
 - **Signal-to-noise Ratio** $\displaystyle \frac{\sigma_{1}}{\phi} = 1/0.5 = 2$
+
+--
 
 ###  .black[Box-Plots]: Small-sample Bias Correction of $\widehat{\sigma_1}$
 
@@ -1562,7 +1562,8 @@ th_dta %>%
   facet_grid(~mth+n_g_fac, scales = "free_y", labeller = label_parsed)+
   xlab(label = expression(n[i])) +
   ylab(label = expression(sigma[1]))+
-  geom_hline(aes(yintercept = bs[1]), lty= 2, col="blue")
+  geom_hline(aes(yintercept = 1), lty= 2, col="blue")+
+  geom_hline(aes(yintercept = 0), lwd= 2)
 ```
 
 ---
@@ -1578,7 +1579,8 @@ th_dta %>%
   facet_grid(~mth+n_g_fac, scales = "free_y", labeller = label_parsed)+
   xlab(label = expression(n[i])) +
   ylab(label = expression(sigma[1]))+
-  geom_hline(aes(yintercept = 0.5), lty= 2, col="blue")
+  geom_hline(aes(yintercept = 0.5), lty= 2, col="blue")+
+  geom_hline(aes(yintercept = 0), lwd= 2)
 ```
 ---
 class: center
@@ -1593,171 +1595,41 @@ th_dta %>%
   facet_grid(~mth+n_g_fac, scales = "free_y", labeller = label_parsed)+
   xlab(label = expression(n[i])) +
   ylab(label = expression(sigma[1]))+
-  geom_hline(aes(yintercept = 0.2), lty= 2, col="blue")
+  geom_hline(aes(yintercept = 0.2), lty= 2, col="blue")+
+  geom_hline(aes(yintercept = 0), lwd= 2)
 ```
 
+
+---
+class: center
+
+### Simulated AFT - $\widehat{\sigma}_1$ : **s-t-n = 0.4, $n_{i}=2$**
+
+```{r, fig.align="center", fig.dim=c(12,6)}
+th_dta %>% 
+  filter(parameter == "s.1", s_1==0.2 , mth %in% c("lpml", "rb-lpml"), cns==0) %>%
+  ggplot() +
+  geom_boxplot(mapping = aes(x = factor(n_i), y = value, fill = mth))+
+  facet_grid(~mth+n_g_fac, scales = "free_y", labeller = label_parsed)+
+  xlab(label = expression(n[i])) +
+  ylab(label = expression(sigma[1]))+
+  geom_hline(aes(yintercept = 0.2), lty= 2, col="blue")+
+  geom_hline(aes(yintercept = 0), lwd= 3)
+```
 
 ---
 # Some Caveats
 
-###  **Variance** of $\mathbf{\sigma}$
-
-- Differs slightly from the asymptotic.
+### `r icon::fa("thumbs-down")` **Variance** of some $\widehat{\mathbf{\sigma}}^{*}$ differs slightly from the asymptotic.
 
 - Divergence Depends on the relationship between:  
     
-    - **Marginal Variance** of the Observations ( $\mathbf{\Sigma}_{i}$ ) and 
+    - **Marginal Variance** of the Observations ( $\mathbb{V}ar(\mathbf{Y}_i) = \mathbf{\Sigma}_{i}$ ) and 
     - **Random Effect Design** ( $\mathbf{Z}_{i}$ )
 
-
-```{r, include = FALSE, eval = FALSE}
-load("~/Dropbox/Paper/Reports/GSEMThesis/Ch2/[Data] MFDLD/epilepsy_est_var.RData")
-th.tmbt <- c(bs_tmbt, v1_tmbt, v2_tmbt, rh_tmbt)
-th.rwb  <- data.frame(bs.rwb, v1.rwb, v2.rwb, rh.rwb)
-th.pmb  <- data.frame(bs.pmb, v1.pmb, v2.pmb, rh.pmb)
-
-se_th.tmbt <- c(se_bs_tmbt, se_v1_tmbt, se_v2_tmbt, se_rh_tmbt)
+- In LMM, this is _easy-ish_ to figure out (give or take tedious derivations).
 
 
-names(th.tmbt) = names(se_th.tmbt)  = colnames(th.rwb) = colnames(th.rwb) <- 
-  c("$\\beta_0$"   , "$\\beta_1$" , "$\\beta_2$", "$\\beta_3$", 
-    "$\\sigma^{2}_{1}$", "$\\sigma^{2}_2$", "$\\rho$")
-
-av_th <- cbind(
-  th.tmbt,
-  apply(th.rwb,FUN = mean, MARGIN = 2),
-  apply(th.pmb,FUN = mean, MARGIN = 2)
-)
-
-se_th <- cbind(
-  se_th.tmbt,  
-  apply(th.rwb,FUN = sd, MARGIN = 2),
-  apply(th.pmb,FUN = sd, MARGIN = 2)
-)
-
-colnames(av_th) = colnames(se_th) <- c("LAML Estimate", "RWLB", "PB")
-
-av_se_th <- data.frame(av_th, se_th)
-
-library("xtable")
-av_se_th.tab <- xtable(
-  av_se_th,
-  digits = 4, 
-  label = "tab:av_se_th",
-  caption = "Parameter Estimates and Standard Errors for the Mixed Poisson Model.")
-
-align(av_se_th.tab)   <- "rrrrrrr"
-
-atr <- list()
-atr$pos <- list(0,0)
-atr$command <- c(
- "\\ & \\ & \\multicolumn{2}{c}{Bootstrap Averages} &  & \\multicolumn{2}{c}{Bootstrap S.D.} \\\\\n",
- "\\ & Estimates &  RWLB & PB & S.E. &  RWLB & PB  \\\\\n")
-
-```
-
-```{r, eval = FALSE}
-library("xtable")
-print(av_se_th.tab, 
-      add.to.row = atr,
-      include.colnames=FALSE,
-      include.rownames=TRUE, 
-      sanitize.text.function = function(x) {x},
-      hline.after = c(-1, 0, 4,7), caption.placement = "top", 
-      type = "html"
-      )
-```
-
-```{r, eval = FALSE}
-alpha <-c(0.05)
-
-ci_th <- cbind(
-  c(
-    bs_tmbt+ qnorm(alpha[1]/2)*se_bs_tmbt,
-    s1_tmbt+ qnorm(alpha[1]/2)*se_s1_tmbt,
-    s2_tmbt+ qnorm(alpha[1]/2)*se_s2_tmbt,
-    rh_tmbt+ qnorm(alpha[1]/2)*se_rh_tmbt
-    ),
-  c(
-    bs_tmbt+ qnorm(1-alpha[1]/2)*se_bs_tmbt,
-    s1_tmbt+ qnorm(1-alpha[1]/2)*se_s1_tmbt,
-    s2_tmbt+ qnorm(1-alpha[1]/2)*se_s2_tmbt,
-    rh_tmbt+ qnorm(1-alpha[1]/2)*se_rh_tmbt
-  ),
-  c(
-    apply(bs.rwb, FUN = quantile, MARGIN = 2, probs = alpha[1]/2), 
-    apply(v1.rwb, FUN = quantile, MARGIN = 2, probs = alpha[1]/2), 
-    apply(v2.rwb, FUN = quantile, MARGIN = 2, probs = alpha[1]/2),
-    apply(rh.rwb, FUN = quantile, MARGIN = 2, probs = alpha[1]/2)
-  ),
-  c(
-    apply(bs.rwb, FUN = quantile, MARGIN = 2, probs = 1-alpha[1]/2), 
-    apply(v1.rwb, FUN = quantile, MARGIN = 2, probs = 1-alpha[1]/2), 
-    apply(v2.rwb, FUN = quantile, MARGIN = 2, probs = 1-alpha[1]/2),
-    apply(rh.rwb, FUN = quantile, MARGIN = 2, probs = 1-alpha[1]/2)
-  ),
-  c(
-    apply(bs.pmb, FUN = quantile, MARGIN = 2, probs = alpha[1]/2), 
-    apply(v1.pmb, FUN = quantile, MARGIN = 2, probs = alpha[1]/2), 
-    apply(v2.pmb, FUN = quantile, MARGIN = 2, probs = alpha[1]/2),
-    apply(rh.pmb, FUN = quantile, MARGIN = 2, probs = alpha[1]/2)
-  ),
-  c(
-    apply(bs.pmb, FUN = quantile, MARGIN = 2, probs = 1-alpha[1]/2), 
-    apply(v1.pmb, FUN = quantile, MARGIN = 2, probs = 1-alpha[1]/2), 
-    apply(v2.pmb, FUN = quantile, MARGIN = 2, probs = 1-alpha[1]/2),
-    apply(rh.pmb, FUN = quantile, MARGIN = 2, probs = 1-alpha[1]/2)
-  )
-)
-
-colnames(ci_th) <- paste(c(rep("LAML",2), rep("RWLB",2), rep("PB",2)),c("lb", "ub"),
-                         sep="_")
-rownames(ci_th) <- c(
-  "$\\beta_0$"   , "$\\beta_1$" , "$\\beta_2$", "$\\beta_3$", 
-  "$\\sigma^{2}_{1}$", "$\\sigma^{2}_{2}$", "$\\rho$")
-
-ci_th.tab <- xtable(
-  ci_th,
-  digits = 4, 
-  label = "tab:ci_th",
-  caption = "Confidence intervals for the parameters of the Mixed Poisson Model.")
-
-align(ci_th.tab)   <- "rrrrrrr"
-
-atr <- list()
-atr$pos <- list(0,0)
-atr$command <- c(
- "\\ & \\multicolumn{2}{c}{Asymptotic} & \\multicolumn{2}{c}{RWLB} & \\multicolumn{2}{c}{PB} \\\\\n",
- "\\ & Lower &  Upper & Lower &  Upper & Lower &  Upper \\\\\n" 
- )
-```
-
-```{r, eval = FALSE}
-print(ci_th.tab, 
-      add.to.row = atr,
-      include.colnames=FALSE,
-      include.rownames=TRUE, 
-      sanitize.text.function = function(x) {x},
-      hline.after = c(-1, 0, 4,7), caption.placement = "top"
-      )
-```
-
----
-class: center, middle
-
-### Simulation: Accelerated Failure Time Model 
-
----
-# AFT Model with _Random Intercept_
-
-### Modelling Clustered **Durations**
-
-Where: 
-
----
-class: center, middle
-
-# Things
 
 
 ---
