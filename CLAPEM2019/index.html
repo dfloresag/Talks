@@ -179,7 +179,7 @@ class: center, middle
 ### Likelihood Inference `\(\Rightarrow\)` **(Numerical) Integration** (of `\(\color{\blue}{\mathbf{u}_{i}}\)` )
 
 .content-box-lightgrey[
-`$$\color{red}{\mathcal{L}_i\left(\mathbf{\theta}\right)} = \color{red}{f\left(\mathbf{y}_{i}\right)}$$`
+`$$\color{red}{\mathcal{L}_i\left(\mathbf{\theta}\right)} = \color{red}{f\left(\mathbf{y}_{i}\right)}$$`
 ]
 
 ---
@@ -787,7 +787,7 @@ Elements are **Expectations of products of `\(\Psi^{(k)}_i\left(\mathbf{\theta}_
 `\(\forall k, l \in \{1, \dots d\}\)`, where `\(d = p + s\)`,  where `\(\mathbf{M} = \left( M_{kl}\right)_{k=1, l=1}^{p,s}\)`, `\(\mathbf{Q} = \left( Q_{kl}\right)_{k=1, l=1}^{p,s}\)`
 
 **Asymptotic Variance**
-
+.content-box-lightgrey[
 `\begin{align}
 -\frac{1}{n}
 \sum_{i=1}^n 
@@ -806,11 +806,13 @@ M_{kl}\\
 &amp;\underset{n\rightarrow \infty}{\longrightarrow}
 Q_{kl}
 \end{align}`
+]
+
 
 --
 
 **GCB** version: 
-.content-box-fuchsia[
+.content-box-lightgrey[
 
 `\begin{align}
 -\frac{1}{n}
@@ -878,6 +880,8 @@ Q_{kl}
 ]
 .pull-right[
 **RWLB** (after tedious derivation)
+
+.content-box-lightgrey[
 `\begin{align}
   \tilde{\Psi}^{\beta}_i\left(\mathbf{\theta}\right)
   &amp;=\color{red}{w_{i}^{*}}\mathbf{X}_i^T \mathbf{\Sigma}_i^{-1} \left(\mathbf{y}_i - \mathbf{X}_i\mathbf{\beta}\right),
@@ -893,8 +897,74 @@ Q_{kl}
   \mathrm{tr}\left( \mathbf{\Sigma}_{i}^{-1} \mathbf{Z}_{ir} \mathbf{Z}_{ir}^T\right).} 
 \end{align}`
 ]
+]
 
 ---
+
+  
+
+
+---
+class: center
+.pull-left[
+![](index_files/figure-html/unnamed-chunk-24-1.png)&lt;!-- --&gt;
+]
+
+.pull-right[
+![](index_files/figure-html/unnamed-chunk-25-1.png)&lt;!-- --&gt;
+]
+---
+class: center
+.pull-left[
+![](index_files/figure-html/unnamed-chunk-26-1.png)&lt;!-- --&gt;
+]
+
+.pull-right[
+![](index_files/figure-html/unnamed-chunk-27-1.png)&lt;!-- --&gt;
+] 
+
+---
+class: center
+
+.pull-left[
+![](index_files/figure-html/unnamed-chunk-28-1.png)&lt;!-- --&gt;
+]
+
+.pull-right[
+![](index_files/figure-html/unnamed-chunk-29-1.png)&lt;!-- --&gt;
+]
+---
+class: center
+
+.pull-left[
+![](index_files/figure-html/unnamed-chunk-30-1.png)&lt;!-- --&gt;
+]
+
+.pull-right[
+![](index_files/figure-html/unnamed-chunk-31-1.png)&lt;!-- --&gt;
+]
+
+---
+
+
+.pull-left[
+![](index_files/figure-html/unnamed-chunk-33-1.png)&lt;!-- --&gt;
+]
+
+.pull-right[
+![](index_files/figure-html/unnamed-chunk-34-1.png)&lt;!-- --&gt;
+]
+
+---
+class: center
+
+.pull-left[
+![](index_files/figure-html/unnamed-chunk-35-1.png)&lt;!-- --&gt;
+]
+
+.pull-right[
+![](index_files/figure-html/unnamed-chunk-36-1.png)&lt;!-- --&gt;
+]
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

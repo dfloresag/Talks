@@ -815,7 +815,7 @@ class: center, middle
 ### Likelihood Inference $\Rightarrow$ **(Numerical) Integration** (of $\color{\blue}{\mathbf{u}_{i}}$ )
 
 .content-box-lightgrey[
-$$\color{red}{\mathcal{L}_i\left(\mathbf{\theta}\right)} = \color{red}{f\left(\mathbf{y}_{i}\right)}$$
+$$\color{red}{\mathcal{L}_i\left(\mathbf{\theta}\right)} = \color{red}{f\left(\mathbf{y}_{i}\right)}$$
 ]
 
 ---
@@ -1757,7 +1757,7 @@ Elements are **Expectations of products of $\Psi^{(k)}_i\left(\mathbf{\theta}_0\
 $\forall k, l \in \{1, \dots d\}$, where $d = p + s$,  where $\mathbf{M} = \left( M_{kl}\right)_{k=1, l=1}^{p,s}$, $\mathbf{Q} = \left( Q_{kl}\right)_{k=1, l=1}^{p,s}$
 
 **Asymptotic Variance**
-
+.content-box-lightgrey[
 \begin{align}
 -\frac{1}{n}
 \sum_{i=1}^n 
@@ -1776,11 +1776,13 @@ M_{kl}\\
 &\underset{n\rightarrow \infty}{\longrightarrow}
 Q_{kl}
 \end{align}
+]
+
 
 --
 
 **GCB** version: 
-.content-box-fuchsia[
+.content-box-lightgrey[
 
 \begin{align}
 -\frac{1}{n}
@@ -1848,6 +1850,8 @@ $$\mathbf{y}_i = \mathbf{X}_{i}\mathbf{\beta} + \sum_{r=0}^{q} \sigma_r \mathbf{
 ]
 .pull-right[
 **RWLB** (after tedious derivation)
+
+.content-box-lightgrey[
 \begin{align}
   \tilde{\Psi}^{\beta}_i\left(\mathbf{\theta}\right)
   &=\color{red}{w_{i}^{*}}\mathbf{X}_i^T \mathbf{\Sigma}_i^{-1} \left(\mathbf{y}_i - \mathbf{X}_i\mathbf{\beta}\right),
@@ -1863,5 +1867,832 @@ $$\mathbf{y}_i = \mathbf{X}_{i}\mathbf{\beta} + \sum_{r=0}^{q} \sigma_r \mathbf{
   \mathrm{tr}\left( \mathbf{\Sigma}_{i}^{-1} \mathbf{Z}_{ir} \mathbf{Z}_{ir}^T\right).} 
 \end{align}
 ]
+]
 
 ---
+```{r, include = FALSE}
+## ----source_LMM_4_100, echo = FALSE, include = FALSE, results = 'hide'----
+load("~/Dropbox/Paper/Codes/LMM/LMM_TwoWay/[Baobab]/[Ch2]/p-chunks/pregcb_gs_ri_rs_p1_ni_4_ng_100_B_1000_M_1000.RData")
+
+dim(bs.tmb.df)
+dim(bs.rebv1.df)
+
+qq.b1.rebv1_p11 <- qqplot(bs.tmb.df[,1], bs.rebv1.df[, ,1], plot.it = FALSE)
+qq.b2.rebv1_p11 <- qqplot(bs.tmb.df[,2], bs.rebv1.df[, ,2], plot.it = FALSE)
+qq.b3.rebv1_p11 <- qqplot(bs.tmb.df[,3], bs.rebv1.df[, ,3], plot.it = FALSE)
+qq.b4.rebv1_p11 <- qqplot(bs.tmb.df[,4], bs.rebv1.df[, ,4], plot.it = FALSE)
+
+qq.b1.rebv2_p11 <- qqplot(bs.tmb.df[,1], bs.rebv2.df[, ,1], plot.it = FALSE)
+qq.b2.rebv2_p11 <- qqplot(bs.tmb.df[,2], bs.rebv2.df[, ,2], plot.it = FALSE)
+qq.b3.rebv2_p11 <- qqplot(bs.tmb.df[,3], bs.rebv2.df[, ,3], plot.it = FALSE)
+qq.b4.rebv2_p11 <- qqplot(bs.tmb.df[,4], bs.rebv2.df[, ,4], plot.it = FALSE)
+
+qq.b1.gcb_p11   <- qqplot(bs.tmb.df[,1], bs.gcb.df[, ,1], plot.it = FALSE)
+qq.b2.gcb_p11   <- qqplot(bs.tmb.df[,2], bs.gcb.df[, ,2], plot.it = FALSE)
+qq.b3.gcb_p11   <- qqplot(bs.tmb.df[,3], bs.gcb.df[, ,3], plot.it = FALSE)
+qq.b4.gcb_p11   <- qqplot(bs.tmb.df[,4], bs.gcb.df[, ,4], plot.it = FALSE)
+
+qq.b1.pmb_p11   <- qqplot(bs.tmb.df[,1], bs.pmb.df[, ,1], plot.it = FALSE)
+qq.b2.pmb_p11   <- qqplot(bs.tmb.df[,2], bs.pmb.df[, ,2], plot.it = FALSE)
+qq.b3.pmb_p11   <- qqplot(bs.tmb.df[,3], bs.pmb.df[, ,3], plot.it = FALSE)
+qq.b4.pmb_p11   <- qqplot(bs.tmb.df[,4], bs.pmb.df[, ,4], plot.it = FALSE)
+
+qq.ri.rebv1_p11 <- qqplot(s2.tmb.df[,1], s2.rebv1.df[,,1], plot.it = FALSE)
+qq.rs.rebv1_p11 <- qqplot(s2.tmb.df[,2], s2.rebv1.df[,,2], plot.it = FALSE)
+qq.re.rebv1_p11 <- qqplot(s2.tmb.df[,3], s2.rebv1.df[,,3], plot.it = FALSE)
+
+qq.ri.rebv2_p11 <- qqplot(s2.tmb.df[,1], s2.rebv2.df[,,1], plot.it = FALSE)
+qq.rs.rebv2_p11 <- qqplot(s2.tmb.df[,2], s2.rebv2.df[,,2], plot.it = FALSE)
+qq.re.rebv2_p11 <- qqplot(s2.tmb.df[,3], s2.rebv2.df[,,3], plot.it = FALSE)
+
+qq.ri.gcb_p11   <- qqplot(s2.tmb.df[,1], s2.gcb.df[,,1], plot.it = FALSE)
+qq.rs.gcb_p11   <- qqplot(s2.tmb.df[,2], s2.gcb.df[,,2], plot.it = FALSE)
+qq.re.gcb_p11   <- qqplot(s2.tmb.df[,3], s2.gcb.df[,,3], plot.it = FALSE)
+
+qq.ri.pmb_p11   <- qqplot(s2.tmb.df[,1], s2.pmb.df[,,1], plot.it = FALSE)
+qq.rs.pmb_p11   <- qqplot(s2.tmb.df[,2], s2.pmb.df[,,2], plot.it = FALSE)
+qq.re.pmb_p11   <- qqplot(s2.tmb.df[,3], s2.pmb.df[,,3], plot.it = FALSE)
+
+# alpha       <- c(0.10,0.05,0.01)
+# for (a in alpha){
+#   qs.bs.gcb     <- apply(bs.gcb.df, MARGIN = c(1,3), FUN = quantile,  probs = c(a/2, 1-a/2))
+#   qs.bs.pmb     <- apply(bs.pmb.df, MARGIN = c(1,3), FUN = quantile,  probs = c(a/2, 1-a/2))
+#   qs.bs.rebv1   <- apply(bs.rebv1.df, MARGIN = c(1,3), FUN = quantile,  probs = c(a/2, 1-a/2))
+#   qs.bs.rebv2   <- apply(bs.rebv2.df, MARGIN = c(1,3), FUN = quantile,  probs = c(a/2, 1-a/2))
+#   
+#   qs.s2.gcb     <- apply(s2.gcb.df, MARGIN = c(1,3), FUN = quantile,  probs = c(a/2, 1-a/2))
+#   qs.s2.pmb     <- apply(s2.pmb.df, MARGIN = c(1,3), FUN = quantile,  probs = c(a/2, 1-a/2))
+#   qs.s2.rebv1   <- apply(s2.rebv1.df, MARGIN = c(1,3), FUN = quantile,  probs = c(a/2, 1-a/2))
+#   qs.s2.rebv2   <- apply(s2.rebv2.df, MARGIN = c(1,3), FUN = quantile,  probs = c(a/2, 1-a/2))
+# 
+#   
+#   lb.bs.gcb     <- (betas.tmb.df) + 1/sqrt(ng)*qs.bs.gcb[1,,] 
+#   lb.bs.pmb     <- (betas.tmb.df) + 1/sqrt(ng)*qs.bs.pmb[1,,] 
+#   lb.bs.rebv1   <- (betas.tmb.df) + 1/sqrt(ng)*qs.bs.rebv1[1,,] 
+#   lb.bs.rebv2   <- (betas.tmb.df) + 1/sqrt(ng)*qs.bs.rebv2[1,,] 
+#   lb.s2.gcb     <- (sigma.tmb.df)^2 + 1/sqrt(ng)*qs.s2.gcb[1,,] 
+#   lb.s2.pmb     <- (sigma.tmb.df)^2 + 1/sqrt(ng)*qs.s2.pmb[1,,] 
+#   lb.s2.rebv1   <- (sigma.tmb.df)^2 + 1/sqrt(ng)*qs.s2.rebv1[1,,] 
+#   lb.s2.rebv2   <- (sigma.tmb.df)^2 + 1/sqrt(ng)*qs.s2.rebv2[1,,] 
+#   
+#   ub.bs.gcb     <- (betas.tmb.df) + 1/sqrt(ng)*qs.bs.gcb[2,,]
+#   ub.bs.pmb     <- (betas.tmb.df) + 1/sqrt(ng)*qs.bs.pmb[2,,]
+#   ub.bs.rebv1   <- (betas.tmb.df) + 1/sqrt(ng)*qs.bs.rebv1[2,,]
+#   ub.bs.rebv2   <- (betas.tmb.df) + 1/sqrt(ng)*qs.bs.rebv2[2,,]
+#   ub.s2.gcb     <- (sigma.tmb.df)^2 + 1/sqrt(ng)*qs.s2.gcb[2,,]
+#   ub.s2.pmb     <- (sigma.tmb.df)^2 + 1/sqrt(ng)*qs.s2.pmb[2,,]
+#   ub.s2.rebv1   <- (sigma.tmb.df)^2 + 1/sqrt(ng)*qs.s2.rebv1[2,,]
+#   ub.s2.rebv2   <- (sigma.tmb.df)^2 + 1/sqrt(ng)*qs.s2.rebv2[2,,]
+#     
+#   crs <- 
+#   rbind(
+#     c(
+#       mean(1*((betas[1])>=lb.bs.gcb[,1] & (betas[1])<=ub.bs.gcb[,1])),
+#       mean(1*((betas[1])>=lb.bs.pmb[,1] & (betas[1])<=ub.bs.pmb[,1])),
+#       mean(1*((betas[1])>=lb.bs.rebv1[,1] & (betas[1])<=ub.bs.rebv1[,1])),
+#       mean(1*((betas[1])>=lb.bs.rebv2[,1] & (betas[1])<=ub.bs.rebv2[,1]))
+#     ),
+#     c(
+#       mean(1*((betas[2])>=lb.bs.gcb[,2] & (betas[2])<=ub.bs.gcb[,2])),
+#       mean(1*((betas[2])>=lb.bs.pmb[,2] & (betas[2])<=ub.bs.pmb[,2])),
+#       mean(1*((betas[2])>=lb.bs.rebv1[,2] & (betas[2])<=ub.bs.rebv1[,2])),
+#       mean(1*((betas[2])>=lb.bs.rebv2[,2] & (betas[2])<=ub.bs.rebv2[,2]))
+#     ),
+#     c(
+#       mean(1*((betas[3])>=lb.bs.gcb[,3] & (betas[3])<=ub.bs.gcb[,3])),
+#       mean(1*((betas[3])>=lb.bs.pmb[,3] & (betas[3])<=ub.bs.pmb[,3])),
+#       mean(1*((betas[3])>=lb.bs.rebv1[,3] & (betas[3])<=ub.bs.rebv1[,3])),
+#       mean(1*((betas[3])>=lb.bs.rebv2[,3] & (betas[3])<=ub.bs.rebv2[,3]))
+#     ),
+#     c(
+#       mean(1*((betas[4])>=lb.bs.gcb[,4] & (betas[4])<=ub.bs.gcb[,4])),
+#       mean(1*((betas[4])>=lb.bs.pmb[,4] & (betas[4])<=ub.bs.pmb[,4])),
+#       mean(1*((betas[4])>=lb.bs.rebv1[,4] & (betas[4])<=ub.bs.rebv1[,4])),
+#       mean(1*((betas[4])>=lb.bs.rebv2[,4] & (betas[4])<=ub.bs.rebv2[,4]))
+#       ),
+#     c(
+#       mean(1*((sigma[1])^2>=lb.s2.gcb[,1] & (sigma[1])^2<=ub.s2.gcb[,1])),
+#       mean(1*((sigma[1])^2>=lb.s2.pmb[,1] & (sigma[1])^2<=ub.s2.pmb[,1])),
+#       mean(1*((sigma[1])^2>=lb.s2.rebv1[,1] & (sigma[1])^2<=ub.s2.rebv1[,1])),
+#       mean(1*((sigma[1])^2>=lb.s2.rebv2[,1] & (sigma[1])^2<=ub.s2.rebv2[,1]))
+#     ),
+#     c(
+#       mean(1*((sigma[2])^2>=lb.s2.gcb[,2] & (sigma[2])^2<=ub.s2.gcb[,2])),
+#       mean(1*((sigma[2])^2>=lb.s2.pmb[,2] & (sigma[2])^2<=ub.s2.pmb[,2])),
+#       mean(1*((sigma[2])^2>=lb.s2.rebv1[,2] & (sigma[2])^2<=ub.s2.rebv1[,2])),
+#       mean(1*((sigma[2])^2>=lb.s2.rebv2[,2] & (sigma[2])^2<=ub.s2.rebv2[,2]))
+#     ),
+#     c(
+#       mean(1*((sigma[3])^2>=lb.s2.gcb[,3] & (sigma[3])^2<=ub.s2.gcb[,3])),
+#       mean(1*((sigma[3])^2>=lb.s2.pmb[,3] & (sigma[3])^2<=ub.s2.pmb[,3])),
+#       mean(1*((sigma[3])^2>=lb.s2.rebv1[,3] & (sigma[3])^2<=ub.s2.rebv1[,3])),
+#       mean(1*((sigma[3])^2>=lb.s2.rebv2[,3] & (sigma[3])^2<=ub.s2.rebv2[,3]))
+#       )
+#     )
+#   assign(paste("tab_parcr_gs_p11", a, sep = "_"), crs) 
+# }
+
+
+## ----source_LMM_4_250, echo = FALSE, include = FALSE, results = 'hide'----
+load("~/Dropbox/Paper/Codes/LMM/LMM_TwoWay/[Baobab]/[Ch2]/p-chunks/pregcb_gs_ri_rs_p1_ni_4_ng_250_B_1000_M_1000.RData")
+
+qq.b1.rebv1_p12 <- qqplot(bs.tmb.df[,1], bs.rebv1.df[, ,1], plot.it = FALSE)
+qq.b2.rebv1_p12 <- qqplot(bs.tmb.df[,2], bs.rebv1.df[, ,2], plot.it = FALSE)
+qq.b3.rebv1_p12 <- qqplot(bs.tmb.df[,3], bs.rebv1.df[, ,3], plot.it = FALSE)
+qq.b4.rebv1_p12 <- qqplot(bs.tmb.df[,4], bs.rebv1.df[, ,4], plot.it = FALSE)
+
+qq.b1.rebv2_p12 <- qqplot(bs.tmb.df[,1], bs.rebv2.df[, ,1], plot.it = FALSE)
+qq.b2.rebv2_p12 <- qqplot(bs.tmb.df[,2], bs.rebv2.df[, ,2], plot.it = FALSE)
+qq.b3.rebv2_p12 <- qqplot(bs.tmb.df[,3], bs.rebv2.df[, ,3], plot.it = FALSE)
+qq.b4.rebv2_p12 <- qqplot(bs.tmb.df[,4], bs.rebv2.df[, ,4], plot.it = FALSE)
+
+qq.b1.gcb_p12 <- qqplot(bs.tmb.df[,1], bs.gcb.df[, ,1], plot.it = FALSE)
+qq.b2.gcb_p12 <- qqplot(bs.tmb.df[,2], bs.gcb.df[, ,2], plot.it = FALSE)
+qq.b3.gcb_p12 <- qqplot(bs.tmb.df[,3], bs.gcb.df[, ,3], plot.it = FALSE)
+qq.b4.gcb_p12 <- qqplot(bs.tmb.df[,4], bs.gcb.df[, ,4], plot.it = FALSE)
+
+qq.b1.pmb_p12 <- qqplot(bs.tmb.df[,1], bs.pmb.df[, ,1], plot.it = FALSE)
+qq.b2.pmb_p12 <- qqplot(bs.tmb.df[,2], bs.pmb.df[, ,2], plot.it = FALSE)
+qq.b3.pmb_p12 <- qqplot(bs.tmb.df[,3], bs.pmb.df[, ,3], plot.it = FALSE)
+qq.b4.pmb_p12 <- qqplot(bs.tmb.df[,4], bs.pmb.df[, ,4], plot.it = FALSE)
+
+qq.ri.rebv1_p12 <- qqplot(s2.tmb.df[,1], s2.rebv1.df[,,1], plot.it = FALSE)
+qq.rs.rebv1_p12 <- qqplot(s2.tmb.df[,2], s2.rebv1.df[,,2], plot.it = FALSE)
+qq.re.rebv1_p12 <- qqplot(s2.tmb.df[,3], s2.rebv1.df[,,3], plot.it = FALSE)
+
+qq.ri.rebv2_p12 <- qqplot(s2.tmb.df[,1], s2.rebv2.df[,,1], plot.it = FALSE)
+qq.rs.rebv2_p12 <- qqplot(s2.tmb.df[,2], s2.rebv2.df[,,2], plot.it = FALSE)
+qq.re.rebv2_p12 <- qqplot(s2.tmb.df[,3], s2.rebv2.df[,,3], plot.it = FALSE)
+
+qq.ri.gcb_p12 <- qqplot(s2.tmb.df[,1], s2.gcb.df[,,1], plot.it = FALSE)
+qq.rs.gcb_p12 <- qqplot(s2.tmb.df[,2], s2.gcb.df[,,2], plot.it = FALSE)
+qq.re.gcb_p12 <- qqplot(s2.tmb.df[,3], s2.gcb.df[,,3], plot.it = FALSE)
+
+qq.ri.pmb_p12 <- qqplot(s2.tmb.df[,1], s2.pmb.df[,,1], plot.it = FALSE)
+qq.rs.pmb_p12 <- qqplot(s2.tmb.df[,2], s2.pmb.df[,,2], plot.it = FALSE)
+qq.re.pmb_p12 <- qqplot(s2.tmb.df[,3], s2.pmb.df[,,3], plot.it = FALSE)
+
+# alpha       <- c(0.10,0.05,0.01)
+# for (a in alpha){
+#   qs.bs.gcb   <- apply(bs.gcb.df, MARGIN = c(1,3), FUN = quantile,  probs = c(a/2, 1-a/2))
+#   qs.bs.pmb   <- apply(bs.pmb.df, MARGIN = c(1,3), FUN = quantile,  probs = c(a/2, 1-a/2))
+#   qs.bs.rebv1 <- apply(bs.rebv1.df, MARGIN = c(1,3), FUN = quantile,  probs = c(a/2, 1-a/2))
+#   qs.bs.rebv2 <- apply(bs.rebv2.df, MARGIN = c(1,3), FUN = quantile,  probs = c(a/2, 1-a/2))
+#   
+#   qs.s2.gcb   <- apply(s2.gcb.df, MARGIN = c(1,3), FUN = quantile,  probs = c(a/2, 1-a/2))
+#   qs.s2.pmb   <- apply(s2.pmb.df, MARGIN = c(1,3), FUN = quantile,  probs = c(a/2, 1-a/2))
+#   qs.s2.rebv1 <- apply(s2.rebv1.df, MARGIN = c(1,3), FUN = quantile,  probs = c(a/2, 1-a/2))
+#   qs.s2.rebv2 <- apply(s2.rebv2.df, MARGIN = c(1,3), FUN = quantile,  probs = c(a/2, 1-a/2))
+# 
+#   
+#   lb.bs.gcb  <-   (betas.tmb.df) + 1/sqrt(ng)*qs.bs.gcb[1,,] 
+#   lb.bs.pmb  <-   (betas.tmb.df) + 1/sqrt(ng)*qs.bs.pmb[1,,] 
+#   lb.bs.rebv1  <- (betas.tmb.df) + 1/sqrt(ng)*qs.bs.rebv1[1,,] 
+#   lb.bs.rebv2  <- (betas.tmb.df) + 1/sqrt(ng)*qs.bs.rebv2[1,,] 
+#   lb.s2.gcb  <-   (sigma.tmb.df)^2 + 1/sqrt(ng)*qs.s2.gcb[1,,] 
+#   lb.s2.pmb  <-   (sigma.tmb.df)^2 + 1/sqrt(ng)*qs.s2.pmb[1,,] 
+#   lb.s2.rebv1  <- (sigma.tmb.df)^2 + 1/sqrt(ng)*qs.s2.rebv1[1,,] 
+#   lb.s2.rebv2  <- (sigma.tmb.df)^2 + 1/sqrt(ng)*qs.s2.rebv2[1,,] 
+#   
+#   ub.bs.gcb  <-   (betas.tmb.df) + 1/sqrt(ng)*qs.bs.gcb[2,,]
+#   ub.bs.pmb  <-   (betas.tmb.df) + 1/sqrt(ng)*qs.bs.pmb[2,,]
+#   ub.bs.rebv1  <- (betas.tmb.df) + 1/sqrt(ng)*qs.bs.rebv1[2,,]
+#   ub.bs.rebv2  <- (betas.tmb.df) + 1/sqrt(ng)*qs.bs.rebv2[2,,]
+#   ub.s2.gcb  <-   (sigma.tmb.df)^2 + 1/sqrt(ng)*qs.s2.gcb[2,,]
+#   ub.s2.pmb  <-   (sigma.tmb.df)^2 + 1/sqrt(ng)*qs.s2.pmb[2,,]
+#   ub.s2.rebv1  <- (sigma.tmb.df)^2 + 1/sqrt(ng)*qs.s2.rebv1[2,,]
+#   ub.s2.rebv2  <- (sigma.tmb.df)^2 + 1/sqrt(ng)*qs.s2.rebv2[2,,]
+#     
+#   crs <- 
+#   rbind(
+#     c(
+#       mean(1*((betas[1])>=lb.bs.gcb[,1] & (betas[1])<=ub.bs.gcb[,1])),
+#       mean(1*((betas[1])>=lb.bs.pmb[,1] & (betas[1])<=ub.bs.pmb[,1])),
+#       mean(1*((betas[1])>=lb.bs.rebv1[,1] & (betas[1])<=ub.bs.rebv1[,1])),
+#       mean(1*((betas[1])>=lb.bs.rebv2[,1] & (betas[1])<=ub.bs.rebv2[,1]))
+#     ),
+#     c(
+#       mean(1*((betas[2])>=lb.bs.gcb[,2] & (betas[2])<=ub.bs.gcb[,2])),
+#       mean(1*((betas[2])>=lb.bs.pmb[,2] & (betas[2])<=ub.bs.pmb[,2])),
+#       mean(1*((betas[2])>=lb.bs.rebv1[,2] & (betas[2])<=ub.bs.rebv1[,2])),
+#       mean(1*((betas[2])>=lb.bs.rebv2[,2] & (betas[2])<=ub.bs.rebv2[,2]))
+#     ),
+#     c(
+#       mean(1*((betas[3])>=lb.bs.gcb[,3] & (betas[3])<=ub.bs.gcb[,3])),
+#       mean(1*((betas[3])>=lb.bs.pmb[,3] & (betas[3])<=ub.bs.pmb[,3])),
+#       mean(1*((betas[3])>=lb.bs.rebv1[,3] & (betas[3])<=ub.bs.rebv1[,3])),
+#       mean(1*((betas[3])>=lb.bs.rebv2[,3] & (betas[3])<=ub.bs.rebv2[,3]))
+#     ),
+#     c(
+#       mean(1*((betas[4])>=lb.bs.gcb[,4] & (betas[4])<=ub.bs.gcb[,4])),
+#       mean(1*((betas[4])>=lb.bs.pmb[,4] & (betas[4])<=ub.bs.pmb[,4])),
+#       mean(1*((betas[4])>=lb.bs.rebv1[,4] & (betas[4])<=ub.bs.rebv1[,4])),
+#       mean(1*((betas[4])>=lb.bs.rebv2[,4] & (betas[4])<=ub.bs.rebv2[,4]))
+#       ),
+#     c(
+#       mean(1*((sigma[1])^2>=lb.s2.gcb[,1] & (sigma[1])^2<=ub.s2.gcb[,1])),
+#       mean(1*((sigma[1])^2>=lb.s2.pmb[,1] & (sigma[1])^2<=ub.s2.pmb[,1])),
+#       mean(1*((sigma[1])^2>=lb.s2.rebv1[,1] & (sigma[1])^2<=ub.s2.rebv1[,1])),
+#       mean(1*((sigma[1])^2>=lb.s2.rebv2[,1] & (sigma[1])^2<=ub.s2.rebv2[,1]))
+#     ),
+#     c(
+#       mean(1*((sigma[2])^2>=lb.s2.gcb[,2] & (sigma[2])^2<=ub.s2.gcb[,2])),
+#       mean(1*((sigma[2])^2>=lb.s2.pmb[,2] & (sigma[2])^2<=ub.s2.pmb[,2])),
+#       mean(1*((sigma[2])^2>=lb.s2.rebv1[,2] & (sigma[2])^2<=ub.s2.rebv1[,2])),
+#       mean(1*((sigma[2])^2>=lb.s2.rebv2[,2] & (sigma[2])^2<=ub.s2.rebv2[,2]))
+#     ),
+#     c(
+#       mean(1*((sigma[3])^2>=lb.s2.gcb[,3] & (sigma[3])^2<=ub.s2.gcb[,3])),
+#       mean(1*((sigma[3])^2>=lb.s2.pmb[,3] & (sigma[3])^2<=ub.s2.pmb[,3])),
+#       mean(1*((sigma[3])^2>=lb.s2.rebv1[,3] & (sigma[3])^2<=ub.s2.rebv1[,3])),
+#       mean(1*((sigma[3])^2>=lb.s2.rebv2[,3] & (sigma[3])^2<=ub.s2.rebv2[,3]))
+#       )
+#     )
+#   assign(paste("tab_parcr_gs_p12", a, sep = "_"), crs) 
+# }
+
+## ----source_LMM_12_100, echo = FALSE, include = FALSE, results = 'hide'----
+load("~/Dropbox/Paper/Codes/LMM/LMM_TwoWay/[Baobab]/[Ch2]/p-chunks/pregcb_gs_ri_rs_p1_ni_12_ng_100_B_1000_M_1000.RData")
+
+qq.b1.rebv1_p21 <- qqplot(bs.tmb.df[,1], bs.rebv1.df[, ,1], plot.it = FALSE)
+qq.b2.rebv1_p21 <- qqplot(bs.tmb.df[,2], bs.rebv1.df[, ,2], plot.it = FALSE)
+qq.b3.rebv1_p21 <- qqplot(bs.tmb.df[,3], bs.rebv1.df[, ,3], plot.it = FALSE)
+qq.b4.rebv1_p21 <- qqplot(bs.tmb.df[,4], bs.rebv1.df[, ,4], plot.it = FALSE)
+
+qq.b1.rebv2_p21 <- qqplot(bs.tmb.df[,1], bs.rebv2.df[, ,1], plot.it = FALSE)
+qq.b2.rebv2_p21 <- qqplot(bs.tmb.df[,2], bs.rebv2.df[, ,2], plot.it = FALSE)
+qq.b3.rebv2_p21 <- qqplot(bs.tmb.df[,3], bs.rebv2.df[, ,3], plot.it = FALSE)
+qq.b4.rebv2_p21 <- qqplot(bs.tmb.df[,4], bs.rebv2.df[, ,4], plot.it = FALSE)
+
+qq.b1.gcb_p21   <- qqplot(bs.tmb.df[,1], bs.gcb.df[, ,1], plot.it = FALSE)
+qq.b2.gcb_p21   <- qqplot(bs.tmb.df[,2], bs.gcb.df[, ,2], plot.it = FALSE)
+qq.b3.gcb_p21   <- qqplot(bs.tmb.df[,3], bs.gcb.df[, ,3], plot.it = FALSE)
+qq.b4.gcb_p21   <- qqplot(bs.tmb.df[,4], bs.gcb.df[, ,4], plot.it = FALSE)
+
+qq.b1.pmb_p21   <- qqplot(bs.tmb.df[,1], bs.pmb.df[, ,1], plot.it = FALSE)
+qq.b2.pmb_p21   <- qqplot(bs.tmb.df[,2], bs.pmb.df[, ,2], plot.it = FALSE)
+qq.b3.pmb_p21   <- qqplot(bs.tmb.df[,3], bs.pmb.df[, ,3], plot.it = FALSE)
+qq.b4.pmb_p21   <- qqplot(bs.tmb.df[,4], bs.pmb.df[, ,4], plot.it = FALSE)
+
+qq.ri.rebv1_p21 <- qqplot(s2.tmb.df[,1], s2.rebv1.df[,,1], plot.it = FALSE)
+qq.rs.rebv1_p21 <- qqplot(s2.tmb.df[,2], s2.rebv1.df[,,2], plot.it = FALSE)
+qq.re.rebv1_p21 <- qqplot(s2.tmb.df[,3], s2.rebv1.df[,,3], plot.it = FALSE)
+
+qq.ri.rebv2_p21 <- qqplot(s2.tmb.df[,1], s2.rebv2.df[,,1], plot.it = FALSE)
+qq.rs.rebv2_p21 <- qqplot(s2.tmb.df[,2], s2.rebv2.df[,,2], plot.it = FALSE)
+qq.re.rebv2_p21 <- qqplot(s2.tmb.df[,3], s2.rebv2.df[,,3], plot.it = FALSE)
+
+qq.ri.gcb_p21   <- qqplot(s2.tmb.df[,1], s2.gcb.df[,,1], plot.it = FALSE)
+qq.rs.gcb_p21   <- qqplot(s2.tmb.df[,2], s2.gcb.df[,,2], plot.it = FALSE)
+qq.re.gcb_p21   <- qqplot(s2.tmb.df[,3], s2.gcb.df[,,3], plot.it = FALSE)
+
+qq.ri.pmb_p21   <- qqplot(s2.tmb.df[,1], s2.pmb.df[,,1], plot.it = FALSE)
+qq.rs.pmb_p21   <- qqplot(s2.tmb.df[,2], s2.pmb.df[,,2], plot.it = FALSE)
+qq.re.pmb_p21   <- qqplot(s2.tmb.df[,3], s2.pmb.df[,,3], plot.it = FALSE)
+
+# alpha       <- c(0.10,0.05,0.01)
+# for (a in alpha){
+#   qs.bs.gcb     <- apply(bs.gcb.df, MARGIN = c(1,3), FUN = quantile,  probs = c(a/2, 1-a/2))
+#   qs.bs.pmb     <- apply(bs.pmb.df, MARGIN = c(1,3), FUN = quantile,  probs = c(a/2, 1-a/2))
+#   qs.bs.rebv1   <- apply(bs.rebv1.df, MARGIN = c(1,3), FUN = quantile,  probs = c(a/2, 1-a/2))
+#   qs.bs.rebv2   <- apply(bs.rebv2.df, MARGIN = c(1,3), FUN = quantile,  probs = c(a/2, 1-a/2))
+#   
+#   qs.s2.gcb     <- apply(s2.gcb.df, MARGIN = c(1,3), FUN = quantile,  probs = c(a/2, 1-a/2))
+#   qs.s2.pmb     <- apply(s2.pmb.df, MARGIN = c(1,3), FUN = quantile,  probs = c(a/2, 1-a/2))
+#   qs.s2.rebv1   <- apply(s2.rebv1.df, MARGIN = c(1,3), FUN = quantile,  probs = c(a/2, 1-a/2))
+#   qs.s2.rebv2   <- apply(s2.rebv2.df, MARGIN = c(1,3), FUN = quantile,  probs = c(a/2, 1-a/2))
+# 
+#   
+#   lb.bs.gcb     <- (betas.tmb.df) + 1/sqrt(ng)*qs.bs.gcb[1,,] 
+#   lb.bs.pmb     <- (betas.tmb.df) + 1/sqrt(ng)*qs.bs.pmb[1,,] 
+#   lb.bs.rebv1   <- (betas.tmb.df) + 1/sqrt(ng)*qs.bs.rebv1[1,,] 
+#   lb.bs.rebv2   <- (betas.tmb.df) + 1/sqrt(ng)*qs.bs.rebv2[1,,] 
+#   lb.s2.gcb     <- (sigma.tmb.df)^2 + 1/sqrt(ng)*qs.s2.gcb[1,,] 
+#   lb.s2.pmb     <- (sigma.tmb.df)^2 + 1/sqrt(ng)*qs.s2.pmb[1,,] 
+#   lb.s2.rebv1   <- (sigma.tmb.df)^2 + 1/sqrt(ng)*qs.s2.rebv1[1,,] 
+#   lb.s2.rebv2   <- (sigma.tmb.df)^2 + 1/sqrt(ng)*qs.s2.rebv2[1,,] 
+#   
+#   ub.bs.gcb     <- (betas.tmb.df) + 1/sqrt(ng)*qs.bs.gcb[2,,]
+#   ub.bs.pmb     <- (betas.tmb.df) + 1/sqrt(ng)*qs.bs.pmb[2,,]
+#   ub.bs.rebv1   <- (betas.tmb.df) + 1/sqrt(ng)*qs.bs.rebv1[2,,]
+#   ub.bs.rebv2   <- (betas.tmb.df) + 1/sqrt(ng)*qs.bs.rebv2[2,,]
+#   ub.s2.gcb     <- (sigma.tmb.df)^2 + 1/sqrt(ng)*qs.s2.gcb[2,,]
+#   ub.s2.pmb     <- (sigma.tmb.df)^2 + 1/sqrt(ng)*qs.s2.pmb[2,,]
+#   ub.s2.rebv1   <- (sigma.tmb.df)^2 + 1/sqrt(ng)*qs.s2.rebv1[2,,]
+#   ub.s2.rebv2   <- (sigma.tmb.df)^2 + 1/sqrt(ng)*qs.s2.rebv2[2,,]
+#     
+#   crs <- 
+#   rbind(
+#     c(
+#       mean(1*((betas[1])>=lb.bs.gcb[,1] & (betas[1])<=ub.bs.gcb[,1])),
+#       mean(1*((betas[1])>=lb.bs.pmb[,1] & (betas[1])<=ub.bs.pmb[,1])),
+#       mean(1*((betas[1])>=lb.bs.rebv1[,1] & (betas[1])<=ub.bs.rebv1[,1])),
+#       mean(1*((betas[1])>=lb.bs.rebv2[,1] & (betas[1])<=ub.bs.rebv2[,1]))
+#     ),
+#     c(
+#       mean(1*((betas[2])>=lb.bs.gcb[,2] & (betas[2])<=ub.bs.gcb[,2])),
+#       mean(1*((betas[2])>=lb.bs.pmb[,2] & (betas[2])<=ub.bs.pmb[,2])),
+#       mean(1*((betas[2])>=lb.bs.rebv1[,2] & (betas[2])<=ub.bs.rebv1[,2])),
+#       mean(1*((betas[2])>=lb.bs.rebv2[,2] & (betas[2])<=ub.bs.rebv2[,2]))
+#     ),
+#     c(
+#       mean(1*((betas[3])>=lb.bs.gcb[,3] & (betas[3])<=ub.bs.gcb[,3])),
+#       mean(1*((betas[3])>=lb.bs.pmb[,3] & (betas[3])<=ub.bs.pmb[,3])),
+#       mean(1*((betas[3])>=lb.bs.rebv1[,3] & (betas[3])<=ub.bs.rebv1[,3])),
+#       mean(1*((betas[3])>=lb.bs.rebv2[,3] & (betas[3])<=ub.bs.rebv2[,3]))
+#     ),
+#     c(
+#       mean(1*((betas[4])>=lb.bs.gcb[,4] & (betas[4])<=ub.bs.gcb[,4])),
+#       mean(1*((betas[4])>=lb.bs.pmb[,4] & (betas[4])<=ub.bs.pmb[,4])),
+#       mean(1*((betas[4])>=lb.bs.rebv1[,4] & (betas[4])<=ub.bs.rebv1[,4])),
+#       mean(1*((betas[4])>=lb.bs.rebv2[,4] & (betas[4])<=ub.bs.rebv2[,4]))
+#       ),
+#     c(
+#       mean(1*((sigma[1])^2>=lb.s2.gcb[,1] & (sigma[1])^2<=ub.s2.gcb[,1])),
+#       mean(1*((sigma[1])^2>=lb.s2.pmb[,1] & (sigma[1])^2<=ub.s2.pmb[,1])),
+#       mean(1*((sigma[1])^2>=lb.s2.rebv1[,1] & (sigma[1])^2<=ub.s2.rebv1[,1])),
+#       mean(1*((sigma[1])^2>=lb.s2.rebv2[,1] & (sigma[1])^2<=ub.s2.rebv2[,1]))
+#     ),
+#     c(
+#       mean(1*((sigma[2])^2>=lb.s2.gcb[,2] & (sigma[2])^2<=ub.s2.gcb[,2])),
+#       mean(1*((sigma[2])^2>=lb.s2.pmb[,2] & (sigma[2])^2<=ub.s2.pmb[,2])),
+#       mean(1*((sigma[2])^2>=lb.s2.rebv1[,2] & (sigma[2])^2<=ub.s2.rebv1[,2])),
+#       mean(1*((sigma[2])^2>=lb.s2.rebv2[,2] & (sigma[2])^2<=ub.s2.rebv2[,2]))
+#     ),
+#     c(
+#       mean(1*((sigma[3])^2>=lb.s2.gcb[,3] & (sigma[3])^2<=ub.s2.gcb[,3])),
+#       mean(1*((sigma[3])^2>=lb.s2.pmb[,3] & (sigma[3])^2<=ub.s2.pmb[,3])),
+#       mean(1*((sigma[3])^2>=lb.s2.rebv1[,3] & (sigma[3])^2<=ub.s2.rebv1[,3])),
+#       mean(1*((sigma[3])^2>=lb.s2.rebv2[,3] & (sigma[3])^2<=ub.s2.rebv2[,3]))
+#       )
+#     )
+#   assign(paste("tab_parcr_gs_p21", a, sep = "_"), crs) 
+# }
+
+## ----source_LMM_12_250, echo = FALSE, include = FALSE, results = 'hide'----
+load("~/Dropbox/Paper/Codes/LMM/LMM_TwoWay/[Baobab]/[Ch2]/p-chunks/pregcb_gs_ri_rs_p1_ni_12_ng_250_B_1000_M_1000.RData")
+
+qq.b1.rebv1_p22 <- qqplot(bs.tmb.df[,1], bs.rebv1.df[, ,1], plot.it = FALSE)
+qq.b2.rebv1_p22 <- qqplot(bs.tmb.df[,2], bs.rebv1.df[, ,2], plot.it = FALSE)
+qq.b3.rebv1_p22 <- qqplot(bs.tmb.df[,3], bs.rebv1.df[, ,3], plot.it = FALSE)
+qq.b4.rebv1_p22 <- qqplot(bs.tmb.df[,4], bs.rebv1.df[, ,4], plot.it = FALSE)
+
+qq.b1.rebv2_p22 <- qqplot(bs.tmb.df[,1], bs.rebv2.df[, ,1], plot.it = FALSE)
+qq.b2.rebv2_p22 <- qqplot(bs.tmb.df[,2], bs.rebv2.df[, ,2], plot.it = FALSE)
+qq.b3.rebv2_p22 <- qqplot(bs.tmb.df[,3], bs.rebv2.df[, ,3], plot.it = FALSE)
+qq.b4.rebv2_p22 <- qqplot(bs.tmb.df[,4], bs.rebv2.df[, ,4], plot.it = FALSE)
+
+qq.b1.gcb_p22 <- qqplot(bs.tmb.df[,1], bs.gcb.df[, ,1], plot.it = FALSE)
+qq.b2.gcb_p22 <- qqplot(bs.tmb.df[,2], bs.gcb.df[, ,2], plot.it = FALSE)
+qq.b3.gcb_p22 <- qqplot(bs.tmb.df[,3], bs.gcb.df[, ,3], plot.it = FALSE)
+qq.b4.gcb_p22 <- qqplot(bs.tmb.df[,4], bs.gcb.df[, ,4], plot.it = FALSE)
+
+qq.b1.pmb_p22 <- qqplot(bs.tmb.df[,1], bs.pmb.df[, ,1], plot.it = FALSE)
+qq.b2.pmb_p22 <- qqplot(bs.tmb.df[,2], bs.pmb.df[, ,2], plot.it = FALSE)
+qq.b3.pmb_p22 <- qqplot(bs.tmb.df[,3], bs.pmb.df[, ,3], plot.it = FALSE)
+qq.b4.pmb_p22 <- qqplot(bs.tmb.df[,4], bs.pmb.df[, ,4], plot.it = FALSE)
+
+qq.ri.rebv1_p22 <- qqplot(s2.tmb.df[,1], s2.rebv1.df[,,1], plot.it = FALSE)
+qq.rs.rebv1_p22 <- qqplot(s2.tmb.df[,2], s2.rebv1.df[,,2], plot.it = FALSE)
+qq.re.rebv1_p22 <- qqplot(s2.tmb.df[,3], s2.rebv1.df[,,3], plot.it = FALSE)
+
+qq.ri.rebv2_p22 <- qqplot(s2.tmb.df[,1], s2.rebv2.df[,,1], plot.it = FALSE)
+qq.rs.rebv2_p22 <- qqplot(s2.tmb.df[,2], s2.rebv2.df[,,2], plot.it = FALSE)
+qq.re.rebv2_p22 <- qqplot(s2.tmb.df[,3], s2.rebv2.df[,,3], plot.it = FALSE)
+
+qq.ri.gcb_p22 <- qqplot(s2.tmb.df[,1], s2.gcb.df[,,1], plot.it = FALSE)
+qq.rs.gcb_p22 <- qqplot(s2.tmb.df[,2], s2.gcb.df[,,2], plot.it = FALSE)
+qq.re.gcb_p22 <- qqplot(s2.tmb.df[,3], s2.gcb.df[,,3], plot.it = FALSE)
+
+qq.ri.pmb_p22 <- qqplot(s2.tmb.df[,1], s2.pmb.df[,,1], plot.it = FALSE)
+qq.rs.pmb_p22 <- qqplot(s2.tmb.df[,2], s2.pmb.df[,,2], plot.it = FALSE)
+qq.re.pmb_p22 <- qqplot(s2.tmb.df[,3], s2.pmb.df[,,3], plot.it = FALSE)
+
+```
+  
+```{r, include =  FALSE}
+## ----graph_s2_gs_p1, include = TRUE--------------------------------------
+# ylim_s2_2 <- c(-400, 400)
+ylim_s2_2 <- range(qq.ri.rebv1_p11$y, qq.ri.rebv2_p11$y, qq.ri.pmb_p11$y , qq.ri.gcb_p11$y)
+# xlim_s2_2 <- ylim_s2_2
+xlim_s2_2 <- range(qq.ri.rebv1_p11$x, qq.ri.rebv2_p11$x, qq.ri.pmb_p11$x , qq.ri.gcb_p11$x)
+
+# ylim_s2_3 <- c(-1.5, 1.5)
+ylim_s2_3 <- range(qq.rs.rebv1_p11$y, qq.rs.rebv2_p11$y, qq.rs.pmb_p11$y , qq.rs.gcb_p11$y)
+# xlim_s2_3 <- ylim_s2_3
+xlim_s2_3 <- range(qq.rs.rebv1_p11$x, qq.rs.rebv2_p11$x, qq.rs.pmb_p11$x , qq.rs.gcb_p11$x)
+```
+
+---
+class: center
+.pull-left[
+```{r}
+## ----qqplots_sigma_LMM_1_p11,echo = FALSE,  messages = FALSE-------------
+  plot(
+    xlim_s2_2, 
+    ylim_s2_2, 
+    type = "n",
+    xlab="Empirical",
+    ylab="Bootstrap Distributions"
+    # ,
+    # main = expression(sigma[1]^2)
+    )
+  # points(qq.ri.rebv1_p11, pch="x", col = "lightgray")
+  # points(qq.ri.rebv2_p11, pch="x", col="blue")
+  # points(qq.ri.pmb_p11, pch="+", col="red")
+  # points(qq.ri.gcb_p11, pch="o", col="forestgreen")
+  
+  lines(qq.ri.rebv1_p11, lty = 5, lwd=6, col = "lightgray")
+  lines(qq.ri.rebv2_p11, lty = 4, lwd=6, col="blue")
+  lines(qq.ri.pmb_p11,   lty = 3, lwd=6, col="red")
+  lines(qq.ri.gcb_p11,   lty = 2, lwd=6, col="forestgreen")
+  
+  abline(a=0,b=1)
+```
+]
+
+.pull-right[
+```{r}
+## ----qqplots_sigma_LMM_1_p12,echo = FALSE,  messages = FALSE-------------
+  plot(
+    xlim_s2_2, 
+    ylim_s2_2, 
+    type = "n",
+    xlab="Empirical",
+    ylab="Bootstrap Distributions"
+    # ,
+    # main = expression(sigma[1]^2)
+    )
+  # points(qq.ri.rebv1_p12, pch="x", col = "lightgray")
+  # points(qq.ri.rebv2_p12, pch="x", col="blue")
+  # points(qq.ri.pmb_p12, pch="+", col="red")
+  # points(qq.ri.gcb_p12, pch="o", col="forestgreen")
+  
+  lines(qq.ri.rebv1_p12, lty = 5, lwd=6, col = "lightgray")
+  lines(qq.ri.rebv2_p12, lty = 4, lwd=6, col="blue")
+  lines(qq.ri.pmb_p12,   lty = 3, lwd=6, col="red")
+  lines(qq.ri.gcb_p12,   lty = 2, lwd=6, col="forestgreen")
+  
+  abline(a=0,b=1)
+  
+  legend("bottomright",
+   legend = c("RWLB","PB", "REB.V1", "REB.V2"), 
+   col    = c("forestgreen", "red","lightgrey", "blue"),
+   # pch    = c("o","+", "x", "x"), 
+   lty = c(2,3,4,5),
+   lwd = rep(3,4))
+```
+]
+---
+class: center
+.pull-left[
+```{r}
+## ----qqplots_sigma_LMM_1_p21,echo = FALSE,  messages = FALSE-------------
+  plot(
+    xlim_s2_2, 
+    ylim_s2_2, 
+    type = "n",
+    xlab="Empirical",
+    ylab="Bootstrap Distributions"
+    # ,
+    # main = expression(sigma[1]^2)
+    )
+  # points(qq.ri.rebv1_p21, pch="x", col = "lightgray")
+  # points(qq.ri.rebv2_p21, pch="x", col="blue")
+  # points(qq.ri.pmb_p21, pch="+", col="red")
+  # points(qq.ri.gcb_p21, pch="o", col="forestgreen")
+  
+  lines(qq.ri.rebv1_p21, lty = 5, lwd=6, col = "lightgray")
+  lines(qq.ri.rebv2_p21, lty = 4, lwd=6, col="blue")
+  lines(qq.ri.pmb_p21,   lty = 3, lwd=6, col="red")
+  lines(qq.ri.gcb_p21,   lty = 2, lwd=6, col="forestgreen")
+  
+  abline(a=0,b=1)
+```
+]
+
+.pull-right[
+```{r}
+## ----qqplots_sigma_LMM_1_p22,echo = FALSE,  messages = FALSE-------------
+  plot(
+    xlim_s2_2, 
+    ylim_s2_2, 
+    type = "n",
+    xlab="Empirical",
+    ylab="Bootstrap Distributions"
+    # ,
+    # main = expression(sigma[1]^2)
+    )
+  # points(qq.ri.rebv1_p22, pch="x", col = "lightgray")
+  # points(qq.ri.rebv2_p22, pch="x", col="blue")
+  # points(qq.ri.pmb_p22, pch="+", col="red")
+  # points(qq.ri.gcb_p22, pch="o", col="forestgreen")
+  
+  lines(qq.ri.rebv1_p22, lty = 5, lwd=6, col="lightgray")
+  lines(qq.ri.rebv2_p22, lty = 4, lwd=6, col="blue")
+  lines(qq.ri.pmb_p22,   lty = 3, lwd=6, col="red")
+  lines(qq.ri.gcb_p22,   lty = 2, lwd=6, col="forestgreen")
+  
+  abline(a=0,b=1)
+  legend(
+    "bottomright",
+    legend = c("RWLB","PB", "REB.V1", "REB.V2"), 
+    col    = c("forestgreen", "red","lightgrey", "blue"),
+    # pch    = c("o","+", "x", "x"), 
+    lty = c(2,3,4,5),
+    lwd = rep(3,4)
+    )
+```
+] 
+
+---
+class: center
+
+.pull-left[
+```{r}
+
+## ----qqplots_sigma_LMM_2_p11,echo = FALSE,  messages = FALSE-------------
+  plot(
+    xlim_s2_3, 
+    ylim_s2_3, 
+    type = "n",
+    xlab="Empirical",
+    ylab="Bootstrap Distributions"
+    # ,
+    # main = expression(sigma[2]^2)
+    )
+  # points(qq.rs.rebv1_p11, pch="x", col = "lightgray")
+  # points(qq.rs.rebv2_p11, pch="x", col="blue")
+  # points(qq.rs.pmb_p11, pch="+", col="red")
+  # points(qq.rs.gcb_p11, pch="o", col="forestgreen")
+  
+  lines(qq.rs.rebv1_p11, lty = 5, lwd=6,col = "lightgray")
+  lines(qq.rs.rebv2_p11, lty = 4, lwd=6,col="blue")
+  lines(qq.rs.pmb_p11, lty = 3,lwd=6, col="red")
+  lines(qq.rs.gcb_p11, lty = 2, lwd=6,col="forestgreen")
+  
+  abline(a=0,b=1)
+  
+```
+]
+
+.pull-right[
+```{r}
+## ----qqplots_sigma_LMM_2_p12,echo = FALSE,  messages = FALSE-------------
+  plot(
+    xlim_s2_3, 
+    ylim_s2_3, 
+    type = "n",
+    xlab="Empirical",
+    ylab="Bootstrap Distributions"
+    # ,
+    # main = expression(sigma[2]^2)
+    )
+  # points(qq.rs.rebv1_p12, pch="x", col = "lightgray")
+  # points(qq.rs.rebv2_p12, pch="x", col="blue")
+  # points(qq.rs.pmb_p12, pch="+", col="red")
+  # points(qq.rs.gcb_p12, pch="o", col="forestgreen")
+  
+  lines(qq.rs.rebv1_p12, lty = 5, lwd=6,col = "lightgray")
+  lines(qq.rs.rebv2_p12, lty = 4, lwd=6,col="blue")
+  lines(qq.rs.pmb_p12, lty = 3,lwd=6, col="red")
+  lines(qq.rs.gcb_p12, lty = 2, lwd=6,col="forestgreen")
+  
+  abline(a=0,b=1)
+  
+  legend("bottomright",
+   legend = c("RWLB","PB", "REB.V1", "REB.V2"), 
+   col    = c("forestgreen", "red", "lightgrey","blue"),
+   # pch    = c("o","+", "x", "x"), 
+   lty = c(2,3,4,5),
+   lwd = rep(3,4))
+```
+]
+---
+class: center
+
+.pull-left[
+```{r}
+
+## ----qqplots_sigma_LMM_2_p21,echo = FALSE,  messages = FALSE-------------
+  plot(
+    xlim_s2_3, 
+    ylim_s2_3, 
+    type = "n",
+    xlab="Empirical",
+    ylab="Bootstrap Distributions"
+    # ,
+    # main = expression(sigma[2]^2)
+    )
+  # points(qq.rs.rebv1_p21, pch="x", col = "lightgray")
+  # points(qq.rs.rebv2_p21, pch="x", col="blue")
+  # points(qq.rs.pmb_p21, pch="+", col="red")
+  # points(qq.rs.gcb_p21, pch="o", col="forestgreen")
+  
+  lines(qq.rs.rebv1_p21, lty = 5, lwd=6,col = "lightgray")
+  lines(qq.rs.rebv2_p21, lty = 4, lwd=6,col="blue")
+  lines(qq.rs.pmb_p21, lty = 3,lwd=6, col="red")
+  lines(qq.rs.gcb_p21, lty = 2, lwd=6,col="forestgreen")
+  
+  abline(a=0,b=1)
+
+```
+]
+
+.pull-right[
+```{r}
+## ----qqplots_sigma_LMM_2_p22,echo = FALSE,  messages = FALSE-------------
+  plot(
+    xlim_s2_3, 
+    ylim_s2_3, 
+    type = "n",
+    xlab="Empirical",
+    ylab="Bootstrap Distributions"
+    # ,
+    # main = expression(sigma[1]^2)
+    )
+  # points(qq.rs.rebv1_p22, pch="x", col = "lightgray")
+  # points(qq.rs.rebv2_p22, pch="x", col="blue")
+  # points(qq.rs.pmb_p22, pch="+", col="red")
+  # points(qq.rs.gcb_p22, pch="o", col="forestgreen")
+  
+  lines(qq.rs.rebv1_p22, lty = 5, lwd=6,col = "lightgray")
+  lines(qq.rs.rebv2_p22, lty = 4, lwd=6,col="blue")
+  lines(qq.rs.pmb_p22, lty = 3,lwd=6, col="red")
+  lines(qq.rs.gcb_p22, lty = 2, lwd=6,col="forestgreen")
+  
+  abline(a=0,b=1)
+  
+  legend("bottomright",
+   legend = c("RWLB","PB", "REB.V1", "REB.V2"), 
+   col    = c("forestgreen", "red", "lightgrey","blue"),
+   # pch    = c("o","+", "x", "x"), 
+   lty = c(2,3,4,5),
+   lwd = rep(3,4))
+```
+]
+
+---
+```{r, include = FALSE}
+
+## ----graph_phi_gs--------------------------------------------------------
+# ylim_phi_1 <- c(-10, 10)
+ylim_phi_1 <- range(qq.re.rebv1_p11$y, qq.re.rebv2_p11$y, qq.re.pmb_p11$y , qq.re.gcb_p11$y)
+      
+# xlim_phi_1 <- ylim_phi_1
+xlim_phi_1 <- range(qq.re.rebv1_p11$x, qq.re.rebv2_p11$x, qq.re.pmb_p11$x , qq.re.gcb_p11$x)
+
+# ylim_phi_2 <- c(-10, 10)
+ylim_phi_2 <- range(qq.re.rebv1_p21$y, qq.re.rebv2_p21$y, qq.re.pmb_p21$y , qq.re.gcb_p21$y)
+
+# xlim_phi_2 <- ylim_phi_2
+xlim_phi_2 <- range(qq.re.rebv1_p21$x, qq.re.rebv2_p21$x, qq.re.pmb_p21$x , qq.re.gcb_p21$x)
+```
+
+.pull-left[
+```{r}
+## ----qqplots_sigma_LMM_phi_p11,echo = FALSE,  messages = FALSE-----------
+  plot(
+    xlim_phi_1, 
+    ylim_phi_1, 
+    type = "n",
+    xlab="Empirical", 
+    ylab="Bootstrap Distributions"
+    # ,
+    # main = expression(phi)
+    )
+
+  # points(qq.re.rebv1_p11, pch="x", col = "lightgray")
+  # points(qq.re.rebv2_p11, pch="x", col ="blue")
+  # points(qq.re.pmb_p11, pch="+"  , col ="red")
+  # points(qq.re.gcb_p11, pch="o"  , col ="forestgreen")
+  
+  lines(qq.re.rebv1_p11, lty=5, lwd=6, col= "lightgray")
+  lines(qq.re.rebv2_p11, lty=4, lwd=6, col="blue")
+  lines(qq.re.pmb_p11,   lty=3, lwd=6, col="red")
+  lines(qq.re.gcb_p11,   lty=2, lwd=6, col="forestgreen")
+  
+  abline(a=0,b=1)
+# legend("bottomright",
+#  legend = c("RWLB","PB", "REB.V1", "REB.V2"), 
+#  col    = c("forestgreen", "red", "lightgrey", "blue"),
+#  # pch    = c("o","+", "x", "x"), 
+#  lty = c(2,3,4,5),
+#  lwd = rep(3,4))
+```
+]
+
+.pull-right[
+```{r}
+## ----qqplots_sigma_LMM_phi_p12,echo = FALSE,  messages = FALSE-----------
+  plot(
+    xlim_phi_1, 
+    ylim_phi_1, 
+    type = "n",
+    xlab="Empirical", 
+    ylab="Bootstrap Distributions"
+    # ,
+    # main = expression(phi)
+    )
+
+  # points(qq.re.rebv1_p12, pch="x", col = "lightgray")
+  # points(qq.re.rebv2_p12, pch="x", col ="blue")
+  # points(qq.re.pmb_p12, pch="+"  , col ="red")
+  # points(qq.re.gcb_p12, pch="o"  , col ="forestgreen")
+  
+  lines(qq.re.rebv1_p12, lty=5, lwd=6, col= "lightgray")
+  lines(qq.re.rebv2_p12, lty=4, lwd=6, col="blue")
+  lines(qq.re.pmb_p12,   lty=3, lwd=6, col="red")
+  lines(qq.re.gcb_p12,   lty=2, lwd=6, col="forestgreen")
+  
+  abline(a=0,b=1)
+  
+  # legend("bottomright",
+  #  legend = c("RWLB","PB", "REB.V1", "REB.V2"), 
+  #  col    = c("forestgreen", "red", "blue","lightgrey"),
+  #  # pch    = c("o","+", "x", "x"), 
+  #  lty = c(2,3,4,5),
+  #  lwd = rep(3,4))
+  
+  legend("bottomright",
+   legend = c("RWLB","PB", "REB.V1", "REB.V2"), 
+   col    = c("forestgreen", "red", "lightgrey","blue"),
+   # pch    = c("o","+", "x", "x"), 
+   lty = c(2,3,4,5),
+   lwd = rep(3,4))
+```
+]
+
+---
+class: center
+
+.pull-left[
+```{r}
+## ----qqplots_sigma_LMM_phi_p21,echo = FALSE,  messages = FALSE-----------
+  plot(
+    xlim_phi_1, 
+    ylim_phi_1, 
+    type = "n",
+    xlab="Empirical", 
+    ylab="Bootstrap Distributions"
+    # ,
+    # main = expression(phi)
+    )
+
+  # points(qq.re.rebv1_p21, pch="x", col = "lightgray")
+  # points(qq.re.rebv2_p21, pch="x", col ="blue")
+  # points(qq.re.pmb_p21, pch="+"  , col ="red")
+  # points(qq.re.gcb_p21, pch="o"  , col ="forestgreen")
+  
+  lines(qq.re.rebv1_p21, lty=5, lwd=6, col= "lightgray")
+  lines(qq.re.rebv2_p21, lty=4, lwd=6, col="blue")
+  lines(qq.re.pmb_p21,   lty=3, lwd=6, col="red")
+  lines(qq.re.gcb_p21,   lty=2, lwd=6, col="forestgreen")
+  
+  abline(a=0,b=1)
+  
+  # legend("bottomright",
+  #  legend = c("RWLB","PB", "REB.V1", "REB.V2"), 
+  #  col    = c("forestgreen", "red", "blue","lightgrey"),
+  #  # pch    = c("o","+", "x", "x"), 
+  #  lty = c(2,3,4,5),
+  #  lwd = rep(3,4))
+
+```
+]
+
+.pull-right[
+```{r}
+  
+## ----qqplots_sigma_LMM_phi_p22,echo = FALSE,  messages = FALSE-----------
+  plot(
+    xlim_phi_1, 
+    ylim_phi_1, 
+    type = "n",
+    xlab="Empirical", 
+    ylab="Bootstrap Distributions"
+    # ,
+    # main = expression(phi)
+    )
+
+  # points(qq.re.rebv1_p22, pch="x", col = "lightgray")
+  # points(qq.re.rebv2_p22, pch="x", col ="blue")
+  # points(qq.re.pmb_p22, pch="+"  , col ="red")
+  # points(qq.re.gcb_p22, pch="o"  , col ="forestgreen")
+  
+  lines(qq.re.rebv1_p22, lty=5, lwd=6, col= "lightgray")
+  lines(qq.re.rebv2_p22, lty=4, lwd=6, col="blue")
+  lines(qq.re.pmb_p22,   lty=3, lwd=6, col="red")
+  lines(qq.re.gcb_p22,   lty=2, lwd=6, col="forestgreen")
+  
+  abline(a=0,b=1)
+  
+  legend("bottomright",
+   legend = c("RWLB","PB", "REB.V1", "REB.V2"), 
+   col    = c("forestgreen", "red", "lightgrey","blue"),
+   # pch    = c("o","+", "x", "x"), 
+   lty = c(2,3,4,5),
+   lwd = rep(3,4))
+```
+]
+
