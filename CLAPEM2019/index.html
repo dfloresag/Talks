@@ -498,13 +498,13 @@ class: center
 
 **Cluster size** `\(n_{i} = 14\)`
 .pull-left[
+**Number of Clusters:** `\(n = 300\)`
 &lt;img src="index_files/figure-html/unnamed-chunk-7-1.png" style="display: block; margin: auto;" /&gt;
-`\(n = 300\)`
 ]
 
 .pull-right[
+**Number of Clusters:** `\(n = 600\)`
 &lt;img src="index_files/figure-html/unnamed-chunk-8-1.png" style="display: block; margin: auto;" /&gt;
-`\(n = 600\)`
 ]
 
 ---
@@ -513,13 +513,13 @@ class: center
 ### Random Effect Variance `\(\sigma_{1}^{2}\)`
 **Cluster size** `\(n_{i} = 14\)`
 .pull-left[
+**Number of Clusters:** `\(n = 300\)`
 &lt;img src="index_files/figure-html/unnamed-chunk-9-1.png" style="display: block; margin: auto;" /&gt;
-`\(n = 300\)`
 ]
 
 .pull-right[
+**Number of Clusters:** `\(n = 600\)`
 &lt;img src="index_files/figure-html/unnamed-chunk-10-1.png" style="display: block; margin: auto;" /&gt;
-`\(n = 600\)`
 ]
 
 ---
@@ -527,27 +527,24 @@ class: center
 
 ### Random Effect Variance `\(\sigma_{1}^{2}\)`
 **Cluster size** `\(n_{i} = 14\)`
+
+
 .pull-left[
+**Number of Clusters:** `\(n = 300\)`
 &lt;img src="index_files/figure-html/unnamed-chunk-11-1.png" style="display: block; margin: auto;" /&gt;
-`\(n = 300\)`
 ]
 
 .pull-right[
+**Number of Clusters:** `\(n = 600\)`
 &lt;img src="index_files/figure-html/unnamed-chunk-12-1.png" style="display: block; margin: auto;" /&gt;
-`\(n = 600\)`
 ]
----
-### <i class="fas  fa-thumbs-up "></i> Correct
-
-.black[Example] **Mixed Logit**
-
 ---
 class: dark, middle, center 
 
 # Simulations
 --
-# 2. **Log-Normal AFT** 
 
+# 2. **Log-Normal AFT** 
 ---
 ### Simulated **Log-Normal AFT**
 
@@ -603,7 +600,6 @@ class: center
 
 &lt;img src="index_files/figure-html/unnamed-chunk-17-1.png" style="display: block; margin: auto;" /&gt;
 
-
 ---
 class: dark, center, middle
 
@@ -612,11 +608,37 @@ class: dark, center, middle
 ![](https://media.giphy.com/media/QC5jE83f3tBCg/giphy.gif)
 
 ---
-
 # Some Caveats
 
+### <i class="fas  fa-thumbs-down "></i> Can be **unstable** in **extreme Cases**
 
-### <i class="fas  fa-thumbs-down "></i> **Variance** of `\(\mathbf{\sigma}\)`
+--
+
+- RWLB is tributary to the quality of the estimation method.
+
+    - **Cluster Size** is **too small** (e.g. `\(n_i = 2\)`) and/or
+
+    - **Signal-to-noise** ratio is **weak** 
+
+---
+class: center
+
+### Simulated AFT - `\(\widehat{\sigma}_1\)` : Same as before
+
+&lt;img src="index_files/figure-html/unnamed-chunk-18-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+class: center
+
+### Simulated AFT - `\(\widehat{\sigma}_1\)` : **s-t-n = 1**
+
+&lt;img src="index_files/figure-html/unnamed-chunk-19-1.png" style="display: block; margin: auto;" /&gt;
+
+
+---
+# Some Caveats
+
+###  **Variance** of `\(\mathbf{\sigma}\)`
 
 - Differs slightly from the asymptotic.
 
@@ -624,17 +646,6 @@ class: dark, center, middle
     
     - **Marginal Variance** of the Observations ( `\(\mathbf{\Sigma}_{i}\)` ) and 
     - **Random Effect Design** ( `\(\mathbf{Z}_{i}\)` )
-
---- 
-# Some Caveats
-
-### <i class="fas  fa-thumbs-down "></i> Can be **unstable** in **extreme Cases**, e.g.
-
-- **Cluster Size** is **too small** (e.g. `\(n_i = 2\)`) and
-
-- **Signal**-( `\(\color{blue}{\mathbf{\sigma}_1}\)` )-to-_noise_ ( `\(\color{purple}{\mathbf{\phi}}\)` ) ratio is **weak** 
-
----
 
 
 

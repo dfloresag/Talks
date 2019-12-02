@@ -1110,7 +1110,7 @@ class: center
 **Number of clusters** $n = 300$
 .pull-left[
 **Cluster size** $n_i= 7$
-```{r, fig.align="center"}
+```{r, fig.align="center", fig.dim = c(5.75,5.75)}
 par(mfrow = c(2,2))
 ## ----qqplots_beta_1_tn_s1------------------------------------------------
 plot(xlimb1, ylimb1,
@@ -1185,7 +1185,7 @@ This is valid accross
 
 .pull-right[
 **Cluster size** $n_i = 21$
-```{r, fig.align="center", fig.dim = c()}
+```{r, fig.align="center", fig.dim = c(5.75,5.75)}
 ## ----qqplots_beta_1_tn_s3------------------------------------------------
 
 par(mfrow = c(2,2))
@@ -1265,7 +1265,8 @@ xlims2 <- range(qqs2_pmb_s2$x, qqs2_gcb_s2$x)
 ```
 **Cluster size** $n_{i} = 14$
 .pull-left[
-```{r, fig.align="center"}
+**Number of Clusters:** $n = 300$
+```{r, fig.align="center" , fig.dim = c(5,5)}
 ## ----qqplots_sigma_tn_s1-------------------------------------------------
 par(mar = c(5, 5, 2, 2) + 0.1)
 plot(xlims2 , ylims2, type = "n",
@@ -1276,11 +1277,11 @@ lines(qqs2_pmb_s1, col="red", lty = 3, lwd=6)
 lines(qqs2_gcb_s1, col="forestgreen", lty = 2, lwd=6)
 abline(a=0, b =1)
 ```
-$n = 300$
 ]
 
 .pull-right[
-```{r, fig.align="center"}
+**Number of Clusters:** $n = 600$
+```{r, fig.align="center", fig.dim = c(5,5)}
 ## ----qqplots_sigma_tn_s4-------------------------------------------------
   par(mar = c(5, 5, 2, 2) + 0.1)
   plot(xlims2 , ylims2, type = "n",
@@ -1299,7 +1300,6 @@ $n = 300$
          lwd = c(4,4)
          )
 ```
-$n = 600$
 ]
 
 ---
@@ -1308,7 +1308,8 @@ class: center
 ### Random Effect Variance $\sigma_{1}^{2}$
 **Cluster size** $n_{i} = 14$
 .pull-left[
-```{r, fig.align="center"}
+**Number of Clusters:** $n = 300$
+```{r, fig.align="center", fig.dim = c(5,5)}
 ## ----qqplots_sigma_tn_s2-------------------------------------------------
 par(mar = c(5, 5, 2, 2) + 0.1)
 plot(xlims2 , ylims2, type = "n",
@@ -1321,11 +1322,11 @@ lines(qqs2_gcb_s2, col="forestgreen", lty = 2, lwd=6)
 
 abline(a=0, b =1)
 ```
-$n = 300$
 ]
 
 .pull-right[
-```{r, fig.align="center"}
+**Number of Clusters:** $n = 600$
+```{r, fig.align="center", fig.dim = c(5,5)}
 ## ----qqplots_sigma_tn_s5-------------------------------------------------
   par(mar = c(5, 5, 2, 2) + 0.1)
   plot(xlims2 , ylims2, type = "n",
@@ -1344,7 +1345,6 @@ $n = 300$
          lwd = c(4,4)
          )
 ```
-$n = 600$
 ]
 
 ---
@@ -1352,8 +1352,11 @@ class: center
 
 ### Random Effect Variance $\sigma_{1}^{2}$
 **Cluster size** $n_{i} = 14$
+
+
 .pull-left[
-```{r, fig.align="center"}
+**Number of Clusters:** $n = 300$
+```{r, fig.align="center", fig.dim = c(5,5)}
 ## ----qqplots_sigma_tn_s3-------------------------------------------------
 par(mar = c(5, 5, 2, 2) + 0.1)
 plot(xlims2 , ylims2, type = "n",
@@ -1365,11 +1368,11 @@ lines(qqs2_gcb_s3, col="forestgreen", lty = 2, lwd=6)
 
 abline(a=0, b =1)
 ```
-$n = 300$
 ]
 
 .pull-right[
-```{r, fig.align="center"}
+**Number of Clusters:** $n = 600$
+```{r, fig.align="center", fig.dim = c(5,5)}
 ## ----qqplots_sigma_tn_s6-------------------------------------------------
   par(mar = c(5, 5, 2, 2) + 0.1)
   plot(xlims2 , ylims2, type = "n",
@@ -1389,20 +1392,14 @@ $n = 300$
          lwd = c(4,4)
          )
 ```
-$n = 600$
 ]
----
-### `r icon::fa("thumbs-up")` Correct
-
-.black[Example] **Mixed Logit**
-
 ---
 class: dark, middle, center 
 
 # Simulations
 --
-# 2. **Log-Normal AFT** 
 
+# 2. **Log-Normal AFT** 
 ---
 ### Simulated **Log-Normal AFT**
 
@@ -1533,7 +1530,6 @@ th_dta %>%
   geom_hline(aes(yintercept = 0.5), lty= 2, col="blue")
 ```
 
-
 ---
 class: dark, center, middle
 
@@ -1542,11 +1538,55 @@ class: dark, center, middle
 ![](https://media.giphy.com/media/QC5jE83f3tBCg/giphy.gif)
 
 ---
-
 # Some Caveats
 
+### `r icon::fa("thumbs-down")` Can be **unstable** in **extreme Cases**
 
-### `r icon::fa("thumbs-down")` **Variance** of $\mathbf{\sigma}$
+--
+
+- RWLB is tributary to the quality of the estimation method.
+
+    - **Cluster Size** is **too small** and/or
+
+    - **Signal-to-noise** ratio is **weak** 
+
+---
+class: center
+
+### Simulated AFT - $\widehat{\sigma}_1$ : Same as before
+
+```{r, fig.align="center"}
+th_dta %>% 
+  filter(parameter == "s.1", n_i>2, s_1==1 , mth %in% c("lpml"), cns==0) %>%
+  ggplot() +
+  geom_boxplot(mapping = aes(x = factor(n_i), y = value, fill = mth))+
+  facet_grid(~n_g_fac, scales = "free_y", labeller = label_parsed)+
+  xlab(label = expression(n[i])) +
+  ylab(label = expression(beta[1]))+
+  geom_hline(aes(yintercept = bs[1]), lty= 2, col="blue")
+```
+
+---
+class: center
+
+### Simulated AFT - $\widehat{\sigma}_1$ : **s-t-n = 1**
+
+```{r, fig.align="center"}
+th_dta %>% 
+  filter(parameter == "s.1", n_i>2, s_1==0.5 , mth %in% c("lpml"), cns==0) %>%
+  ggplot() +
+  geom_boxplot(mapping = aes(x = factor(n_i), y = value, fill = mth))+
+  facet_grid(~n_g_fac, scales = "free_y", labeller = label_parsed)+
+  xlab(label = expression(n[i])) +
+  ylab(label = expression(beta[1]))+
+  geom_hline(aes(yintercept = 0.5), lty= 2, col="blue")
+```
+
+
+---
+# Some Caveats
+
+###  **Variance** of $\mathbf{\sigma}$
 
 - Differs slightly from the asymptotic.
 
@@ -1555,18 +1595,8 @@ class: dark, center, middle
     - **Marginal Variance** of the Observations ( $\mathbf{\Sigma}_{i}$ ) and 
     - **Random Effect Design** ( $\mathbf{Z}_{i}$ )
 
---- 
-# Some Caveats
 
-### `r icon::fa("thumbs-down")` Can be **unstable** in **extreme Cases**, e.g.
-
-- **Cluster Size** is **too small** (e.g. $n_i = 2$) and
-
-- **Signal**-( $\color{blue}{\mathbf{\sigma}_1}$ )-to-_noise_ ( $\color{purple}{\mathbf{\phi}}$ ) ratio is **weak** 
-
----
-
-```{r}
+```{r, include = FALSE, eval = FALSE}
 load("~/Dropbox/Paper/Reports/GSEMThesis/Ch2/[Data] MFDLD/epilepsy_est_var.RData")
 th.tmbt <- c(bs_tmbt, v1_tmbt, v2_tmbt, rh_tmbt)
 th.rwb  <- data.frame(bs.rwb, v1.rwb, v2.rwb, rh.rwb)
@@ -1697,7 +1727,6 @@ print(ci_th.tab,
       hline.after = c(-1, 0, 4,7), caption.placement = "top"
       )
 ```
-
 
 ---
 class: center, middle
