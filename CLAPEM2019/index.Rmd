@@ -922,14 +922,26 @@ class: center, middle
 
 background-image: url(./img/meme-lisapresenting.png)
 
+???
+
+At this point in the talk it appears that Parametric Bootstrap (approach based on simulations) is the only feasible and convenient alternative 
+
 ---
 class: inverse, center, middle
 
 # Bootstrapping Clustered Data via a Weighted Laplace Approximation* 
 
+???
+
+That said, it also help us segue into the title of the talk
+
 --
 
 (*yup! Our proposal!)
+
+???
+
+What is it that we propose?
 
 ---
 class: dark, center, middle
