@@ -5,6 +5,7 @@
     <meta charset="utf-8" />
     <meta name="author" content="Daniel Flores-Agreda" />
     <link href="libs/font-awesome-5.3.1/css/fontawesome-all.min.css" rel="stylesheet" />
+    <link href="libs/academicons-1.8.6/css/academicons.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="css/monash.css" type="text/css" />
     <link rel="stylesheet" href="css/monash-fonts.css" type="text/css" />
   </head>
@@ -119,6 +120,7 @@ class: center
 .content-box-lightgrey[
 `$$\text{Predictors} = \textbf{Fixed Effects} + \color{blue}{\textbf{Random Effects}}$$`
 ]
+
 ---
 class: center
 
@@ -136,8 +138,6 @@ Generalized Linear Mixed Models (**GLMM**)
 `$${\scriptsize \underbrace{\text{link function}}_{g}\underbrace{\left[\mathbb{E}\text{xpected}\left(\textbf{Outcomes}\right)\right]}_{\left[\mathbb{E}\left( \mathbf{Y}_{i} \ \vert \ \mathbf{X}_{i} , \mathbf{u}_{i} \right)\right]} = \mathbf{X}_{i}\mathbf{\beta} + \color{blue}{\mathbf{Z}_{i}\mathbf{D}_{\sigma}\mathbf{u}_{i}}}$$`
 ]
 
---
-
 .black[Example] Longitudinal **Mixed Logit**: 
 
 .content-box-lightgrey[
@@ -146,6 +146,7 @@ Generalized Linear Mixed Models (**GLMM**)
 ]
 ]
 
+--
 .pull-right[
 
 Accelerated Failure Time Models (**AFT**)
@@ -290,9 +291,7 @@ class: dark, center, middle
 
 --
 
-### **Flexible** scheme relying on **externally generated _Random Weights_**
-
-
+### **General** scheme relying on **externally generated _Random Weights_**
 
 ---
 
@@ -365,21 +364,15 @@ class: middle
 ---
 ### <i class="fas  fa-thumbs-up "></i> Flexible
 
-.black[Example:] **Mixed Logit**
-
-.content-box-ligthgrey[
-
+.content-box-lightgrey[
+`$$\mathcal{L}_i^{*} \left(\mathbf{\theta}\right) = 
+\int_{\mathbb{R}^q} 
+\exp \left\{- \left[ - {\color{red}{w_{i}^{*}}} 
+\color{blue}{\log f\left(\mathbf{y}_i \vert \mathbf{u}_i\right)}  - 
+{\color{red}{w_{i}^{*}}} \log f\left(\color{blue}{\mathbf{u}_i}\right)\right] \right\}   \mathrm{d}\mathbf{u}_{i}$$`
 ]
 
-
-.black[Example:] **AFT Model**
-
-.content-box-ligthgrey[
-
-]
-
----
-### <i class="fas  fa-thumbs-up "></i> Flexible
+--
 
 .black[Example:] **Mixed Logit**
 
@@ -399,7 +392,7 @@ for(int i=0;i&lt;nobs;i++){
 ...
 ```
 ]
-
+--
 .tothe-right[
 
 `estimation.R`: Maximisation of `\(\mathcal{L}(\mathbf{\theta})\)`
@@ -451,8 +444,6 @@ class: dark, middle, center
 
 ### Simulation: **Mixed Logit**
 
---
-
 - **Parameters** :  .black[4 Fixed Effects] ( `\(\beta_k\)` ) and .black[1 Random intercept] ( `\(\sigma_1\)` )
 
 - **Number of Simulations**: 1000
@@ -465,7 +456,7 @@ class: dark, middle, center
 
 --
 
-### .black[Q-Q plots]: **Pooled Bootstrap** replicates vs. **Empirical** Distribution 
+### .black[Q-Q plots]: _Average_ **Bootstrap** replicates vs. **Empirical** Distributions 
 
 .content-box-lightgrey[
 `$$\sqrt{n}\left(\widehat{\beta}_{k}^{*}-\widehat{\beta}_{k}\right) \ \  \text{vs.} \ \ \sqrt{n}\left(\widehat{\beta}_{k} - \beta_{k}\right)
@@ -495,7 +486,7 @@ This is valid accross
 --
 
 .pull-right[
-**Cluster size** `\(n_i = 7\)`
+**Cluster size** `\(n_i = 21\)`
 &lt;img src="index_files/figure-html/unnamed-chunk-5-1.png" style="display: block; margin: auto;" /&gt;
 ]
 
@@ -555,14 +546,12 @@ class: dark, middle, center
 
 # Simulations
 --
-# 2. **Accelerated Failure Time** 
+# 2. **Log-Normal AFT** 
 
 ---
-### Simulated **AFT**
+### Simulated **Log-Normal AFT**
 
---
-
-- **Parameters**: 4 Fixed Effects ( `\(\beta_k\)` )  and 1 Random intercept ( `\(\sigma_1\)` )
+- **Parameters**: 4 Fixed Effects ( `\(\beta_k\)` ), 1 Random intercept ( `\(\sigma_1\)` ) and a Scale ( `\(\phi\)` ) 
 
 - Number of Simulations: 1000
 
@@ -574,7 +563,7 @@ class: dark, middle, center
 
 - **Degree of censoring**:  0% and 23%
 
-- **Signal-to-noise Ratio** `\(\sigma_1/\phi = 1/0.5 = 2\)`
+- **Signal-to-noise Ratio** `\(\displaystyle \frac{\sigma_{1}}{\phi} = 1/0.5 = 2\)`
 
 ###  .black[Box-Plots]: Small-sample Bias Correction of `\(\widehat{\sigma_1}\)`
 
@@ -586,29 +575,35 @@ class: dark, middle, center
 ---
 class: center
 
+### Boxplots of `\(\widehat{\sigma}_1\)`
 
-### Boxplots of $\widehat{\sigma}_1 and `\(\widehat{\sigma}_1\)`
 
-.pull-left[
+
 &lt;img src="index_files/figure-html/unnamed-chunk-14-1.png" style="display: block; margin: auto;" /&gt;
-]
-
-.pull-right[
-&lt;img src="index_files/figure-html/unnamed-chunk-15-1.png" style="display: block; margin: auto;" /&gt;
-]
 
 ---
-.pull-left[
+class: center
+
+### Boxplots of `\(\widehat{\sigma}_1\)`
+
+&lt;img src="index_files/figure-html/unnamed-chunk-15-1.png" style="display: block; margin: auto;" /&gt;
+
+
+---
+class: center
+
+### Boxplots of `\(\widehat{\phi}\)`
 
 &lt;img src="index_files/figure-html/unnamed-chunk-16-1.png" style="display: block; margin: auto;" /&gt;
-]
 
-.pull-right[
+---
+class: center
 
-![](index_files/figure-html/fig=="center"-1.png)&lt;!-- --&gt;
+### Boxplots of `\(\widehat{\phi}\)`
+
+&lt;img src="index_files/figure-html/unnamed-chunk-17-1.png" style="display: block; margin: auto;" /&gt;
 
 
-]
 ---
 class: dark, center, middle
 
@@ -692,6 +687,7 @@ class: inverse, center, middle
 -  F-A, Cantoni (2019), **Bootstrap estimation of uncertainty in prediction for generalized linear mixed models**, 
 
     - _Computational Statistics &amp; Data Analysis_, Volume 130, 2019, Pages 1-17 
+    - <i class="ai  ai-doi "></i> 10.1016/j.csda.2018.08.006
 
 
 ---

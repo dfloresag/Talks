@@ -756,6 +756,7 @@ class: center
 .content-box-lightgrey[
 $$\text{Predictors} = \textbf{Fixed Effects} + \color{blue}{\textbf{Random Effects}}$$
 ]
+
 ---
 class: center
 
@@ -773,8 +774,6 @@ Generalized Linear Mixed Models (**GLMM**)
 $${\scriptsize \underbrace{\text{link function}}_{g}\underbrace{\left[\mathbb{E}\text{xpected}\left(\textbf{Outcomes}\right)\right]}_{\left[\mathbb{E}\left( \mathbf{Y}_{i} \ \vert \ \mathbf{X}_{i} , \mathbf{u}_{i} \right)\right]} = \mathbf{X}_{i}\mathbf{\beta} + \color{blue}{\mathbf{Z}_{i}\mathbf{D}_{\sigma}\mathbf{u}_{i}}}$$
 ]
 
---
-
 .black[Example] Longitudinal **Mixed Logit**: 
 
 .content-box-lightgrey[
@@ -783,6 +782,7 @@ $$\log \frac{p_{ij}}{1-p_{ij}} = \mathbf{x}_{ij}^{T}\mathbf{\beta} + \color{blue
 ]
 ]
 
+--
 .pull-right[
 
 Accelerated Failure Time Models (**AFT**)
@@ -927,9 +927,7 @@ class: dark, center, middle
 
 --
 
-### **Flexible** scheme relying on **externally generated _Random Weights_**
-
-
+### **General** scheme relying on **externally generated _Random Weights_**
 
 ---
 
@@ -1002,21 +1000,15 @@ class: middle
 ---
 ### `r icon::fa("thumbs-up")` Flexible
 
-.black[Example:] **Mixed Logit**
-
-.content-box-ligthgrey[
-
+.content-box-lightgrey[
+$$\mathcal{L}_i^{*} \left(\mathbf{\theta}\right) = 
+\int_{\mathbb{R}^q} 
+\exp \left\{- \left[ - {\color{red}{w_{i}^{*}}} 
+\color{blue}{\log f\left(\mathbf{y}_i \vert \mathbf{u}_i\right)}  - 
+{\color{red}{w_{i}^{*}}} \log f\left(\color{blue}{\mathbf{u}_i}\right)\right] \right\}   \mathrm{d}\mathbf{u}_{i}$$
 ]
 
-
-.black[Example:] **AFT Model**
-
-.content-box-ligthgrey[
-
-]
-
----
-### `r icon::fa("thumbs-up")` Flexible
+--
 
 .black[Example:] **Mixed Logit**
 
@@ -1036,7 +1028,7 @@ for(int i=0;i<nobs;i++){
 ...
 ```
 ]
-
+--
 .tothe-right[
 
 `estimation.R`: Maximisation of $\mathcal{L}(\mathbf{\theta})$
@@ -1088,8 +1080,6 @@ class: dark, middle, center
 
 ### Simulation: **Mixed Logit**
 
---
-
 - **Parameters** :  .black[4 Fixed Effects] ( $\beta_k$ ) and .black[1 Random intercept] ( $\sigma_1$ )
 
 - **Number of Simulations**: 1000
@@ -1102,7 +1092,7 @@ class: dark, middle, center
 
 --
 
-### .black[Q-Q plots]: **Pooled Bootstrap** replicates vs. **Empirical** Distribution 
+### .black[Q-Q plots]: _Average_ **Bootstrap** replicates vs. **Empirical** Distributions 
 
 .content-box-lightgrey[
 $$\sqrt{n}\left(\widehat{\beta}_{k}^{*}-\widehat{\beta}_{k}\right) \ \  \text{vs.} \ \ \sqrt{n}\left(\widehat{\beta}_{k} - \beta_{k}\right)
@@ -1194,8 +1184,8 @@ This is valid accross
 --
 
 .pull-right[
-**Cluster size** $n_i = 7$
-```{r, fig.align="center"}
+**Cluster size** $n_i = 21$
+```{r, fig.align="center", fig.dim = c()}
 ## ----qqplots_beta_1_tn_s3------------------------------------------------
 
 par(mfrow = c(2,2))
@@ -1411,14 +1401,12 @@ class: dark, middle, center
 
 # Simulations
 --
-# 2. **Accelerated Failure Time** 
+# 2. **Log-Normal AFT** 
 
 ---
-### Simulated **AFT**
+### Simulated **Log-Normal AFT**
 
---
-
-- **Parameters**: 4 Fixed Effects ( $\beta_k$ )  and 1 Random intercept ( $\sigma_1$ )
+- **Parameters**: 4 Fixed Effects ( $\beta_k$ ), 1 Random intercept ( $\sigma_1$ ) and a Scale ( $\phi$ ) 
 
 - Number of Simulations: 1000
 
@@ -1430,7 +1418,7 @@ class: dark, middle, center
 
 - **Degree of censoring**:  0% and 23%
 
-- **Signal-to-noise Ratio** $\sigma_1/\phi = 1/0.5 = 2$
+- **Signal-to-noise Ratio** $\displaystyle \frac{\sigma_{1}}{\phi} = 1/0.5 = 2$
 
 ###  .black[Box-Plots]: Small-sample Bias Correction of $\widehat{\sigma_1}$
 
@@ -1441,6 +1429,8 @@ $$\widehat{\sigma}_1^{\text{BC}} = \widehat{\sigma}_1^{\text{ML}} - \frac{1}{B}\
 
 ---
 class: center
+
+### Boxplots of $\widehat{\sigma}_1$
 
 ```{r, include =  FALSE}
 library(tidyr)
@@ -1482,64 +1472,68 @@ th_dta %>%
                            labels = c("n==20", "n==50","n==100","n==200")),
          cns_fac = factor(cns, labels = c("cens==0", "cens==23"))) -> th_dta
 ```
-### Boxplots of $\widehat{\sigma}_1 and $\widehat{\sigma}_1$
 
-.pull-left[
 ```{r, fig.align="center"}
 th_dta %>% 
-  filter(parameter == "s.1", n_i>2, s_1==1 , mth %in% c("lpml", "rb-lpml"), cns==0) %>%
+  filter(parameter == "s.1", n_i>2, s_1==1 , mth %in% c("lpml"), cns==0) %>%
   ggplot() +
   geom_boxplot(mapping = aes(x = factor(n_i), y = value, fill = mth))+
-  facet_grid(s_1_fac~mth+n_g_fac, scales = "free_y", labeller = label_parsed)+
+  facet_grid(~n_g_fac, scales = "free_y", labeller = label_parsed)+
   xlab(label = expression(n[i])) +
   ylab(label = expression(beta[1]))+
   geom_hline(aes(yintercept = bs[1]), lty= 2, col="blue")
 ```
-]
 
-.pull-right[
-```{r, fig.align="center"}
+---
+class: center
+
+### Boxplots of $\widehat{\sigma}_1$
+
+```{r, fig.align="center", fig.width=12}
 th_dta %>% 
   filter(parameter == "s.1", n_i>2, s_1==1 , mth %in% c("lpml", "rb-lpml"), cns==3) %>%
   ggplot() +
   geom_boxplot(mapping = aes(x = factor(n_i), y = value, fill = mth))+
-  facet_grid(s_1_fac~mth+n_g_fac, scales = "free_y", labeller = label_parsed)+
+  facet_grid(~mth+n_g_fac, scales = "free_y", labeller = label_parsed)+
   xlab(label = expression(n[i])) +
   ylab(label = expression(beta[1]))+
   geom_hline(aes(yintercept = bs[1]), lty= 2, col="blue")
 ```
-]
+
 
 ---
-.pull-left[
+class: center
+
+### Boxplots of $\widehat{\phi}$
 
 ```{r, fig.align="center"}
 th_dta %>% 
-  filter(parameter == "s.1", n_i>2, s_1==0.2 , mth %in% c("lpml", "rb-lpml"), cns==0) %>%
+  filter(parameter == "s.0", n_i>2, s_1==1 , mth %in% c("lpml"), cns==0) %>%
   ggplot() +
   geom_boxplot(mapping = aes(x = factor(n_i), y = value, fill = mth))+
-  facet_grid(s_1_fac~mth+n_g_fac, scales = "free_y", labeller = label_parsed)+
+  facet_grid(~n_g_fac, scales = "free_y", labeller = label_parsed)+
   xlab(label = expression(n[i])) +
   ylab(label = expression(beta[1]))+
-  geom_hline(aes(yintercept = 0.2), lty= 2, col="blue")
+  geom_hline(aes(yintercept = 0.5), lty= 2, col="blue")
 ```
-]
 
-.pull-right[
+---
+class: center
 
-```{r, fig=="center"}
+### Boxplots of $\widehat{\phi}$
+
+```{r, fig.align="center", fig.width=12}
 th_dta %>% 
-  filter(parameter == "s.1", n_i>2, s_1==0.2 , mth %in% c("lpml", "rb-lpml"), cns==3) %>%
+  filter(parameter == "s.0", n_i>2, s_1==1 , mth %in% c("lpml", "rb-lpml"), cns==3) %>%
   ggplot() +
   geom_boxplot(mapping = aes(x = factor(n_i), y = value, fill = mth))+
-  facet_grid(s_1_fac~mth+n_g_fac, scales = "free_y", labeller = label_parsed)+
+  facet_grid(~mth+n_g_fac, scales = "free_y", labeller = label_parsed)+
   xlab(label = expression(n[i])) +
   ylab(label = expression(beta[1]))+
-  geom_hline(aes(yintercept = 0.2), lty= 2, col="blue")
+  geom_hline(aes(yintercept = 0.5), lty= 2, col="blue")
 ```
 
 
-]
 ---
 class: dark, center, middle
 
@@ -1747,6 +1741,7 @@ class: inverse, center, middle
 -  F-A, Cantoni (2019), **Bootstrap estimation of uncertainty in prediction for generalized linear mixed models**, 
 
     - _Computational Statistics & Data Analysis_, Volume 130, 2019, Pages 1-17 
+    - `r icon::ai("doi")` 10.1016/j.csda.2018.08.006
 
 
 ---
