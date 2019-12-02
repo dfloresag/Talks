@@ -298,7 +298,7 @@ class: dark, center, middle
 ### 1. **Generate _Random Weights_**  `\({\color{red}{w_{i}^{*}}}\)`
 --
 
-### 2. **Apply** to `\(\ell_{i}\)` 
+### 2. **Apply** to `\(\color{blue}{f(\mathbf{y}_i,\mathbf{u}_i)}\)` 
 --
 
 ### 3. **Evaluate via the _Laplace Approximation_** `\({\color{red}{\tilde{\mathcal{L}}_{i}^{*}}}\)`  
@@ -322,10 +322,14 @@ class: dark, center, middle
 
 --
 
-### 2. **Apply** to `\(\ell_{i}\)`
+### 2. **Apply** to `\(\color{blue}{f(\mathbf{y}_i,\mathbf{u}_i)}\)` 
 
 .content-box-lightgrey[
-`$$\mathcal{L}_i^{*} \left(\mathbf{\theta}\right) = \int_{\mathbb{R}^q} \exp \left[-{\color{red}{w_{i}^{*}}} \ell \left(\mathbf{y}_{i}, \mathbf{u}_{i}\right)\right] \ \mathrm{d}\mathbf{u}_{i}$$`
+`$$\mathcal{L}_i^{*} \left(\mathbf{\theta}\right) = 
+\int_{\mathbb{R}^q} 
+\exp \left\{- \left[ - {\color{red}{w_{i}^{*}}} 
+\color{blue}{\log f\left(\mathbf{y}_i \vert \mathbf{u}_i\right)}  - 
+{\color{red}{w_{i}^{*}}} \log f\left(\color{blue}{\mathbf{u}_i}\right)\right] \right\}   \mathrm{d}\mathbf{u}_{i}$$`
 ]
 
 --
@@ -375,7 +379,7 @@ class: middle
 .black[Example:] **Mixed Logit**
 
 .tothe-left[
-`template.cpp`: (Log) Joint Likelihood , i.e. `\(-\ell_{i}^{*}(\mathbf{y}_{i}, \mathbf{u}_{i})\)`
+`template.cpp`: application of `\(\color{red}{w_i^{*}}\)`
 
 ```c
 ...
@@ -393,7 +397,7 @@ for(int i=0;i&lt;nobs;i++){
 --
 .tothe-right[
 
-`estimation.R`: Maximisation of `\(\mathcal{L}(\mathbf{\theta})\)`
+`estimation.R`: Approximation and `\(\mathcal{L}(\mathbf{\theta})\)`
 ```r
 ...
 # Compilation
@@ -650,18 +654,22 @@ class: center
 ---
 # Some Caveats
 
-### <i class="fas  fa-thumbs-down "></i> **Variance** of some `\(\widehat{\mathbf{\sigma}}^{*}\)` differs slightly from the asymptotic.
+### <i class="fas  fa-thumbs-down "></i> **Variance** of some `\(\widehat{\mathbf{\sigma}}^{*}\)`  **differs slightly** from the asymptotic.
 
 - Divergence Depends on the relationship between:  
     
-    - **Marginal Variance** of the Observations ( `\(\mathbb{V}ar(\mathbf{Y}_i) = \mathbf{\Sigma}_{i}\)` ) and 
-    - **Random Effect Design** ( `\(\mathbf{Z}_{i}\)` )
+    - **Marginal Variance** of the Observations  `\(\mathbb{V}ar(\mathbf{Y}_i) = \mathbf{\Sigma}_{i}\)`: and 
+    
+    - **Contrasts of the Random Effects**:  `\(\mathbf{Z}_{i}\)` 
 
-- In LMM, this is _easy-ish_ to figure out (give or take tedious derivations).
+- **In LMM**, this is _easy-ish_ to figure out.
+  
+    - Relationship governed by `\(\text{tr}(\mathbf{\Sigma}_{i}^{-1}\mathbf{Z}_{i}\mathbf{Z}_{i}^{T})\)`
 
-
-
-
+    - "Fuller" designs, e.g. *Random Intercept* `\(\mathbf{Z}_{ir} = \mathbb{1}_{n_{i}}\)` and *Slope* `\(\mathbf{Z}_{ir} = \mathbf{x}^(k)_{i}\)` seem less affected. 
+    
+    - "Sparse"" designs e.g. the *Random Error* `\(\varepsilon\)` with `\(\mathbf{Z}_{i0} = \mathbf{I}_{n_{i}}\)` seem to be most divergent. 
+    
 ---
 class: inverse, center, middle
 
@@ -674,6 +682,15 @@ class: inverse, center, middle
 ---
 
 # Current Work
+
+### Data applications 
+
+
+
+### Further software implementation of estimation methods in AFT
+
+- Package allowing for 
+
 
 ---
 
