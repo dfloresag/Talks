@@ -1423,7 +1423,6 @@ class: dark, middle, center
 $$\widehat{\sigma}_1^{\text{BC}} = \widehat{\sigma}_1^{\text{ML}} - \frac{1}{B}\sum_{b=1}^B\left[ \color{forestgreen}{\widehat{\sigma}^{*}_{1}} -  \widehat{\sigma}_1^{\text{ML}}\right]$$
 ]
 
-
 ---
 class: center
 
@@ -1477,7 +1476,7 @@ th_dta %>%
   geom_boxplot(mapping = aes(x = factor(n_i), y = value, fill = mth))+
   facet_grid(~n_g_fac, scales = "free_y", labeller = label_parsed)+
   xlab(label = expression(n[i])) +
-  ylab(label = expression(beta[1]))+
+  ylab(label = expression(sigma[1]))+
   geom_hline(aes(yintercept = bs[1]), lty= 2, col="blue")
 ```
 
@@ -1493,7 +1492,7 @@ th_dta %>%
   geom_boxplot(mapping = aes(x = factor(n_i), y = value, fill = mth))+
   facet_grid(~mth+n_g_fac, scales = "free_y", labeller = label_parsed)+
   xlab(label = expression(n[i])) +
-  ylab(label = expression(beta[1]))+
+  ylab(label = expression(sigma[1]))+
   geom_hline(aes(yintercept = bs[1]), lty= 2, col="blue")
 ```
 
@@ -1510,7 +1509,7 @@ th_dta %>%
   geom_boxplot(mapping = aes(x = factor(n_i), y = value, fill = mth))+
   facet_grid(~n_g_fac, scales = "free_y", labeller = label_parsed)+
   xlab(label = expression(n[i])) +
-  ylab(label = expression(beta[1]))+
+  ylab(label = expression(phi))+
   geom_hline(aes(yintercept = 0.5), lty= 2, col="blue")
 ```
 
@@ -1526,7 +1525,7 @@ th_dta %>%
   geom_boxplot(mapping = aes(x = factor(n_i), y = value, fill = mth))+
   facet_grid(~mth+n_g_fac, scales = "free_y", labeller = label_parsed)+
   xlab(label = expression(n[i])) +
-  ylab(label = expression(beta[1]))+
+  ylab(label = expression(phi))+
   geom_hline(aes(yintercept = 0.5), lty= 2, col="blue")
 ```
 
@@ -1555,14 +1554,14 @@ class: center
 
 ### Simulated AFT - $\widehat{\sigma}_1$ : Same as before
 
-```{r, fig.align="center"}
+```{r, fig.align="center", fig.dim=c(12,6)}
 th_dta %>% 
-  filter(parameter == "s.1", n_i>2, s_1==1 , mth %in% c("lpml"), cns==0) %>%
+  filter(parameter == "s.1", n_i>2, s_1==1 , mth %in% c("lpml", "rb-lpml"), cns==0) %>%
   ggplot() +
   geom_boxplot(mapping = aes(x = factor(n_i), y = value, fill = mth))+
-  facet_grid(~n_g_fac, scales = "free_y", labeller = label_parsed)+
+  facet_grid(~mth+n_g_fac, scales = "free_y", labeller = label_parsed)+
   xlab(label = expression(n[i])) +
-  ylab(label = expression(beta[1]))+
+  ylab(label = expression(sigma[1]))+
   geom_hline(aes(yintercept = bs[1]), lty= 2, col="blue")
 ```
 
@@ -1571,15 +1570,30 @@ class: center
 
 ### Simulated AFT - $\widehat{\sigma}_1$ : **s-t-n = 1**
 
-```{r, fig.align="center"}
+```{r, fig.align="center", fig.dim=c(12,6)}
 th_dta %>% 
-  filter(parameter == "s.1", n_i>2, s_1==0.5 , mth %in% c("lpml"), cns==0) %>%
+  filter(parameter == "s.1", n_i>2, s_1==0.5 , mth %in% c("lpml", "rb-lpml"), cns==0) %>%
   ggplot() +
   geom_boxplot(mapping = aes(x = factor(n_i), y = value, fill = mth))+
-  facet_grid(~n_g_fac, scales = "free_y", labeller = label_parsed)+
+  facet_grid(~mth+n_g_fac, scales = "free_y", labeller = label_parsed)+
   xlab(label = expression(n[i])) +
-  ylab(label = expression(beta[1]))+
+  ylab(label = expression(sigma[1]))+
   geom_hline(aes(yintercept = 0.5), lty= 2, col="blue")
+```
+---
+class: center
+
+### Simulated AFT - $\widehat{\sigma}_1$ : **s-t-n = 0.4**
+
+```{r, fig.align="center", fig.dim=c(12,6)}
+th_dta %>% 
+  filter(parameter == "s.1", n_i>2, s_1==0.2 , mth %in% c("lpml", "rb-lpml"), cns==0) %>%
+  ggplot() +
+  geom_boxplot(mapping = aes(x = factor(n_i), y = value, fill = mth))+
+  facet_grid(~mth+n_g_fac, scales = "free_y", labeller = label_parsed)+
+  xlab(label = expression(n[i])) +
+  ylab(label = expression(sigma[1]))+
+  geom_hline(aes(yintercept = 0.2), lty= 2, col="blue")
 ```
 
 
