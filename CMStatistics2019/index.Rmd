@@ -2275,9 +2275,8 @@ class: center
 
 ### Random **Intercept** Variance $\sigma_1$
 
-**Cluster size** $n_i=4$
+**Cluster size** $n_i=12$
 
-.pull-left[
 .pull-left[
 ```{r, fig.dim = c(5.75,5.75)}
 ## ----qqplots_sigma_LMM_1_p21,echo = FALSE,  messages = FALSE-------------
