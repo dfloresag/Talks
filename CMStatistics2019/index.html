@@ -17,7 +17,7 @@ class: center, middle, inverse, title-slide
 ## via a Weighted Laplace Approximation
 ### Daniel Flores-Agreda
 ### School of Public Health and Preventive Medicine
-### 2/12/2019
+### CMStatistics 14/12/2019
 
 ---
 
@@ -261,7 +261,7 @@ Easy(-ish) in **Gaussian LMM**
 `$$\mathbf{x}_{ij}^T\widehat{\mathbf{\beta}} + \widehat{\sigma}_1\color{red}{\widehat{u}_{i}^{{\star}}} + \widehat{\phi}\color{red}{\widehat{\varepsilon}_{i}^{{\star}}} \longrightarrow  y_{ij}^{\color{red}{\star}}$$`
 ]
 
-&lt;img src="https://media.giphy.com/media/4JSAfzWfvMN36r1HG1/giphy.gif" style="width: 200px" /&gt;
+&lt;img src="https://media.giphy.com/media/7TtvTUMm9mp20/giphy.gif" style="width: 200px" /&gt;
 
 ]
 
@@ -277,15 +277,14 @@ g(\mathbb{E}[y_{ij}^{\color{red}{\star}}])
 y_{ij}^{\color{red}{\star}}$$`
 ]
 
-&lt;img src="https://media.giphy.com/media/xf20D8HzvTQzu/giphy.gif" style="width: 200px" /&gt;
+&lt;img src="https://media.giphy.com/media/26BRqPg05olzXG1bi/giphy.gif" style="width: 200px" /&gt;
 
 ]
 
 ---
 class: center, middle
 
-background-image: url(./img/meme-lisapresenting.png)
-
+# _Parametric_ Bootstrap seems the only **feasible** and **readily available** scheme.
 ???
 
 At this point in the talk it appears that Parametric Bootstrap (approach based on simulations) is the only feasible and convenient alternative 
@@ -692,7 +691,7 @@ class: center
   
     - Relationship **governed by** `\(\text{tr}(\mathbf{\Sigma}_{i}^{-1}\mathbf{Z}_{i}\mathbf{Z}_{i}^{T})\)`
 
-    - **"Fuller" designs**, e.g. *Random Intercept*  `\(\mathbf{Z}_{ir} = \mathbb{1}_{n_{i}}\)` and *Slope*  `\(\mathbf{Z}_{ir} = \mathbf{x}^(k)_{i}\)` seem less affected. 
+    - **"Fuller" designs**, e.g. *Random Intercept*  `\(\mathbf{Z}_{ir} = \mathbb{1}_{n_{i}}\)` and *Slope*  `\(\mathbf{Z}_{ir} = \mathbf{x}^{(k)}_{i}\)` seem less affected. 
     
     - **"Sparser"" designs** e.g. the *Random Error* `\(\varepsilon\)` with `\(\mathbf{Z}_{i0} = \mathbf{I}_{n_{i}}\)` seem to be **most divergent**.
     
@@ -832,9 +831,9 @@ for fixed `\(n_i\)`, then:
 
 ---
 
-### Elements of the **bread** ( `\(\mathbf{M}\)` ) and  **patty** ( `\(\mathbf{Q}\)` ) matrices **depend on  `\(\Psi^{(k)}_i\left(\mathbf{\theta}_0\right)\)`** or its **derivatives**:
+### Elements of the **bread** ( `\(\mathbf{M}\)` ) and  **patty** ( `\(\mathbf{Q}\)` ) matrices **depend on  `\(\Psi_i\left(\mathbf{\theta}_0\right)\)`** or its **derivatives**:
 
-`\(\forall k, l \in \{1, \dots d\}\)`, where `\(d = p + s\)`,  where `\(\mathbf{M} = \left( M_{kl}\right)_{k=1, l=1}^{p,s}\)`, `\(\mathbf{Q} = \left( Q_{kl}\right)_{k=1, l=1}^{p,s}\)`
+`\(Let  k, l \in \{1, \dots d\}\)`, where `\(d = p + s\)`, `\(\mathbf{M} = \left( M_{kl}\right)_{k=1, l=1}^{p,s}\)`, `\(\mathbf{Q} = \left( Q_{kl}\right)_{k=1, l=1}^{p,s}\)`
 
 **Asymptotic Variance**
 .content-box-lightgrey[
@@ -858,16 +857,19 @@ Q_{kl}
 \end{align}`
 ]
 
+---
 
---
+### Elements of the **bread** ( `\(\mathbf{M}\)` ) and  **patty** ( `\(\mathbf{Q}\)` ) matrices **depend on  `\(\Psi_i\left(\mathbf{\theta}_0\right)\)`** or its **derivatives**:
+
+`\(Let  k, l \in \{1, \dots d\}\)`, where `\(d = p + s\)`, `\(\mathbf{M} = \left( M_{kl}\right)_{k=1, l=1}^{p,s}\)`, `\(\mathbf{Q} = \left( Q_{kl}\right)_{k=1, l=1}^{p,s}\)`
+
 
 **GCB** version: 
 .content-box-lightgrey[
-
 `\begin{align}
 -\frac{1}{n}
 \sum_{i=1}^n 
-\mathbb{E}^{*}\left[\color{red}{w_{i}^{*}}\right]  
+\color{blue}{\mathbb{E}^{*}}\left[\color{red}{w_{i}^{*}}\right]  
 \left\{ 
 \partial_{\theta_{l}}\Psi^{(k)}_i\left(\mathbf{\theta}_0\right)
 \right\}
@@ -878,12 +880,12 @@ M_{kl}
 `\begin{align}
 \frac{1}{n}
 &amp;\sum_{i=1}^n 
-\mathbb{V}ar \left[ w_{i}^{*}\right]
+\color{blue}{\mathbb{V}ar^{*}} \left[ \color{red}{w_{i}^{*}}\right]
 \Psi^{(k)}_i(\widehat{\mathbf{\theta}})
 \Psi^{(l)}_i(\widehat{\mathbf{\theta}}) \nonumber \\
 &amp;+ 
 \frac{1}{n}\sum_{i=1}^n\sum_{j\neq i}
-\mathbb{C}ov \left[ w_{i}^{*}, w_{j}^{*}\right]
+\mathbb{C}ov \left[ \color{red}{w_{i}^{*}}, \color{red}{w_{j}^{*}}\right]
 \left\{ 
 \Psi^{(k)}_i(\widehat{\mathbf{\theta}})
 \Psi^{(l)}_j(\widehat{\mathbf{\theta}})
@@ -955,17 +957,40 @@ class: dark, middle, center
 
 --
 
-# 3. (Gaussian) Linear Mixed Model
-
-### Random Intercept and Slope
+# 3. **(Gaussian)** Linear Mixed Model (LMM)
 
 ---
+
+### Simulation: **Linear Mixed Model**
+
+- **Parameters**: .black[4 Fixed Effects] ( `\(\beta_k\)` ) .black[Random intercept] ( `\(\sigma_1\)` ), .black[slope] ( `\(\sigma_2\)` ) and .black[Scale] ( `\(\phi\)` )
+
+- **Number of Simulations**: 1000 with `\(B=1000\)` **Bootstrap Replicates** 
+- **Studied methods**: .green[RWLB] vs .red[Parametric Bootstrap (PB)]
+
+- **Cluster size** ( `\(n_i\)` ): **4** and **12**
+
+- **Number of clusters** ( `\(n\)` ): **100** and **250**
+
+--
+
+### .black[Q-Q plots]: _Average_ **Bootstrap** replicates vs. **Empirical** Distributions 
+
+.content-box-lightgrey[
+`$$\sqrt{n} \left(\widehat{\sigma}_1^{*} - \widehat{\sigma}_{1}\right) \ \ \text{vs.} \ \ \sqrt{n} \left(\widehat{\sigma}_{1} - \sigma_1\right)$$`
+]
+
 
 
   
 
 
+---
+
 class: center
+
+### Random Intercept Variance `\(\sigma_1\)`
+
 .pull-left[
 ![](index_files/figure-html/unnamed-chunk-24-1.png)&lt;!-- --&gt;
 ]

@@ -897,7 +897,7 @@ Easy(-ish) in **Gaussian LMM**
 $$\mathbf{x}_{ij}^T\widehat{\mathbf{\beta}} + \widehat{\sigma}_1\color{red}{\widehat{u}_{i}^{{\star}}} + \widehat{\phi}\color{red}{\widehat{\varepsilon}_{i}^{{\star}}} \longrightarrow  y_{ij}^{\color{red}{\star}}$$
 ]
 
-<img src="https://media.giphy.com/media/4JSAfzWfvMN36r1HG1/giphy.gif" style="width: 200px" />
+<img src="https://media.giphy.com/media/7TtvTUMm9mp20/giphy.gif" style="width: 200px" />
 
 ]
 
@@ -913,15 +913,14 @@ g(\mathbb{E}[y_{ij}^{\color{red}{\star}}])
 y_{ij}^{\color{red}{\star}}$$
 ]
 
-<img src="https://media.giphy.com/media/xf20D8HzvTQzu/giphy.gif" style="width: 200px" />
+<img src="https://media.giphy.com/media/26BRqPg05olzXG1bi/giphy.gif" style="width: 200px" />
 
 ]
 
 ---
 class: center, middle
 
-background-image: url(./img/meme-lisapresenting.png)
-
+# _Parametric_ Bootstrap seems the only **feasible** and **readily available** scheme.
 ???
 
 At this point in the talk it appears that Parametric Bootstrap (approach based on simulations) is the only feasible and convenient alternative 
@@ -1804,7 +1803,7 @@ $\widehat{\mathbf{M}}^{-1}\widehat{\mathbf{Q}}\widehat{\mathbf{M}}^{-1}$ is the 
 
 ### Elements of the **bread** ( $\mathbf{M}$ ) and  **patty** ( $\mathbf{Q}$ ) matrices **depend on  $\Psi_i\left(\mathbf{\theta}_0\right)$** or its **derivatives**:
 
-$\forall k, l \in \{1, \dots d\}$, where $d = p + s$,  where $\mathbf{M} = \left( M_{kl}\right)_{k=1, l=1}^{p,s}$, $\mathbf{Q} = \left( Q_{kl}\right)_{k=1, l=1}^{p,s}$
+$Let  k, l \in \{1, \dots d\}$, where $d = p + s$, $\mathbf{M} = \left( M_{kl}\right)_{k=1, l=1}^{p,s}$, $\mathbf{Q} = \left( Q_{kl}\right)_{k=1, l=1}^{p,s}$
 
 **Asymptotic Variance**
 .content-box-lightgrey[
@@ -1828,16 +1827,19 @@ Q_{kl}
 \end{align}
 ]
 
+---
 
---
+### Elements of the **bread** ( $\mathbf{M}$ ) and  **patty** ( $\mathbf{Q}$ ) matrices **depend on  $\Psi_i\left(\mathbf{\theta}_0\right)$** or its **derivatives**:
+
+$Let  k, l \in \{1, \dots d\}$, where $d = p + s$, $\mathbf{M} = \left( M_{kl}\right)_{k=1, l=1}^{p,s}$, $\mathbf{Q} = \left( Q_{kl}\right)_{k=1, l=1}^{p,s}$
+
 
 **GCB** version: 
 .content-box-lightgrey[
-
 \begin{align}
 -\frac{1}{n}
 \sum_{i=1}^n 
-\mathbb{E}^{*}\left[\color{red}{w_{i}^{*}}\right]  
+\color{blue}{\mathbb{E}^{*}}\left[\color{red}{w_{i}^{*}}\right]  
 \left\{ 
 \partial_{\theta_{l}}\Psi^{(k)}_i\left(\mathbf{\theta}_0\right)
 \right\}
@@ -1848,12 +1850,12 @@ M_{kl}
 \begin{align}
 \frac{1}{n}
 &\sum_{i=1}^n 
-\mathbb{V}ar \left[ w_{i}^{*}\right]
+\color{blue}{\mathbb{V}ar^{*}} \left[ \color{red}{w_{i}^{*}}\right]
 \Psi^{(k)}_i(\widehat{\mathbf{\theta}})
 \Psi^{(l)}_i(\widehat{\mathbf{\theta}}) \nonumber \\
 &+ 
 \frac{1}{n}\sum_{i=1}^n\sum_{j\neq i}
-\mathbb{C}ov \left[ w_{i}^{*}, w_{j}^{*}\right]
+\mathbb{C}ov \left[ \color{red}{w_{i}^{*}}, \color{red}{w_{j}^{*}}\right]
 \left\{ 
 \Psi^{(k)}_i(\widehat{\mathbf{\theta}})
 \Psi^{(l)}_j(\widehat{\mathbf{\theta}})
@@ -1925,11 +1927,29 @@ class: dark, middle, center
 
 --
 
-# 3. (Gaussian) Linear Mixed Model
-
-### Random Intercept and Slope
+# 3. **(Gaussian)** Linear Mixed Model (LMM)
 
 ---
+
+### Simulation: **Linear Mixed Model**
+
+- **Parameters**: .black[4 Fixed Effects] ( $\beta_k$ ) .black[Random intercept] ( $\sigma_1$ ), .black[slope] ( $\sigma_2$ ) and .black[Scale] ( $\phi$ )
+
+- **Number of Simulations**: 1000 with $B=1000$ **Bootstrap Replicates** 
+- **Studied methods**: .green[RWLB] vs .red[Parametric Bootstrap (PB)]
+
+- **Cluster size** ( $n_i$ ): **4** and **12**
+
+- **Number of clusters** ( $n$ ): **100** and **250**
+
+--
+
+### .black[Q-Q plots]: _Average_ **Bootstrap** replicates vs. **Empirical** Distributions 
+
+.content-box-lightgrey[
+$$\sqrt{n} \left(\widehat{\sigma}_1^{*} - \widehat{\sigma}_{1}\right) \ \ \text{vs.} \ \ \sqrt{n} \left(\widehat{\sigma}_{1} - \sigma_1\right)$$
+]
+
 
 ```{r, include = FALSE}
 ## ----source_LMM_4_100, echo = FALSE, include = FALSE, results = 'hide'----
@@ -2188,9 +2208,17 @@ ylim_s2_3 <- range(qq.rs.rebv1_p11$y, qq.rs.rebv2_p11$y, qq.rs.pmb_p11$y , qq.rs
 xlim_s2_3 <- range(qq.rs.rebv1_p11$x, qq.rs.rebv2_p11$x, qq.rs.pmb_p11$x , qq.rs.gcb_p11$x)
 ```
 
+---
+
 class: center
+
+### Random **Intercept** Variance $\sigma_1$
+
+**Cluster size** $n_i=4$
+
 .pull-left[
-```{r}
+**Number of Clusters:** $n=100$
+```{r, fig.dim = c(5.75,5.75)}
 ## ----qqplots_sigma_LMM_1_p11,echo = FALSE,  messages = FALSE-------------
   plot(
     xlim_s2_2, 
@@ -2212,7 +2240,8 @@ class: center
 ]
 
 .pull-right[
-```{r}
+**Number of Clusters:** $n=250$
+```{r, fig.dim = c(5.75,5.75)}
 ## ----qqplots_sigma_LMM_1_p12,echo = FALSE,  messages = FALSE-------------
   plot(
     xlim_s2_2, 
@@ -2243,8 +2272,14 @@ class: center
 ]
 ---
 class: center
+
+### Random **Intercept** Variance $\sigma_1$
+
+**Cluster size** $n_i=4$
+
 .pull-left[
-```{r}
+.pull-left[
+```{r, fig.dim = c(5.75,5.75)}
 ## ----qqplots_sigma_LMM_1_p21,echo = FALSE,  messages = FALSE-------------
   plot(
     xlim_s2_2, 
@@ -2266,7 +2301,7 @@ class: center
 ]
 
 .pull-right[
-```{r}
+```{r, fig.dim = c(5.75,5.75)}
 ## ----qqplots_sigma_LMM_1_p22,echo = FALSE,  messages = FALSE-------------
   plot(
     xlim_s2_2, 
@@ -2300,8 +2335,10 @@ class: center
 ---
 class: center
 
+### Random **Slope** Variance $\sigma_1$
+
 .pull-left[
-```{r}
+```{r, fig.dim = c(5.75,5.75)}
 
 ## ----qqplots_sigma_LMM_2_p11,echo = FALSE,  messages = FALSE-------------
   plot(
@@ -2325,7 +2362,7 @@ class: center
 ]
 
 .pull-right[
-```{r}
+```{r, fig.dim = c(5.75,5.75)}
 ## ----qqplots_sigma_LMM_2_p12,echo = FALSE,  messages = FALSE-------------
   plot(
     xlim_s2_3, 
@@ -2362,7 +2399,7 @@ class: center
 class: center
 
 .pull-left[
-```{r}
+```{r, fig.dim = c(5.75,5.75)}
 
 ## ----qqplots_sigma_LMM_2_p21,echo = FALSE,  messages = FALSE-------------
   plot(
@@ -2390,7 +2427,7 @@ class: center
 ]
 
 .pull-right[
-```{r}
+```{r, fig.dim = c(5.75,5.75)}
 ## ----qqplots_sigma_LMM_2_p22,echo = FALSE,  messages = FALSE-------------
   plot(
     xlim_s2_3, 
@@ -2438,7 +2475,7 @@ xlim_phi_2 <- range(qq.re.rebv1_p21$x, qq.re.rebv2_p21$x, qq.re.pmb_p21$x , qq.r
 ```
 
 .pull-left[
-```{r}
+```{r, fig.dim = c(5.75,5.75)}
 ## ----qqplots_sigma_LMM_phi_p11,echo = FALSE,  messages = FALSE-----------
   plot(
     xlim_phi_1, 
@@ -2471,7 +2508,7 @@ xlim_phi_2 <- range(qq.re.rebv1_p21$x, qq.re.rebv2_p21$x, qq.re.pmb_p21$x , qq.r
 ]
 
 .pull-right[
-```{r}
+```{r, fig.dim = c(5.75,5.75)}
 ## ----qqplots_sigma_LMM_phi_p12,echo = FALSE,  messages = FALSE-----------
   plot(
     xlim_phi_1, 
@@ -2517,7 +2554,7 @@ xlim_phi_2 <- range(qq.re.rebv1_p21$x, qq.re.rebv2_p21$x, qq.re.pmb_p21$x , qq.r
 class: center
 
 .pull-left[
-```{r}
+```{r, fig.dim = c(5.75,5.75)}
 ## ----qqplots_sigma_LMM_phi_p21,echo = FALSE,  messages = FALSE-----------
   plot(
     xlim_phi_1, 
@@ -2547,7 +2584,7 @@ class: center
 ]
 
 .pull-right[
-```{r}
+```{r,  fig.dim = c(5.75,5.75)}
   
 ## ----qqplots_sigma_LMM_phi_p22,echo = FALSE,  messages = FALSE-----------
   plot(
