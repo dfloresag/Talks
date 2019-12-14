@@ -1698,7 +1698,7 @@ class: inverse, center, middle
 
 ### 1. Data applications 
 
-- Time-to-failure studies on patients submitting to dyalisis under two different treatments.
+- Time-to-failure studies on patients submitting to dialysis under two different treatments.
 
 --
 
@@ -2278,6 +2278,7 @@ class: center
 **Cluster size** $n_i=12$
 
 .pull-left[
+**Number of Clusters:** $n=100$
 ```{r, fig.dim = c(5.75,5.75)}
 ## ----qqplots_sigma_LMM_1_p21,echo = FALSE,  messages = FALSE-------------
   plot(
@@ -2300,6 +2301,7 @@ class: center
 ]
 
 .pull-right[
+**Number of Clusters:** $n=250$
 ```{r, fig.dim = c(5.75,5.75)}
 ## ----qqplots_sigma_LMM_1_p22,echo = FALSE,  messages = FALSE-------------
   plot(
@@ -2336,7 +2338,9 @@ class: center
 
 ### Random **Slope** Variance $\sigma_1$
 
+**Cluster size** $n_i=4$
 .pull-left[
+**Number of Clusters:** $n=100$
 ```{r, fig.dim = c(5.75,5.75)}
 
 ## ----qqplots_sigma_LMM_2_p11,echo = FALSE,  messages = FALSE-------------
@@ -2361,6 +2365,7 @@ class: center
 ]
 
 .pull-right[
+**Number of Clusters:** $n=250$
 ```{r, fig.dim = c(5.75,5.75)}
 ## ----qqplots_sigma_LMM_2_p12,echo = FALSE,  messages = FALSE-------------
   plot(
@@ -2396,8 +2401,11 @@ class: center
 ]
 ---
 class: center
+### Random **Slope** Variance $\sigma_1$
 
+**Cluster size** $n_i=12$
 .pull-left[
+**Number of Clusters:** $n=100$
 ```{r, fig.dim = c(5.75,5.75)}
 
 ## ----qqplots_sigma_LMM_2_p21,echo = FALSE,  messages = FALSE-------------
@@ -2426,6 +2434,7 @@ class: center
 ]
 
 .pull-right[
+**Number of Clusters:** $n=250$
 ```{r, fig.dim = c(5.75,5.75)}
 ## ----qqplots_sigma_LMM_2_p22,echo = FALSE,  messages = FALSE-------------
   plot(
@@ -2457,6 +2466,9 @@ class: center
 ]
 
 ---
+class: center
+### **Scale** $\phi$
+**Cluster size** $n_i=4$
 ```{r, include = FALSE}
 
 ## ----graph_phi_gs--------------------------------------------------------
@@ -2474,6 +2486,7 @@ xlim_phi_2 <- range(qq.re.rebv1_p21$x, qq.re.rebv2_p21$x, qq.re.pmb_p21$x , qq.r
 ```
 
 .pull-left[
+**Number of Clusters:** $n=100$
 ```{r, fig.dim = c(5.75,5.75)}
 ## ----qqplots_sigma_LMM_phi_p11,echo = FALSE,  messages = FALSE-----------
   plot(
@@ -2507,6 +2520,7 @@ xlim_phi_2 <- range(qq.re.rebv1_p21$x, qq.re.rebv2_p21$x, qq.re.pmb_p21$x , qq.r
 ]
 
 .pull-right[
+**Number of Clusters:** $n=250$
 ```{r, fig.dim = c(5.75,5.75)}
 ## ----qqplots_sigma_LMM_phi_p12,echo = FALSE,  messages = FALSE-----------
   plot(
@@ -2552,7 +2566,10 @@ xlim_phi_2 <- range(qq.re.rebv1_p21$x, qq.re.rebv2_p21$x, qq.re.pmb_p21$x , qq.r
 ---
 class: center
 
+### **Scale** $\phi$
+**Cluster size** $n_i=12$
 .pull-left[
+**Number of Clusters:** $n=100$
 ```{r, fig.dim = c(5.75,5.75)}
 ## ----qqplots_sigma_LMM_phi_p21,echo = FALSE,  messages = FALSE-----------
   plot(
@@ -2583,6 +2600,7 @@ class: center
 ]
 
 .pull-right[
+**Number of Clusters:** $n=250$
 ```{r,  fig.dim = c(5.75,5.75)}
   
 ## ----qqplots_sigma_LMM_phi_p22,echo = FALSE,  messages = FALSE-----------
